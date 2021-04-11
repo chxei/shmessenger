@@ -3,6 +3,7 @@ package org.chxei.shmessenger.service;
 
 import org.chxei.shmessenger.entity.User;
 import org.chxei.shmessenger.repository.UserRepository;
+import org.chxei.shmessenger.repository.UserRepositoryCustom;
 import org.chxei.shmessenger.utils.Misc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,28 +15,31 @@ import java.util.List;
 public class UserService {
     Calendar calendar = Calendar.getInstance();
     @Autowired
-    UserRepository userRepositoryImpl;
+    UserRepository userRepository;
+    @Autowired
+    UserRepositoryCustom userRepositoryCustom;
 
-    private UserService(){}
-
-    public List<User> getAllUsers (){
-        return (List<User>) userRepositoryImpl.findAll();
+    private UserService() {
     }
 
-    public User getUser(long id){
-        return userRepositoryImpl.findById(id).get();
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
-    public User getUserByUsername(String userName){
-        return userRepositoryImpl.findByUserName(userName).get();
+    public User getUser(int id) {
+        return userRepository.findById(id).get();
+    }
+
+    public User getUserByUsername(String userName) {
+        return userRepository.findByUserName(userName).get();
     }
 
     public void registerUser(User user) {
         user.setPassword(Misc.stringToMd5(user.getPassword()));
-        if (userRepositoryImpl.existsByUserName(user.getUserName())){
+        if (userRepositoryCustom.existsByUserName(user.getUserName())) {
             //todo throw error
         } else {
-            userRepositoryImpl.save(user);
+            userRepository.save(user);
         }
     }
 

@@ -1,6 +1,7 @@
 package org.chxei.shmessenger.utils;
 
 import io.github.cdimascio.dotenv.Dotenv;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -9,7 +10,8 @@ public class Misc {
             .ignoreIfMissing()
             .ignoreIfMalformed()
             .load();
-    public static String stringToMd5(String source){
+
+    public static String stringToMd5(String source) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(source.getBytes());

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class UserController {
 
     @Autowired
@@ -27,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/getUserById/{id}")
-    public User getUser(@PathVariable long id) {
+    public User getUser(@PathVariable int id) {
         return userService.getUser(id);
     }
 

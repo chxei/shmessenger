@@ -2,7 +2,7 @@ package org.chxei.shmessenger.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -16,4 +16,12 @@ public class Country {
     private String code;
     private String name;
     private boolean isActive;
+
+    public Country() {
+    }
+
+    public Country(String code, String name) {
+        this.code = code;
+        this.name = name;
+    }
 }

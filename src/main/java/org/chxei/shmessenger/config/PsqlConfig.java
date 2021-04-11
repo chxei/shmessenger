@@ -22,15 +22,15 @@ import java.util.stream.Stream;
 public class PsqlConfig {
     Dotenv dotenv = Misc.dotenv;
     String DB_JDBC_URL = Stream.of(dotenv.get("DB_JDBC_URL"))
-                                    .map(str -> str.replace("<DB_HOST>",dotenv.get("DB_HOST"))
-                                            .replace("<DB_PORT>",dotenv.get("DB_PORT"))
-                                            .replace("<DB_DATABASE>",dotenv.get("DB_DATABASE"))
-                                            .replace("<DB_USER>",dotenv.get("DB_USER"))
-                                            .replace("<DB_PASSWORD>",dotenv.get("DB_PASSWORD")))
-                                    .collect(Collectors.joining());
+            .map(str -> str.replace("<DB_HOST>", dotenv.get("DB_HOST"))
+                    .replace("<DB_PORT>", dotenv.get("DB_PORT"))
+                    .replace("<DB_DATABASE>", dotenv.get("DB_DATABASE"))
+                    .replace("<DB_USER>", dotenv.get("DB_USER"))
+                    .replace("<DB_PASSWORD>", dotenv.get("DB_PASSWORD")))
+            .collect(Collectors.joining());
 
 
-    @Bean
+    @Bean(name = "entityManagerFactory")
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
@@ -38,20 +38,21 @@ public class PsqlConfig {
         Properties hibernateProperties = new Properties();
         hibernateProperties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
         hibernateProperties.put("hibernate.show_sql", "true");
-        hibernateProperties.put("hibernate.hbm2ddl.auto", "update");
+        hibernateProperties.put("hibernate.hbm2ddl.auto", "create"); //update,create-drop, create, validate, none
         hibernateProperties.put("hibernate.current_session_context_class", "thread");
 
         sessionFactory.setHibernateProperties(hibernateProperties);
 
         return sessionFactory;
     }
-    Properties additionalProperties() {
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
-        properties.setProperty("hibernate.show_sql", "true");
-        properties.setProperty("hibernate.current_session_context_class", "thread");
-        return properties;
-    }
+//    Properties additionalProperties() {
+//        Properties properties = new Properties();
+//        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
+//        properties.setProperty("hibernate.show_sql", "true");
+//        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+//        properties.setProperty("hibernate.current_session_context_class", "thread");
+//        return properties;
+//    }
 
     @Bean
     public DataSource dataSource() {
