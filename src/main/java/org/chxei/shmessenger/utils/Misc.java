@@ -1,6 +1,8 @@
 package org.chxei.shmessenger.utils;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -25,5 +27,9 @@ public class Misc {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

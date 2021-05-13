@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
-import java.util.List;
 
 @Service
 public class UserService {
@@ -22,20 +21,8 @@ public class UserService {
     private UserService() {
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    public User getUser(int id) {
-        return userRepository.findById(id).get();
-    }
-
-    public User getUserByUsername(String userName) {
-        return userRepository.findByUserName(userName).get();
-    }
-
     public void registerUser(User user) {
-        user.setPassword(Misc.stringToMd5(user.getPassword()));
+        user.setPassword(Misc.getPasswordEncoder().encode(user.getPassword()));
         if (userRepositoryCustom.existsByUserName(user.getUserName())) {
             //todo throw error
         } else {
