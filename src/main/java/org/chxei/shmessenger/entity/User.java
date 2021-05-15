@@ -1,26 +1,37 @@
 package org.chxei.shmessenger.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Entity(name = "users")
 @DynamicInsert
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotNull
-    private String userName;
+    private String username;
 
     @NotNull
     private String name;
@@ -46,14 +57,18 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
-    private boolean isActive = true;
+    private boolean active = true;
     private boolean isVerified = false;
 
     @ManyToOne
     private Gender gender;
 
-    public User(String userName, String name, String email, Timestamp birthDate, String password, Gender gender) {
-        this.userName = userName;
+    //todo make separate table for authorities
+    @Transient
+    private List<GrantedAuthority> authorities;
+
+    public User(String username, String name, String email, Timestamp birthDate, String password, Gender gender) {
+        this.username = username;
         this.name = name;
         this.email = email;
         this.birthDate = birthDate;
@@ -61,7 +76,51 @@ public class User {
         this.gender = gender;
     }
 
+    public User(String username, boolean active, String password) {
+        this.username = username;
+        this.password = password;
+        this.active = active;
+        this.authorities = Stream.of(this.getRole().name())
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
     public User() {
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return active;
     }
 
 //    @PrePersist
@@ -78,6 +137,11 @@ public class User {
     public enum Role {
         USER,
         ADMIN
+    }
+
+    @Override
+    public int hashCode() {
+        return 562048007;
     }
 }
 

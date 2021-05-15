@@ -1,4 +1,4 @@
-package org.chxei.shmessenger.config;
+package org.chxei.shmessenger.config.database;
 
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -45,14 +45,6 @@ public class PsqlConfig {
 
         return sessionFactory;
     }
-//    Properties additionalProperties() {
-//        Properties properties = new Properties();
-//        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
-//        properties.setProperty("hibernate.show_sql", "true");
-//        properties.setProperty("hibernate.hbm2ddl.auto", "update");
-//        properties.setProperty("hibernate.current_session_context_class", "thread");
-//        return properties;
-//    }
 
     @Bean
     public DataSource dataSource() {

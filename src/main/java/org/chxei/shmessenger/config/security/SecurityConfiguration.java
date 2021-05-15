@@ -1,7 +1,8 @@
-package org.chxei.shmessenger.config;
+package org.chxei.shmessenger.config.security;
 
-import org.chxei.shmessenger.service.UserDetailsAuthService;
+import org.chxei.shmessenger.service.UserService;
 import org.chxei.shmessenger.utils.Misc;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,14 +18,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
-    UserDetailsAuthService userDetailsAuthService;
+    UserService userService;
 
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsAuthService).passwordEncoder(Misc.getPasswordEncoder());
+        auth.userDetailsService(userService).passwordEncoder(Misc.getPasswordEncoder());
     }
 
 
@@ -32,10 +33,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic().and().authorizeRequests()
                 //.antMatchers("*").permitAll() //for testing
+                .antMatchers("/register").permitAll()
                 .antMatchers("/authenticate").permitAll()
+                .antMatchers("/country/getAll").permitAll()
+                .antMatchers("/gender/getAll").permitAll()
                 .anyRequest().authenticated()
                 //.antMatchers("/admin").hasRole("ADMIN")
-                //.antMatchers("/user").hasAnyRole("USER", "ADMIN")
+
                 //.antMatchers("/", "static/**").permitAll()
                 .and().csrf().disable().headers().frameOptions().disable()
                 .and().formLogin()
@@ -55,7 +59,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
-            public void addCorsMappings(CorsRegistry registry) {
+            public void addCorsMappings(@NotNull CorsRegistry registry) {
                 registry.addMapping("/**").allowedMethods("POST,GET,PUT").allowedOrigins("http://localhost:8080");
             }
         };

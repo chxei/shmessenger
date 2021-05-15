@@ -1,4 +1,4 @@
-package org.chxei.shmessenger.config;
+package org.chxei.shmessenger.config.database;
 
 import org.chxei.shmessenger.entity.Country;
 import org.chxei.shmessenger.entity.Gender;

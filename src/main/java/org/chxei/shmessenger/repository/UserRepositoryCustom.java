@@ -66,10 +66,10 @@ public class UserRepositoryCustom implements CrudRepository<User, Long> {
     }
 
     @NotNull
-    public Optional<User> findByUserName(@NotNull String userName) {
+    public Optional<User> findbyusername(@NotNull String username) {
         Session session = this.sessionFactory.getCurrentSession();
         session.beginTransaction();
-        Optional<User> user = session.createQuery("select s from users s where s.userName = :userName").setParameter("userName", userName).getResultList().stream().findFirst();
+        Optional<User> user = session.createQuery("select s from users s where s.username = :username").setParameter("username", username).getResultList().stream().findFirst();
         session.close();
         return user;
     }
@@ -83,8 +83,8 @@ public class UserRepositoryCustom implements CrudRepository<User, Long> {
         return user != null;
     }
 
-    public boolean existsByUserName(@NotNull String userName) {
-        return findByUserName(userName).isPresent();
+    public boolean existsByUsername(@NotNull String username) {
+        return findbyusername(username).isPresent();
     }
 
     @NotNull

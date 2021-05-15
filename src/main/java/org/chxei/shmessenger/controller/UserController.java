@@ -5,9 +5,11 @@ import org.chxei.shmessenger.repository.CountryRepository;
 import org.chxei.shmessenger.repository.GenderRepository;
 import org.chxei.shmessenger.repository.UserRepository;
 import org.chxei.shmessenger.repository.UserRepositoryCustom;
-import org.chxei.shmessenger.service.UserDetailsAuthService;
 import org.chxei.shmessenger.service.UserService;
 import org.chxei.shmessenger.utils.JwtUtils;
+import org.chxei.shmessenger.utils.Response.CustomResponseEntity;
+import org.chxei.shmessenger.utils.Response.ResponseCode;
+import org.chxei.shmessenger.utils.Response.ResponseType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,8 +38,6 @@ public class UserController {
     @Autowired
     private UserRepositoryCustom userRepositoryCustom;
     @Autowired
-    private UserDetailsAuthService userDetailsAuthService;
-    @Autowired
     private JwtUtils jwtUtils;
 
     @RequestMapping("/user/getAll")
@@ -50,16 +50,19 @@ public class UserController {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
         } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password", e);
+            return ResponseEntity.ok(new CustomResponseEntity(ResponseCode.WRONG_USERNAME_PASSWORD));
         }
-        final UserDetails userDetails = userDetailsAuthService.loadUserByUsername(authenticationRequest.getUsername());
+        final UserDetails userDetails = userService.loadUserByUsername(authenticationRequest.getUsername());
         final String jwt = jwtUtils.generateToken(userDetails);
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json", value = "/register")
-    public void registerUser(@RequestBody User user) {
-        userService.registerUser(user);
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
+        if (!userService.registerUser(user)) {
+            return ResponseEntity.ok(new CustomResponseEntity(ResponseType.WARNING, "User with this username is already registered"));
+        }
+        return ResponseEntity.ok(new CustomResponseEntity(ResponseType.OK, "You registered successfully"));
     }
 
     @GetMapping(value = "/user/getUserById/{id}")
@@ -68,10 +71,14 @@ public class UserController {
     }
 
     //todo handle exceptions, not found
-    @GetMapping(value = "/user/{userName}")
-    public ResponseEntity<User> getUser(@PathVariable String userName) {
-        User user = userRepositoryCustom.findByUserName(userName).orElse(null);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    @GetMapping(value = "/user/getUserByUsername/{userName}")
+    public ResponseEntity<?> getUser(@PathVariable String userName) {
+        User user = userRepositoryCustom.findbyusername(userName).orElse(null);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return ResponseEntity.ok(new CustomResponseEntity(ResponseCode.USER_WITH_USERNAME_NOT_FOUND));
+        }
     }
 
     @GetMapping(value = "/country/getAll")
