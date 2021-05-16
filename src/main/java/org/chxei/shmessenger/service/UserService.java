@@ -43,5 +43,4 @@ public class UserService implements UserDetailsService {
         }
 
     }
-    //todo check if username exists before registering
 }
