@@ -40,7 +40,7 @@ public class UserController {
     @Autowired
     private JwtUtils jwtUtils;
 
-    @RequestMapping("/user/getAll")
+    @GetMapping(value = "/user/getAll")
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
