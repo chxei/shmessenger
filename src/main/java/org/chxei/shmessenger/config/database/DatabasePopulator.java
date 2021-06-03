@@ -8,8 +8,6 @@ import org.chxei.shmessenger.repository.GenderRepository;
 import org.chxei.shmessenger.repository.UserRepository;
 import org.chxei.shmessenger.utils.Misc;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
@@ -27,7 +25,7 @@ public class DatabasePopulator {
     @Autowired
     private CountryRepository countryRepository;
 
-    @EventListener(ApplicationReadyEvent.class)
+    //@EventListener(ApplicationReadyEvent.class)
     public void init() {
         List<Gender> genders = populateGenders();
         List<Country> countries = populateCountries();
