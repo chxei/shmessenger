@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -32,21 +33,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().httpBasic().and().authorizeRequests()
-                //.antMatchers("*").permitAll() //for testing
-                .antMatchers("/register").permitAll()
-                .antMatchers("/authenticate").permitAll()
-                .antMatchers("/country/getAll").permitAll()
-                .antMatchers("/gender/getAll").permitAll()
                 .anyRequest().authenticated()
                 //.antMatchers("/admin").hasRole("ADMIN")
 
                 //.antMatchers("/", "static/**").permitAll()
-                .and().csrf().disable().headers().frameOptions().disable()
+                //.and().csrf().disable().headers().frameOptions().disable()
                 .and().formLogin()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web
+                .ignoring()
+                .antMatchers("/authenticate")
+                .antMatchers("/country/getAll")
+                .antMatchers("/register");
     }
 
     @Override
@@ -60,7 +65,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(@NotNull CorsRegistry registry) {
-                registry.addMapping("/**").allowedMethods("POST,GET,PUT").allowedOrigins("http://localhost:8080", "http://localhost:8001", "http://localhost:8000");
+                registry
+                        .addMapping("/**")
+                        .allowedMethods("POST,GET,PUT")
+                        .allowedOrigins("http://localhost:8080", "http://localhost:8001", "http://localhost:8000");
             }
         };
     }
