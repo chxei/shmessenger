@@ -15,7 +15,8 @@ public class Country {
     @Id
     private String code;
     private String name;
-    private boolean isActive;
+
+    private boolean isActive = true;
 
     public Country() {
     }
