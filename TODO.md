@@ -1,3 +1,5 @@
-# authorities table
+# bugs
 
-# return 
+    authorities table
+    dont return password
+    use utc time
