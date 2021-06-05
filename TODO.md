@@ -8,3 +8,4 @@
     change password
     forgot password
     settings table for user. privacy settings for example
+    upload cover and profile picture
