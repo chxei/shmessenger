@@ -1,7 +1,7 @@
-package org.chxei.shmessenger.repository;
+package org.chxei.shmessenger.repository.user;
 
 import com.google.common.collect.Lists;
-import org.chxei.shmessenger.entity.User;
+import org.chxei.shmessenger.entity.user.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.jetbrains.annotations.NotNull;

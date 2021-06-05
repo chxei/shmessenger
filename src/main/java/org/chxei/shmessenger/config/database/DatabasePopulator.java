@@ -1,11 +1,11 @@
 package org.chxei.shmessenger.config.database;
 
-import org.chxei.shmessenger.entity.Country;
-import org.chxei.shmessenger.entity.Gender;
-import org.chxei.shmessenger.entity.User;
-import org.chxei.shmessenger.repository.CountryRepository;
-import org.chxei.shmessenger.repository.GenderRepository;
-import org.chxei.shmessenger.repository.UserRepository;
+import org.chxei.shmessenger.entity.user.Country;
+import org.chxei.shmessenger.entity.user.Gender;
+import org.chxei.shmessenger.entity.user.User;
+import org.chxei.shmessenger.repository.user.CountryRepository;
+import org.chxei.shmessenger.repository.user.GenderRepository;
+import org.chxei.shmessenger.repository.user.UserRepository;
 import org.chxei.shmessenger.utils.Misc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

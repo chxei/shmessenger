@@ -1,4 +1,4 @@
-package org.chxei.shmessenger.entity;
+package org.chxei.shmessenger.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonGenerator;

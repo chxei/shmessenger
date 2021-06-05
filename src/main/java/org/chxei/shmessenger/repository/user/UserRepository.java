@@ -1,6 +1,6 @@
-package org.chxei.shmessenger.repository;
+package org.chxei.shmessenger.repository.user;
 
-import org.chxei.shmessenger.entity.User;
+import org.chxei.shmessenger.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

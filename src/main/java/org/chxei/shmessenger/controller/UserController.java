@@ -1,10 +1,10 @@
 package org.chxei.shmessenger.controller;
 
-import org.chxei.shmessenger.entity.*;
-import org.chxei.shmessenger.repository.CountryRepository;
-import org.chxei.shmessenger.repository.GenderRepository;
-import org.chxei.shmessenger.repository.UserRepository;
-import org.chxei.shmessenger.repository.UserRepositoryCustom;
+import org.chxei.shmessenger.entity.user.*;
+import org.chxei.shmessenger.repository.user.CountryRepository;
+import org.chxei.shmessenger.repository.user.GenderRepository;
+import org.chxei.shmessenger.repository.user.UserRepository;
+import org.chxei.shmessenger.repository.user.UserRepositoryCustom;
 import org.chxei.shmessenger.service.UserService;
 import org.chxei.shmessenger.utils.JwtUtils;
 import org.chxei.shmessenger.utils.Response.CustomResponseEntity;

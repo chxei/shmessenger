@@ -1,4 +1,4 @@
-package org.chxei.shmessenger.entity;
+package org.chxei.shmessenger.entity.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

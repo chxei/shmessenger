@@ -1,8 +1,8 @@
 package org.chxei.shmessenger.service;
 
-import org.chxei.shmessenger.entity.User;
-import org.chxei.shmessenger.repository.UserRepository;
-import org.chxei.shmessenger.repository.UserRepositoryCustom;
+import org.chxei.shmessenger.entity.user.User;
+import org.chxei.shmessenger.repository.user.UserRepository;
+import org.chxei.shmessenger.repository.user.UserRepositoryCustom;
 import org.chxei.shmessenger.utils.Misc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
