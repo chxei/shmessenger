@@ -31,6 +31,7 @@ public class User implements UserDetails {
     private int id;
 
     @NotEmpty
+    @Column(unique = true)
     private String username;
 
     @NotEmpty
@@ -47,7 +48,9 @@ public class User implements UserDetails {
     private Country country;
 
     @Email
+    @Column(unique = true)
     private String email;
+    @Column(unique = true)
     private String phone;
     //@JsonDeserialize(using= OptimizedTimestampDeserializer.class)
     private Timestamp birthDate;
