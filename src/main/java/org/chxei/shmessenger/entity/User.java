@@ -1,11 +1,16 @@
 package org.chxei.shmessenger.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
@@ -37,10 +43,11 @@ public class User implements UserDetails {
     @NotEmpty
     private String name;
 
-    //@ColumnDefault("now()")
+    @JsonIgnore
     @CreationTimestamp
     private Timestamp creationTimeStamp;
 
+    @JsonIgnore
     @UpdateTimestamp
     private Timestamp updateTimestamp;
 
@@ -50,17 +57,22 @@ public class User implements UserDetails {
     @Email
     @Column(unique = true)
     private String email;
+
     @Column(unique = true)
     private String phone;
-    //@JsonDeserialize(using= OptimizedTimestampDeserializer.class)
+
     private Timestamp birthDate;
     private String pathToProfilePicture;
     private String pathToBackgroundPicture;
+
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
+
     private boolean active = true;
+
+    @JsonIgnore
     private boolean isVerified = false;
 
     @ManyToOne
@@ -86,6 +98,27 @@ public class User implements UserDetails {
         this.authorities = Stream.of(this.getRole().name())
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+    }
+
+    @JsonComponent
+    public static class UserSerializable extends JsonSerializer<User> {
+        @Override
+        public void serialize(User user, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+
+            jsonGenerator.writeStartObject();
+            jsonGenerator.writeNumberField("id", user.getId());
+            jsonGenerator.writeObjectField("username", user.getUsername());
+            jsonGenerator.writeObjectField("name", user.getName());
+            jsonGenerator.writeObjectField("email", user.getEmail());
+            jsonGenerator.writeObjectField("country", user.getCountry() != null ? user.getCountry().getName() : null);
+            jsonGenerator.writeObjectField("phone", user.getPhone());
+            jsonGenerator.writeObjectField("pathToProfilePicture", user.getPathToProfilePicture());
+            jsonGenerator.writeObjectField("pathToBackgroundPicture", user.getPathToBackgroundPicture());
+            jsonGenerator.writeObjectField("birthDate", user.getBirthDate().toLocalDateTime());
+            jsonGenerator.writeObjectField("active", user.isActive());
+            jsonGenerator.writeObjectField("gender", user.getGender() != null ? user.getGender().getName() : null);
+            jsonGenerator.writeEndObject();
+        }
     }
 
     public User() {
