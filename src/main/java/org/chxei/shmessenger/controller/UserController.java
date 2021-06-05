@@ -42,8 +42,10 @@ public class UserController {
     private JwtUtils jwtUtils;
 
     @GetMapping(value = "/user/getAll")
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public ResponseEntity<?> getAllUsers() {
+        return ResponseEntity.ok(
+                userRepository.findAll()
+        );
     }
 
     @PostMapping(value = "/authenticate")
@@ -91,6 +93,4 @@ public class UserController {
     public List<Gender> getGenders() {
         return genderRepository.findAll();
     }
-    //todo login
-    //todo settings table for user. privacy settings for example
 }

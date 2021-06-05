@@ -1,5 +1,6 @@
 package org.chxei.shmessenger.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -37,10 +38,11 @@ public class User implements UserDetails {
     @NotEmpty
     private String name;
 
-    //@ColumnDefault("now()")
+    @JsonIgnore
     @CreationTimestamp
     private Timestamp creationTimeStamp;
 
+    @JsonIgnore
     @UpdateTimestamp
     private Timestamp updateTimestamp;
 
@@ -50,17 +52,24 @@ public class User implements UserDetails {
     @Email
     @Column(unique = true)
     private String email;
+
     @Column(unique = true)
     private String phone;
-    //@JsonDeserialize(using= OptimizedTimestampDeserializer.class)
+
     private Timestamp birthDate;
     private String pathToProfilePicture;
     private String pathToBackgroundPicture;
+
+    @JsonIgnore
     private String password;
 
+    @JsonIgnore
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
+
     private boolean active = true;
+
+    @JsonIgnore
     private boolean isVerified = false;
 
     @ManyToOne
@@ -92,6 +101,7 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
@@ -107,21 +117,25 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return active;
     }
