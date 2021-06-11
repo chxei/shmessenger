@@ -9,7 +9,6 @@ import org.chxei.shmessenger.service.UserService;
 import org.chxei.shmessenger.utils.JwtUtils;
 import org.chxei.shmessenger.utils.Response.CustomResponseEntity;
 import org.chxei.shmessenger.utils.Response.ResponseCode;
-import org.chxei.shmessenger.utils.Response.ResponseType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -62,10 +61,11 @@ public class UserController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json", value = "/register")
     public ResponseEntity<?> registerUser(@RequestBody @Valid User user) {
-        if (!userService.registerUser(user)) {
+        /*if (!userService.registerUser(user)) {
             return ResponseEntity.ok(new CustomResponseEntity(ResponseType.WARNING, "User with this username is already registered"));
         }
-        return ResponseEntity.ok(new CustomResponseEntity(ResponseType.OK, "You registered successfully"));
+        return ResponseEntity.ok(new CustomResponseEntity(ResponseType.OK, "You registered successfully"));*/
+        return ResponseEntity.ok(userService.registerUser(user));
     }
 
     @GetMapping(value = "/user/getUserById/{id}")

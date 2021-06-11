@@ -4,5 +4,6 @@ public enum ResponseType {
     OK,
     WARNING,
     ERROR,
-    ACTION
+    ACTION,
+    PIZDEC
 }

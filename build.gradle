@@ -30,11 +30,14 @@ dependencies {
     implementation 'io.github.cdimascio:dotenv-kotlin:+'
     implementation 'com.google.guava:guava:+'
     implementation 'javax.xml.bind:jaxb-api:+'
+    implementation 'org.postgresql:postgresql'
+
+    /*implementation 'joda-time:joda-time-hibernate:+'*/
+    /*implementation 'joda-time:joda-time:+'*/
 
     compileOnly 'org.projectlombok:lombok'
     compileOnly 'io.jsonwebtoken:jjwt-api:+'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'org.postgresql:postgresql'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:+'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:+'
     annotationProcessor 'org.projectlombok:lombok'

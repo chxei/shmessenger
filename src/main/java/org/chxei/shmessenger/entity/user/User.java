@@ -30,14 +30,21 @@ import java.util.stream.Stream;
 @ToString
 @Entity(name = "users")
 @DynamicInsert
-@Table(name = "users")
+@Table(name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "CONSTRAINT_UNIQUE_USERS_USERNAME", columnNames = "username"),
+                @UniqueConstraint(name = "CONSTRAINT_UNIQUE_USERS_EMAIL", columnNames = "email"),
+                @UniqueConstraint(name = "CONSTRAINT_UNIQUE_USERS_PHONE", columnNames = "phone"),
+        }
+
+)
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotEmpty
-    @Column(unique = true)
+    @Column//(unique = true)
     private String username;
 
     @NotEmpty
@@ -55,10 +62,10 @@ public class User implements UserDetails {
     private Country country;
 
     @Email
-    @Column(unique = true)
+    @Column//(unique = true)
     private String email;
 
-    @Column(unique = true)
+    @Column//(unique = true)
     private String phone;
 
     private Timestamp birthDate;

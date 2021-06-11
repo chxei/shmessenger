@@ -4,7 +4,13 @@ import org.chxei.shmessenger.entity.user.User;
 import org.chxei.shmessenger.repository.user.UserRepository;
 import org.chxei.shmessenger.repository.user.UserRepositoryCustom;
 import org.chxei.shmessenger.utils.Misc;
+import org.chxei.shmessenger.utils.Response.CustomResponseEntity;
+import org.chxei.shmessenger.utils.Response.ResponseCode;
+import org.chxei.shmessenger.utils.Response.ResponseType;
+import org.postgresql.util.PSQLException;
+import org.postgresql.util.ServerErrorMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,14 +28,34 @@ public class UserService implements UserDetailsService {
     private UserService() {
     }
 
-    public boolean registerUser(User user) {
+    public CustomResponseEntity registerUser(User user) {
         user.setPassword(Misc.getPasswordEncoder().encode(user.getPassword()));
-        if (userRepositoryCustom.existsByUsername(user.getUsername())) {
-            return false;
-        } else {
+        try {
             userRepository.save(user);
-            return true;
+        } catch (DataIntegrityViolationException e) {
+            if (e.getMostSpecificCause() instanceof PSQLException) {
+                PSQLException pe = (PSQLException) e.getMostSpecificCause();
+                if ("23505".equals(pe.getSQLState())) {
+                    ServerErrorMessage postgresError = pe.getServerErrorMessage();
+                    if (postgresError != null) {
+                        String constraint = postgresError.getConstraint();
+                        if (constraint != null) {
+                            switch (constraint.toUpperCase()) {
+                                case "CONSTRAINT_UNIQUE_USERS_USERNAME":
+                                    return new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_USERNAME_VIOLATION);
+                                case "CONSTRAINT_UNIQUE_USERS_EMAIL":
+                                    return new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_EMAIL_VIOLATION);
+                                case "CONSTRAINT_UNIQUE_USERS_PHONE":
+                                    return new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_PHONE_VIOLATION);
+                            }
+                        }
+                        return new CustomResponseEntity(ResponseCode.USER_UNIQUE_CONSTRAINT_VIOLATION, postgresError.getDetail());
+                    }
+                }
+            }
+
         }
+        return new CustomResponseEntity(ResponseType.OK, "You registered successfully");
     }
 
     @Override
