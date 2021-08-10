@@ -1,13 +1,22 @@
 plugins {
-    id 'org.springframework.boot' version '2.4.5'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.springframework.boot' version '+'
+    id 'io.spring.dependency-management' version '+'
+    //id 'org.springframework.experimental.aot' version '+'
     id 'java'
+    //id "com.github.johnrengelman.shadow" version "+"
+    //id 'org.graalvm.buildtools.native' version "+"
 }
 
 group = 'org.chxei'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
-
+java {
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
+//    toolchain {
+//        languageVersion = JavaLanguageVersion.of(16)
+//        vendor = JvmVendorSpec.matching("Oracle")
+//    }
+}
 
 configurations {
     compileOnly {
@@ -16,17 +25,28 @@ configurations {
 }
 
 repositories {
+    mavenLocal()
+    maven { url 'https://repo.spring.io/release' }
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/snapshot' }
     mavenCentral()
+    gradlePluginPortal()
 }
+
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+//	implementation 'org.springframework.boot:spring-boot-starter-data-redis' //not implemented
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.experimental:spring-native-configuration:+'
+    implementation 'org.springframework.experimental:spring-native:+'
+    implementation 'org.springframework.experimental:spring-aot:+'
+    implementation 'org.springframework.experimental:spring-aot-gradle-plugin:+'
+    implementation 'org.springframework.experimental:spring-aot-gradle-plugin:+'
     implementation 'io.github.cdimascio:dotenv-kotlin:+'
     implementation 'com.google.guava:guava:+'
     implementation 'javax.xml.bind:jaxb-api:+'
@@ -37,7 +57,7 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok'
     compileOnly 'io.jsonwebtoken:jjwt-api:+'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools' //not compatible with native
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:+'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:+'
     annotationProcessor 'org.projectlombok:lombok'
@@ -49,3 +69,40 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+//gradle nativeBuild
+//nativeBuild {
+//    imageName = "shmessenger"
+//    mainClass = "org.chxei.shmessenger.ShmessengerApplication" // Main class
+//    buildArgs("--no-server -Dspring.native.verify=false") // Arguments to be passed to native-image invocation
+//    debug = true // Determines if debug info should be generated
+//    verbose = true
+//    fallback = false
+//    //classpath("dir1", "dir2")
+//    jvmArgs("-Dspring.native.verify=false") // Passes 'flag' directly to the JVM running the native image builder
+//    runtimeArgs("-Dspring.native.verify=false") // Passes '--help' to built image, during "nativeRun" task
+//    systemProperties = [name1: 'value1', name2: 'value2'] // Sets system properties for the native image builder
+//    agent = false // Can be also set on command line using '-Pagent'
+//}
+
+//nativeTest {
+//    agent = false // Can be also set on command line using '-Pagent'
+//    //...
+//    // all of the options from 'nativeBuild' block are supported here except for changing main class name.
+//    // Note that 'nativeBuild' configuration is separate to 'nativeTest' one and that they don't inherit settings from each other.
+//}
+//gradle bootBuildImage
+//import org.springframework.aot.gradle.dsl.AotMode
+//
+//springAot {
+//    mode = AotMode.NATIVE
+//    debugVerify = false as Property<Boolean>
+//    removeXmlSupport = true
+//    removeSpelSupport = false
+//    removeYamlSupport = false
+//    removeJmxSupport = true
+//    verify = false
+//    removeUnusedConfig = true
+//    failOnMissingSelectorHint = true
+//    buildTimePropertiesMatchIfMissing = true
+//}

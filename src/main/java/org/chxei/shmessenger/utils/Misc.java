@@ -3,6 +3,8 @@ package org.chxei.shmessenger.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -10,6 +12,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Misc {
+    public static Logger logger = LoggerFactory.getLogger(Misc.class);
+
     public static Dotenv dotenv = Dotenv.configure()
             .ignoreIfMissing()
             .ignoreIfMalformed()
@@ -41,5 +45,13 @@ public class Misc {
         }
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(object);
+    }
+
+    @SafeVarargs
+    public static <T> T coalesce(T... params) {
+        for (T param : params)
+            if (param != null)
+                return param;
+        return null;
     }
 }

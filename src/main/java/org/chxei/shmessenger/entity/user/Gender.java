@@ -2,14 +2,13 @@ package org.chxei.shmessenger.entity.user;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Entity
+
 @Data
+@Entity(name = "genders")
+@Table(name = "genders")
 public class Gender {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +16,8 @@ public class Gender {
 
     @NotNull
     private String name;
+
+    private boolean active = true;
 
     public Gender(String name) {
         this.name = name;

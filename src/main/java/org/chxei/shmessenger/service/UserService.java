@@ -33,8 +33,7 @@ public class UserService implements UserDetailsService {
         try {
             userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
-            if (e.getMostSpecificCause() instanceof PSQLException) {
-                PSQLException pe = (PSQLException) e.getMostSpecificCause();
+            if (e.getMostSpecificCause() instanceof PSQLException pe) {
                 if ("23505".equals(pe.getSQLState())) {
                     ServerErrorMessage postgresError = pe.getServerErrorMessage();
                     if (postgresError != null) {
