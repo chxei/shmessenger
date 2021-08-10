@@ -3,7 +3,6 @@ package org.chxei.shmessenger.config.security;
 import org.chxei.shmessenger.service.UserService;
 import org.chxei.shmessenger.utils.Misc;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -18,29 +17,28 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    @Autowired
-    UserService userService;
+    private final UserService userService;
+    private final JwtRequestFilter jwtRequestFilter;
 
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
+    public SecurityConfiguration(UserService userService, JwtRequestFilter jwtRequestFilter) {
+        this.userService = userService;
+        this.jwtRequestFilter = jwtRequestFilter;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(Misc.getPasswordEncoder());
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().httpBasic().and().authorizeRequests()
-                .anyRequest().authenticated()
+        http
+                .cors()
+                .and().authorizeRequests().anyRequest().authenticated()
+                .and().csrf().disable().httpBasic()
                 //.antMatchers("/admin").hasRole("ADMIN")
-
                 //.antMatchers("/", "static/**").permitAll()
-                //.and().csrf().disable().headers().frameOptions().disable()
-                .and().formLogin()
-                .and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
@@ -51,6 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .ignoring()
                 .antMatchers("/authenticate")
                 .antMatchers("/country/getAll")
+                .antMatchers("/gender/getAll")
                 .antMatchers("/register");
     }
 
@@ -67,8 +66,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             public void addCorsMappings(@NotNull CorsRegistry registry) {
                 registry
                         .addMapping("/**")
-                        .allowedMethods("POST,GET,PUT")
-                        .allowedOrigins("http://localhost:8080", "http://localhost:8001", "http://localhost:8000");
+                        .allowedMethods("POST", "GET", "PUT") //"OPTIONS","DELETE","PATCH","HEAD"
+                        .allowedOrigins("http://localhost:8080", "http://localhost:8001", "http://localhost:8000", "http://localhost:3000")
+                        .allowCredentials(true)
+                        .allowedHeaders("Authorization", "Cache-Control", "Content-Type");
             }
         };
     }

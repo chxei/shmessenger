@@ -3,8 +3,6 @@ package org.chxei.shmessenger.config.security;
 import org.chxei.shmessenger.service.UserService;
 import org.chxei.shmessenger.utils.JwtUtils;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,11 +18,14 @@ import java.io.IOException;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private JwtUtils jwtUtils;
+    private final JwtUtils jwtUtils;
+
+    public JwtRequestFilter(UserService userService, JwtUtils jwtUtils) {
+        this.userService = userService;
+        this.jwtUtils = jwtUtils;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
@@ -46,14 +47,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception e) {
-            //return ResponseEntity.ok(new CustomResponseEntity(ResponseCode.WRONG_JWT));
-            //CustomResponseEntity customResponseEntity = new CustomResponseEntity(ResponseCode.WRONG_JWT);
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            //response.getWriter().write(Misc.convertObjectToJson(customResponseEntity));
+//            CustomResponseEntity customResponseEntity = new CustomResponseEntity(ResponseCode.WRONG_JWT);
+//            response.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+//            response.getOutputStream().print(new ObjectMapper().writeValueAsString(customResponseEntity));
+//            response.setStatus(HttpStatus.UNAUTHORIZED.value());
         }
+
         response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT, PATCH, HEAD");
         response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Access-Control-Allow-Headers, Content-Type, Authorization, Origin, Accept");
         filterChain.doFilter(request, response);
     }

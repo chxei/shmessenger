@@ -21,6 +21,7 @@ import java.util.stream.Stream;
 @EnableTransactionManagement
 public class PsqlConfig {
     Dotenv dotenv = Misc.dotenv;
+
     String DB_JDBC_URL = Stream.of(dotenv.get("DB_JDBC_URL"))
             .map(str -> str.replace("<DB_HOST>", dotenv.get("DB_HOST"))
                     .replace("<DB_PORT>", dotenv.get("DB_PORT"))
@@ -38,7 +39,7 @@ public class PsqlConfig {
         Properties hibernateProperties = new Properties();
         hibernateProperties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
         hibernateProperties.put("hibernate.show_sql", "true");
-        hibernateProperties.put("hibernate.hbm2ddl.auto", "update"); //update,create-drop, create, validate, none
+        hibernateProperties.put("hibernate.hbm2ddl.auto", "none"); //update,create-drop, create, validate, none
         hibernateProperties.put("hibernate.current_session_context_class", "thread");
 
         sessionFactory.setHibernateProperties(hibernateProperties);

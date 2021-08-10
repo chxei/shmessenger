@@ -17,38 +17,42 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @CrossOrigin
 public class UserController {
+    private final AuthenticationManager authenticationManager;
+    private final UserRepository userRepository;
+    private final GenderRepository genderRepository;
+    private final CountryRepository countryRepository;
+    private final UserService userService;
+    private final UserRepositoryCustom userRepositoryCustom;
+    private final JwtUtils jwtUtils;
+
     @Autowired
-    AuthenticationManager authenticationManager;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private GenderRepository genderRepository;
-    @Autowired
-    private CountryRepository countryRepository;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private UserRepositoryCustom userRepositoryCustom;
-    @Autowired
-    private JwtUtils jwtUtils;
+    public UserController(AuthenticationManager authenticationManager, UserRepository userRepository, GenderRepository genderRepository, CountryRepository countryRepository, UserService userService, UserRepositoryCustom userRepositoryCustom, JwtUtils jwtUtils) {
+        this.authenticationManager = authenticationManager;
+        this.userRepository = userRepository;
+        this.genderRepository = genderRepository;
+        this.countryRepository = countryRepository;
+        this.userService = userService;
+        this.userRepositoryCustom = userRepositoryCustom;
+        this.jwtUtils = jwtUtils;
+    }
 
     @GetMapping(value = "/user/getAll")
     public ResponseEntity<?> getAllUsers() {
-        return ResponseEntity.ok(
-                userRepository.findAll()
-        );
+        return ResponseEntity.ok(userRepository.findAll());
     }
 
     @PostMapping(value = "/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest, HttpServletRequest request, CsrfToken token) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
         } catch (BadCredentialsException e) {
@@ -61,16 +65,12 @@ public class UserController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json", value = "/register")
     public ResponseEntity<?> registerUser(@RequestBody @Valid User user) {
-        /*if (!userService.registerUser(user)) {
-            return ResponseEntity.ok(new CustomResponseEntity(ResponseType.WARNING, "User with this username is already registered"));
-        }
-        return ResponseEntity.ok(new CustomResponseEntity(ResponseType.OK, "You registered successfully"));*/
         return ResponseEntity.ok(userService.registerUser(user));
     }
 
     @GetMapping(value = "/user/getUserById/{id}")
     public User getUser(@PathVariable int id) {
-        return userRepository.getOne(id);
+        return userRepository.getById(id);
     }
 
     //todo handle exceptions, not found
@@ -91,6 +91,6 @@ public class UserController {
 
     @GetMapping(value = "/gender/getAll")
     public List<Gender> getGenders() {
-        return genderRepository.findAll();
+        return genderRepository.findByStatus(true);
     }
 }

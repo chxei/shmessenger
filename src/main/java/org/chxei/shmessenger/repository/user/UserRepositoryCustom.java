@@ -142,6 +142,11 @@ public class UserRepositoryCustom implements CrudRepository<User, Long> {
     }
 
     @Override
+    public void deleteAllById(Iterable<? extends Long> longs) {
+        //TODO
+    }
+
+    @Override
     public void deleteAll(@NotNull Iterable<? extends User> entities) {
         Session session = this.sessionFactory.getCurrentSession();
         session.beginTransaction();
