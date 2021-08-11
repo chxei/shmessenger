@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,9 +57,9 @@ public class UserController {
         } catch (BadCredentialsException e) {
             return ResponseEntity.ok(new CustomResponseEntity(ResponseCode.WRONG_USERNAME_PASSWORD));
         }
-        final UserDetails userDetails = userService.loadUserByUsername(authenticationRequest.getUsername());
+        final User userDetails = userService.loadUserByUsername(authenticationRequest.getUsername());
         final String jwt = jwtUtils.generateToken(userDetails);
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getId()));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json", value = "/register")

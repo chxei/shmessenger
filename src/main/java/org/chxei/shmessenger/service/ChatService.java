@@ -10,6 +10,8 @@ import org.chxei.shmessenger.repository.chat.MessageRepository;
 import org.chxei.shmessenger.repository.chat.MessageTypeRepository;
 import org.chxei.shmessenger.repository.chat.ParticipantRepository;
 import org.chxei.shmessenger.repository.user.UserRepository;
+import org.chxei.shmessenger.utils.Response.CustomResponseEntity;
+import org.chxei.shmessenger.utils.Response.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,10 +65,13 @@ public class ChatService {
         return conversation.getId();
     }
 
-    public long sendMessage(int senderId, String messageTypeName, long conversationId, String content) {
+    public long sendMessage(int senderId, String messageTypeName, long conversationId, String content) throws CustomResponseEntity {
         User creationUser = userRepository.findById(senderId).stream().findFirst().orElse(null);
         Conversation conversation = conversationRepository.findById(conversationId).stream().findFirst().orElse(null);
         MessageType messageType = messageTypeRepository.findByName(messageTypeName).stream().findFirst().orElse(null);
+        if (messageType == null) {
+            throw new CustomResponseEntity(ResponseCode.WRONG_MESSAGE_TYPE);
+        }
         Message message = new Message(creationUser, conversation, messageType, content);
         return messageRepository.save(message).getId();
     }

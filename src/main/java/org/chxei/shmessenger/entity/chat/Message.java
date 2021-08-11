@@ -50,4 +50,8 @@ public class Message {
         this.messageType = messageType;
         this.content = content;
     }
+
+    public Message() {
+
+    }
 }

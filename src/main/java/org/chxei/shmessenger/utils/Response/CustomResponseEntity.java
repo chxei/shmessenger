@@ -1,6 +1,6 @@
 package org.chxei.shmessenger.utils.Response;
 
-public class CustomResponseEntity {
+public class CustomResponseEntity extends Exception {
     private final ResponseType responseType;
     private final String message;
     private final ResponseCode responseCode;

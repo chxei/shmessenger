@@ -9,4 +9,5 @@ import java.util.List;
 public interface MessageTypeRepository extends JpaRepository<MessageType, Integer> {
     @Query("SELECT e FROM message_types e WHERE e.name=?1")
     List<MessageType> findByName(String s);
+
 }
