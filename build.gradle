@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'org.chxei'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 java {
     sourceCompatibility = JavaVersion.VERSION_16
     targetCompatibility = JavaVersion.VERSION_16
@@ -68,6 +68,15 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+
+// Create a task using the task type
+tasks.register('hello'){
+    hello.dependsOn(bootJar)
+    hello.doLast {
+        file("./build/libs/shmessenger-"+version+".jar").renameTo(file("./.github/build/shmessenger.jar"))
+    }
 }
 
 //gradle nativeBuild
