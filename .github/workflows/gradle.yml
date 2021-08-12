@@ -32,21 +32,13 @@ jobs:
         run: ./gradlew bootJar
       - name : release
         run: |
-          ls -la
+          ls -la .github
           #         uses: ncipollo/release-action@v1.8.8
           #         with:
           #           artifacts: "build/libs/shmessenger-0.0.1-SNAPSHOT-plain.jar"
           #           bodyFile: "build/libs/shmessenger-0.0.1-SNAPSHOT-plain.jar"
           #           token: ${{ secrets.GITHUB_TOKEN }}
-
-  pre-release:
-    name: "Pre Release"
-    runs-on: "ubuntu-latest"
-
-    steps:
-      # ...
       - name: "publish"
-        run: echo "done!"
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
