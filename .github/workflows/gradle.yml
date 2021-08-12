@@ -29,21 +29,9 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew bootJar
-      - name : publish
+      - name : release
         uses: ncipollo/release-action@v1.8.8
         with:
           artifacts: "./build/libs/shmessenger-0.0.1-SNAPSHOT-plain.jar"
           bodyFile: "./build/libs/shmessenger-0.0.1-SNAPSHOT-plain.jar"
           token: ${{ secrets.GITHUB_TOKEN }}
-        
-  release:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2.3.4
-      with:
-       fetch-depth: 0
-    - uses: ncipollo/release-action@v1.8.8
-      with:
-        artifacts: "./build/libs/shmessenger-0.0.1-SNAPSHOT-plain.jar"
-        bodyFile: "./build/libs/shmessenger-0.0.1-SNAPSHOT-plain.jar"
-        token: ${{ secrets.GITHUB_TOKEN }}
