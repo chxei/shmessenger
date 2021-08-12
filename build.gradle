@@ -74,8 +74,12 @@ test {
 // Create a task using the task type
 tasks.register('publish'){
     publish.dependsOn(bootJar)
+    publish.doFirst {
+        project.mkdir ".github/build"
+    }
     publish.doLast {
         file("./build/libs/shmessenger-"+version+".jar").renameTo(file("./.github/build/shmessenger.jar"))
+        delete("./build")
     }
 }
 
