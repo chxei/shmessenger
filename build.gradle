@@ -72,9 +72,9 @@ test {
 
 
 // Create a task using the task type
-tasks.register('hello'){
-    hello.dependsOn(bootJar)
-    hello.doLast {
+tasks.register('publish'){
+    publish.dependsOn(bootJar)
+    publish.doLast {
         file("./build/libs/shmessenger-"+version+".jar").renameTo(file("./.github/build/shmessenger.jar"))
     }
 }

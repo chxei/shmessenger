@@ -29,7 +29,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
-        run: ./gradlew bootJar
+        run: ./gradlew publish
       - name : release
         run: |
           ls -la .github
@@ -38,8 +38,9 @@ jobs:
           #           artifacts: "build/libs/shmessenger-0.0.1-SNAPSHOT-plain.jar"
           #           bodyFile: "build/libs/shmessenger-0.0.1-SNAPSHOT-plain.jar"
           #           token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: "publish"
-      - uses: "marvinpinto/action-automatic-releases@latest"
+        uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
