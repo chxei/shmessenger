@@ -32,6 +32,6 @@ jobs:
       - name : release
         uses: ncipollo/release-action@v1.8.8
         with:
-          artifacts: "./build/libs/shmessenger-0.0.1-SNAPSHOT-plain.jar"
-          bodyFile: "./build/libs/shmessenger-0.0.1-SNAPSHOT-plain.jar"
+          artifacts: "build/libs/shmessenger-0.0.1-SNAPSHOT-plain.jar"
+          bodyFile: "build/libs/shmessenger-0.0.1-SNAPSHOT-plain.jar"
           token: ${{ secrets.GITHUB_TOKEN }}
