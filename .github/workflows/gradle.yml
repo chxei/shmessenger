@@ -13,7 +13,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 16
@@ -25,3 +24,13 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew bootJar
+        
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@latest
+    - uses: ncipollo/release-action@latest
+      with:
+        artifacts: "./build/libs/shmessenger-0.0.1-SNAPSHOT-plain.jar"
+        bodyFile: "./build/libs/shmessenger-0.0.1-SNAPSHOT-plain.jar"
+        token: ${{ secrets.GITHUB_TOKEN }}
