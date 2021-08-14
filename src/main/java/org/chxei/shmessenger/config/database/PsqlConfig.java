@@ -37,7 +37,7 @@ public class PsqlConfig {
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan("org.chxei.shmessenger");
         Properties hibernateProperties = new Properties();
-        hibernateProperties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
+        hibernateProperties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect");
         hibernateProperties.put("hibernate.show_sql", "true");
         hibernateProperties.put("hibernate.hbm2ddl.auto", "update"); //update,create-drop, create, validate, none
         hibernateProperties.put("hibernate.current_session_context_class", "thread");

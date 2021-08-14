@@ -9,9 +9,11 @@ import java.util.TimeZone;
 @SpringBootApplication
 @EnableJpaRepositories("org.chxei.shmessenger")
 public class ShmessengerApplication {
+    static {
+        System.setProperty("user.timezone", "GMT");
+    }
 
     public static void main(String[] args) {
-        System.setProperty("user.timezone", "GMT");
         TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
         SpringApplication.run(ShmessengerApplication.class, args);
     }

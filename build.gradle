@@ -1,23 +1,26 @@
 plugins {
     id 'org.springframework.boot' version '+'
     id 'io.spring.dependency-management' version '+'
-    //id 'org.springframework.experimental.aot' version '+'
+//    id 'org.springframework.experimental.aot' version '+'
     id 'java'
-    //id "com.github.johnrengelman.shadow" version "+"
-    //id 'org.graalvm.buildtools.native' version "+"
+//    id 'org.graalvm.buildtools.native' version "+"
+    id 'application'
 }
 
 group = 'org.chxei'
 version = '0.0.1'
-java {
-    sourceCompatibility = JavaVersion.VERSION_16
-    targetCompatibility = JavaVersion.VERSION_16
+sourceCompatibility = '16'
+application {
+    applicationDefaultJvmArgs = ['-Dspring.native.verify=false -Xlint:unchecked']
+}
+//java {
+//    sourceCompatibility = JavaVersion.VERSION_16
+//    targetCompatibility = JavaVersion.VERSION_16
 //    toolchain {
 //        languageVersion = JavaLanguageVersion.of(16)
-//        vendor = JvmVendorSpec.matching("Oracle")
+//        vendor = JvmVendorSpec.matching("GraalVM Community")
 //    }
-}
-
+//}
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -42,15 +45,16 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.experimental:spring-native-configuration:+'
-    implementation 'org.springframework.experimental:spring-native:+'
-    implementation 'org.springframework.experimental:spring-aot:+'
-    implementation 'org.springframework.experimental:spring-aot-gradle-plugin:+'
-    implementation 'org.springframework.experimental:spring-aot-gradle-plugin:+'
+//    implementation 'org.springframework.experimental:spring-native-configuration:+'
+//    implementation 'org.springframework.experimental:spring-native:+'
+//    implementation 'org.springframework.experimental:spring-aot:+'
+//    implementation 'org.springframework.experimental:spring-aot-gradle-plugin:+'
+    implementation 'org.apache.httpcomponents:httpcore:+'
+    implementation 'org.apache.httpcomponents:httpclient:+'
     implementation 'io.github.cdimascio:dotenv-kotlin:+'
     implementation 'com.google.guava:guava:+'
     implementation 'javax.xml.bind:jaxb-api:+'
-    implementation 'org.postgresql:postgresql'
+    implementation 'org.postgresql:postgresql:+'
 
     /*implementation 'joda-time:joda-time-hibernate:+'*/
     /*implementation 'joda-time:joda-time:+'*/
@@ -60,7 +64,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools' //not compatible with native
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:+'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:+'
-    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok:+'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
@@ -83,33 +87,11 @@ tasks.register('publish'){
     }
 }
 
-//gradle nativeBuild
-//nativeBuild {
-//    imageName = "shmessenger"
-//    mainClass = "org.chxei.shmessenger.ShmessengerApplication" // Main class
-//    buildArgs("--no-server -Dspring.native.verify=false") // Arguments to be passed to native-image invocation
-//    debug = true // Determines if debug info should be generated
-//    verbose = true
-//    fallback = false
-//    //classpath("dir1", "dir2")
-//    jvmArgs("-Dspring.native.verify=false") // Passes 'flag' directly to the JVM running the native image builder
-//    runtimeArgs("-Dspring.native.verify=false") // Passes '--help' to built image, during "nativeRun" task
-//    systemProperties = [name1: 'value1', name2: 'value2'] // Sets system properties for the native image builder
-//    agent = false // Can be also set on command line using '-Pagent'
-//}
-
-//nativeTest {
-//    agent = false // Can be also set on command line using '-Pagent'
-//    //...
-//    // all of the options from 'nativeBuild' block are supported here except for changing main class name.
-//    // Note that 'nativeBuild' configuration is separate to 'nativeTest' one and that they don't inherit settings from each other.
-//}
-//gradle bootBuildImage
 //import org.springframework.aot.gradle.dsl.AotMode
 //
 //springAot {
 //    mode = AotMode.NATIVE
-//    debugVerify = false as Property<Boolean>
+//    debugVerify = false
 //    removeXmlSupport = true
 //    removeSpelSupport = false
 //    removeYamlSupport = false
@@ -118,4 +100,14 @@ tasks.register('publish'){
 //    removeUnusedConfig = true
 //    failOnMissingSelectorHint = true
 //    buildTimePropertiesMatchIfMissing = true
+//}
+//
+//
+//bootBuildImage {
+//    builder = 'paketobuildpacks/builder:tiny'
+//    environment = ['BP_NATIVE_IMAGE': 'true']
+//}
+//
+//nativeBuild {
+//    classpath "$buildDir/resources/aot", "$buildDir/classes/java/aot"
 //}
