@@ -20,19 +20,21 @@ import java.util.List;
 
 @Service
 public class ChatService {
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    ParticipantRepository participantRepository;
-    @Autowired
-    ConversationRepository conversationRepository;
-    @Autowired
-    ChatService chatService;
-    @Autowired
-    MessageTypeRepository messageTypeRepository;
-    @Autowired
-    MessageRepository messageRepository;
 
+    private final UserRepository userRepository;
+    private final ParticipantRepository participantRepository;
+    private final ConversationRepository conversationRepository;
+    private final MessageTypeRepository messageTypeRepository;
+    private final MessageRepository messageRepository;
+
+    @Autowired
+    public ChatService(UserRepository userRepository, ParticipantRepository participantRepository, ConversationRepository conversationRepository, MessageTypeRepository messageTypeRepository, MessageRepository messageRepository) {
+        this.userRepository = userRepository;
+        this.participantRepository = participantRepository;
+        this.conversationRepository = conversationRepository;
+        this.messageTypeRepository = messageTypeRepository;
+        this.messageRepository = messageRepository;
+    }
 
     public String generateConversationName(List<User> users) {
         if (users.size() == 1) {
@@ -56,7 +58,7 @@ public class ChatService {
             participants.add(new Participant(curUser, conversation));
         }
         if (conversationName == null || conversationName.isBlank()) {
-            conversationName = chatService.generateConversationName(participantUsers);
+            conversationName = generateConversationName(participantUsers);
         }
         conversation.setName(conversationName);
         conversation.setCreator(creationUser);

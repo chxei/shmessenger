@@ -25,6 +25,12 @@ public class File {
     @Lob
     private byte[] file;
 
+    @Column
+    boolean isStoredLocally;
+    @Column
+    @Lob
+    private byte[] fileCompressed;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

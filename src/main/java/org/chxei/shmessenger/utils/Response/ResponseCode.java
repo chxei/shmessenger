@@ -8,7 +8,7 @@ public enum ResponseCode {
     USER_UNIQUE_CONSTRAINT_VIOLATION("User with these fields is already registered", ResponseType.WARNING),
     CONSTRAINT_UNIQUE_USERS_USERNAME_VIOLATION("User with this username is already registered", ResponseType.WARNING),
     CONSTRAINT_UNIQUE_USERS_EMAIL_VIOLATION("User with this email is already registered", ResponseType.WARNING),
-    CONSTRAINT_UNIQUE_USERS_PHONE_VIOLATION("User with this username is already registered", ResponseType.WARNING);
+    CONSTRAINT_UNIQUE_USERS_PHONE_VIOLATION("User with this phone is already registered", ResponseType.WARNING);
 
     private String message;
     private ResponseType responseType;

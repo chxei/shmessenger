@@ -20,6 +20,7 @@ public class Misc {
             .load();
 
     public static String stringToMd5(String source) {
+
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(source.getBytes());

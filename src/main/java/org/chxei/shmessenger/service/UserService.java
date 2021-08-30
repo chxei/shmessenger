@@ -2,7 +2,6 @@ package org.chxei.shmessenger.service;
 
 import org.chxei.shmessenger.entity.user.User;
 import org.chxei.shmessenger.repository.user.UserRepository;
-import org.chxei.shmessenger.repository.user.UserRepositoryCustom;
 import org.chxei.shmessenger.utils.Misc;
 import org.chxei.shmessenger.utils.Response.CustomResponseEntity;
 import org.chxei.shmessenger.utils.Response.ResponseCode;
@@ -19,12 +18,11 @@ import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    UserRepositoryCustom userRepositoryCustom;
+    private final UserRepository userRepository;
 
-    private UserService() {
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public CustomResponseEntity registerUser(User user) {
