@@ -45,7 +45,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'de.dentrassi.crypto:pem-keystore:+'
 
 //    implementation 'org.springframework.experimental:spring-native-configuration:+'
 //    implementation 'org.springframework.experimental:spring-native:+'
@@ -57,14 +56,12 @@ dependencies {
     implementation 'com.google.guava:guava:+'
     implementation 'javax.xml.bind:jaxb-api:+'
     implementation 'org.postgresql:postgresql:+'
-    implementation 'org.openpnp:opencv:+'
     implementation 'org.apache.commons:commons-lang3:+'
+    implementation 'com.tinify:tinify:latest.release'
 
     /*implementation 'joda-time:joda-time-hibernate:+'*/
     /*implementation 'joda-time:joda-time:+'*/
-//    implementation 'com.aspose:aspose-imaging:21.8-jdk16'
     compileOnly 'org.projectlombok:lombok'
-    compileOnly 'com.tinify:tinify:latest.release'
     compileOnly 'io.jsonwebtoken:jjwt-api:+'
     developmentOnly 'org.springframework.boot:spring-boot-devtools' //not compatible with native
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:+'
