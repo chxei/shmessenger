@@ -1,9 +1,10 @@
 package org.chxei.shmessenger.controller;
 
+import com.tinify.Source;
+import com.tinify.Tinify;
 import org.chxei.shmessenger.entity.File;
 import org.chxei.shmessenger.repository.FileRepository;
-import org.opencv.core.Mat;
-import org.opencv.imgcodecs.Imgcodecs;
+import org.chxei.shmessenger.utils.Misc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -34,30 +35,22 @@ public class FileController {
         java.io.File dest = new java.io.File(fileDirectory + file.getName());
         multipartFile.getInputStream().close();
         multipartFile.transferTo(dest);
-        Mat mat = Imgcodecs.imread(dest.getAbsolutePath());
+        try {
+            Source source = Tinify.fromBuffer(multipartFile.getBytes());
+            file.setFileCompressed(source.toBuffer());
+        } catch (Exception e) {
+            Misc.logger.info("cant compress image");
+        }
+        file.setStoredLocally(false);
 
-//        Imgcodecs.imencode(".webp",
-//                mat,
-//                MatOfByte.fromNativeAddr(mat.getNativeObjAddr())
-//        );
-        Imgcodecs.imwrite(dest + file.getName(), mat);
-        //        try{
-//            Source source = Tinify.fromBuffer(multipartFile.getBytes());
-//            file.setFileCompressed(source.toBuffer());
-//        }
-//        catch(Exception e){
-//            Misc.logger.info("cant compress image");
-//        }
-//        file.setStoredLocally(false);
-
-        return 1L;//fileRepository.save(file).getId();
+        return fileRepository.save(file).getId();
     }
 
     @GetMapping(value = "/download/{fileId}", produces = MediaType.IMAGE_JPEG_VALUE)
     Resource downloadImage(@PathVariable Long fileId) {
         byte[] file = fileRepository.findById(fileId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND))
-                .getFile();
+                .getFileCompressed();
 
         return new ByteArrayResource(file);
     }
