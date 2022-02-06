@@ -1,27 +1,32 @@
 plugins {
-    id 'org.springframework.boot' version '+'
-    id 'io.spring.dependency-management' version '+'
-//    id 'org.springframework.experimental.aot' version '+'
-    id 'java'
-//    id 'org.graalvm.buildtools.native' version "+"
+    id 'org.springframework.boot' version '2.6.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "org.hibernate.orm" version "latest.release"
     id 'application'
+    id 'java'
 }
 
 group = 'org.chxei'
 version = '0.0.1'
-sourceCompatibility = '16'
-application {
-    applicationDefaultJvmArgs = ['-Dspring.native.verify=false -Xlint:unchecked']
+
+java {
+    compileJava {
+        options.compilerArgs = List.of('-Xlint:none', '-nowarn')
+        options.fork = true
+        options.incremental = true
+    }
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+        vendor = JvmVendorSpec.matching('Oracle')
+    }
 }
-//java {
-//    sourceCompatibility = JavaVersion.VERSION_16
-//    targetCompatibility = JavaVersion.VERSION_16
-//    toolchain {
-//        languageVersion = JavaLanguageVersion.of(16)
-//        vendor = JvmVendorSpec.matching("GraalVM Community")
-//    }
-//}
 configurations {
+    all {
+        resolutionStrategy {
+            cacheDynamicVersionsFor 24, 'hours'
+            cacheChangingModulesFor 24, 'hours'
+        }
+    }
     compileOnly {
         extendsFrom annotationProcessor
     }
@@ -46,10 +51,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-//    implementation 'org.springframework.experimental:spring-native-configuration:+'
-//    implementation 'org.springframework.experimental:spring-native:+'
-//    implementation 'org.springframework.experimental:spring-aot:+'
-//    implementation 'org.springframework.experimental:spring-aot-gradle-plugin:+'
+
     implementation 'org.apache.httpcomponents:httpcore:+'
     implementation 'org.apache.httpcomponents:httpclient:+'
     implementation 'io.github.cdimascio:dotenv-kotlin:+'
@@ -76,8 +78,6 @@ test {
     useJUnitPlatform()
 }
 
-
-// Create a task using the task type
 tasks.register('publish'){
     publish.dependsOn(bootJar)
     publish.doFirst {
@@ -88,28 +88,3 @@ tasks.register('publish'){
         delete("./build")
     }
 }
-
-//import org.springframework.aot.gradle.dsl.AotMode
-//
-//springAot {
-//    mode = AotMode.NATIVE
-//    debugVerify = false
-//    removeXmlSupport = true
-//    removeSpelSupport = false
-//    removeYamlSupport = false
-//    removeJmxSupport = true
-//    verify = false
-//    removeUnusedConfig = true
-//    failOnMissingSelectorHint = true
-//    buildTimePropertiesMatchIfMissing = true
-//}
-//
-//
-//bootBuildImage {
-//    builder = 'paketobuildpacks/builder:tiny'
-//    environment = ['BP_NATIVE_IMAGE': 'true']
-//}
-//
-//nativeBuild {
-//    classpath "$buildDir/resources/aot", "$buildDir/classes/java/aot"
-//}
