@@ -22,7 +22,7 @@ import java.util.Objects;
 @Entity(name = "conversations")
 @DynamicInsert
 @Table(name = "conversations")
-public class Conversation {
+public final class Conversation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

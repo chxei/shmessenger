@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @Entity(name = "message_types")
 @Table(name = "message_types")
-public class MessageType {
+public final class MessageType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

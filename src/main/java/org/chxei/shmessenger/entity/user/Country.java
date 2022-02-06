@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Entity(name = "countries")
 @Table(name = "countries")
-public class Country {
+public final class Country {
     @Id
     private String code;
     private String name;
