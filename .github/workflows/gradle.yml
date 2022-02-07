@@ -18,7 +18,7 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-      - run: download_url="https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz"
+      - run: download_url="https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz";
           wget -O $RUNNER_TEMP/java_package.tar.gz $download_url
       - uses: actions/checkout@v2
         with:
