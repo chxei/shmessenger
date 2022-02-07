@@ -22,10 +22,14 @@ jobs:
         with:
           fetch-depth: 0
       - name: Set up JDK 17
+        run: download_url="https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz"
+          wget -O $RUNNER_TEMP/java_package.tar.gz $download_url
         uses: actions/setup-java@v2
         with:
+          distribution: 'jdkfile'
           java-version: '17'
-          distribution: 'oracle'
+          jdkFile: ${{ runner.temp }}/java_package.tar.gz
+          architecture: x64
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
