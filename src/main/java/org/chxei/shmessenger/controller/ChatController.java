@@ -2,7 +2,7 @@ package org.chxei.shmessenger.controller;
 
 import org.chxei.shmessenger.repository.chat.MessageTypeRepository;
 import org.chxei.shmessenger.service.ChatService;
-import org.chxei.shmessenger.utils.Response.CustomResponseEntity;
+import org.chxei.shmessenger.utils.Response.CustomResponseException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,6 +35,7 @@ public class ChatController {
 
     @PostMapping(value = "/chat/sendMessage", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> sendMessage(@RequestBody Map<String, String> request) {
+        //TODO use path variables
         try {
             int senderId = Integer.parseInt(request.get("senderId"));
             int conversationId = Integer.parseInt(request.get("conversationId"));
@@ -42,8 +43,8 @@ public class ChatController {
             String content = request.get("content");
             long messageId = chatService.sendMessage(senderId, messageTypeName, conversationId, content);
             return ResponseEntity.ok(Map.of("messageId", messageId));
-        } catch (CustomResponseEntity e) {
-            return ResponseEntity.ok(e);
+        } catch (CustomResponseException e) {
+            return ResponseEntity.ok(e.getEntity());
         }
     }
 }

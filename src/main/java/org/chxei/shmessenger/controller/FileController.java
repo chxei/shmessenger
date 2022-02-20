@@ -16,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @CrossOrigin
+@RequestMapping(value = "/file")
 public class FileController {
     private final FileRepository fileRepository;
     private final String fileDirectory = System.getProperty("user.dir") + "/src/main/resources/static/uploads/images/original/";
