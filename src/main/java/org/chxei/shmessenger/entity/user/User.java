@@ -38,7 +38,7 @@ import java.util.stream.Stream;
         }
 
 )
-public class User implements UserDetails {
+public final class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

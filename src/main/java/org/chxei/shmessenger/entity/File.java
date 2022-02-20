@@ -13,21 +13,18 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-public class File {
+public final class File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
     private String name;
 
-    @Column
     @Lob
     private byte[] file;
 
-    @Column
     boolean isStoredLocally;
-    @Column
+
     @Lob
     private byte[] fileCompressed;
 
