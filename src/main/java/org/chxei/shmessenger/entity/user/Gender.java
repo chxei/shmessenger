@@ -1,9 +1,8 @@
 package org.chxei.shmessenger.entity.user;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 
 @Data

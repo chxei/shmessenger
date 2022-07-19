@@ -1,5 +1,6 @@
 package org.chxei.shmessenger.controller;
 
+import jakarta.validation.Valid;
 import org.chxei.shmessenger.entity.user.*;
 import org.chxei.shmessenger.repository.user.CountryRepository;
 import org.chxei.shmessenger.repository.user.GenderRepository;
@@ -18,7 +19,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController

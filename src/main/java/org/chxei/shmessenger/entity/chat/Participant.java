@@ -1,10 +1,9 @@
 package org.chxei.shmessenger.entity.chat;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.chxei.shmessenger.entity.user.User;
-
-import javax.persistence.*;
 
 @Getter
 @Setter

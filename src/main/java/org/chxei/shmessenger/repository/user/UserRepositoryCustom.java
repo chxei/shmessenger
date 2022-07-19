@@ -1,6 +1,7 @@
 package org.chxei.shmessenger.repository.user;
 
 import com.google.common.collect.Lists;
+import jakarta.persistence.Query;
 import org.chxei.shmessenger.entity.user.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Query;
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;

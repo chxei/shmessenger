@@ -2,6 +2,7 @@ package org.chxei.shmessenger.config.database;
 
 
 import io.github.cdimascio.dotenv.Dotenv;
+import jakarta.persistence.EntityManagerFactory;
 import org.chxei.shmessenger.utils.Misc;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +12,6 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -37,7 +37,7 @@ public class PsqlConfig {
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan("org.chxei.shmessenger");
         Properties hibernateProperties = new Properties();
-        hibernateProperties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect");
+        hibernateProperties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         hibernateProperties.put("hibernate.show_sql", "true");
         hibernateProperties.put("hibernate.hbm2ddl.auto", "update"); //update,create-drop, create, validate, none
         hibernateProperties.put("hibernate.current_session_context_class", "thread");
