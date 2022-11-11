@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
         } catch (BadCredentialsException e) {
@@ -67,7 +67,7 @@ public class UserController {
 
     @GetMapping(value = "/user/getUserById/{id}")
     public User getUser(@PathVariable int id) {
-        return userRepository.getById(id);
+        return userRepository.getReferenceById(id);
     }
 
     //todo handle exceptions, not found

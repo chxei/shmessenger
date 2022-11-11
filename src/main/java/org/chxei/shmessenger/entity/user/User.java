@@ -82,7 +82,7 @@ public final class User implements UserDetails {
     @JsonIgnore
     private boolean isVerified = false;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.MERGE})
     private Gender gender;
 
     //todo make separate table for authorities

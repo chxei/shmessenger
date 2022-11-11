@@ -3,71 +3,56 @@ package org.chxei.shmessenger.config.security;
 import org.chxei.shmessenger.service.UserService;
 import org.chxei.shmessenger.utils.Misc;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+@Configuration
+public class SecurityConfiguration {
     private final UserService userService;
     private final JwtRequestFilter jwtRequestFilter;
+
+    AuthenticationManager authenticationManager;
 
     public SecurityConfiguration(UserService userService, JwtRequestFilter jwtRequestFilter) {
         this.userService = userService;
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(Misc.getPasswordEncoder());
-    }
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.userDetailsService(userService).passwordEncoder(Misc.getPasswordEncoder());
+        authenticationManager = authenticationManagerBuilder.build();
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors()
-                .and().authorizeRequests().anyRequest().authenticated()
-                .and().csrf().disable().httpBasic()
-                //.antMatchers("/admin").hasRole("ADMIN")
-                //.antMatchers("/", "static/**").permitAll()
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .and().authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+                .csrf().disable().httpBasic()
+                .and().authenticationManager(authenticationManager)
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        return http.build();
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web
-                .ignoring()
-                .antMatchers("/authenticate")
-                .antMatchers("/country/getAll")
-                .antMatchers("/gender/getAll")
-                .antMatchers("/register");
-    }
-
-    @Override
     @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring().requestMatchers("/authenticate", "/country/getAll", "/gender/getAll", "/register");
     }
 
-//    @Bean
-//    public WebMvcConfigurer corsConfigurer() {
-//        return new WebMvcConfigurer() {
-//            @Override
-//            public void addCorsMappings(@NotNull CorsRegistry registry) {
-//                registry
-//                        .addMapping("/**")
-//                        .allowedMethods("POST", "GET", "PUT") //"OPTIONS","DELETE","PATCH","HEAD"
-//                        .allowedOrigins("http://localhost:8080", "http://localhost:8001", "http://localhost:8000", "http://localhost:3000")
-//                        .allowCredentials(true)
-//                        .allowedHeaders("Authorization", "Cache-Control", "Content-Type");
-//            }
-//        };
-//    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
 }
