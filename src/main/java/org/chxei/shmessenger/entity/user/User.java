@@ -14,7 +14,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.boot.jackson.JsonComponent;
+import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -38,7 +40,7 @@ import java.util.stream.Stream;
         }
 
 )
-public final class User implements UserDetails {
+public final class User implements UserDetails, CredentialsContainer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -87,7 +89,7 @@ public final class User implements UserDetails {
 
     //todo make separate table for authorities
     @Transient
-    private List<GrantedAuthority> authorities;
+    private List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("app");
 
     public User(String username, String name, String email, Timestamp birthDate, String password, Gender gender) {
         this.username = username;
@@ -96,6 +98,7 @@ public final class User implements UserDetails {
         this.birthDate = birthDate;
         this.password = password;
         this.gender = gender;
+        this.authorities = AuthorityUtils.createAuthorityList("app");
     }
 
     public User(String username, boolean active, String password) {
@@ -105,6 +108,11 @@ public final class User implements UserDetails {
         this.authorities = Stream.of(this.getRole().name())
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void eraseCredentials() {
+        this.password = null;
     }
 
     @JsonComponent
@@ -181,10 +189,4 @@ public final class User implements UserDetails {
         USER,
         ADMIN
     }
-
-    @Override
-    public int hashCode() {
-        return 562048007;
-    }
 }
-
