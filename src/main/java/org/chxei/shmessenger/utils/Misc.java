@@ -12,12 +12,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Misc {
-    public static Logger logger = LoggerFactory.getLogger(Misc.class);
-
-    public static Dotenv dotenv = Dotenv.configure()
+    public static final Logger logger = LoggerFactory.getLogger(Misc.class);
+    public static final Dotenv dotenv = Dotenv.configure()
             .ignoreIfMissing()
             .ignoreIfMalformed()
             .load();
+
+    private Misc() {
+    }
 
     public static String stringToMd5(String source) {
 

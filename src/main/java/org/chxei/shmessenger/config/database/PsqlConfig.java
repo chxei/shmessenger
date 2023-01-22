@@ -20,9 +20,9 @@ import java.util.stream.Stream;
 @Configuration
 @EnableTransactionManagement
 public class PsqlConfig {
-    Dotenv dotenv = Misc.dotenv;
+    public static final Dotenv dotenv = Misc.dotenv;
 
-    String DB_JDBC_URL = Stream.of(dotenv.get("DB_JDBC_URL"))
+    public static final String DB_JDBC_URL = Stream.of(dotenv.get("DB_JDBC_URL"))
             .map(str -> str.replace("<DB_HOST>", dotenv.get("DB_HOST"))
                     .replace("<DB_PORT>", dotenv.get("DB_PORT"))
                     .replace("<DB_DATABASE>", dotenv.get("DB_DATABASE"))

@@ -29,9 +29,8 @@ public class DatabaseFiller {
         this.messageTypeRepository = messageTypeRepository;
     }
 
-    /*
-        @EventListener(ApplicationReadyEvent.class)
-    */
+
+    //@EventListener(ApplicationReadyEvent.class)
     public void init() {
         List<Gender> genders = populateGenders();
         List<Country> countries = populateCountries();
