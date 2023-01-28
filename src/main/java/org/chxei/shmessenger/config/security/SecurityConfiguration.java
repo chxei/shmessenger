@@ -57,8 +57,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().authenticated()
                 )
-                //.csrf().disable()
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/authenticate", "/country/getAll", "/gender/getAll", "/register", "/token", "/h2-console"))
+                .csrf().disable()
+                //.csrf(csrf -> csrf.ignoringRequestMatchers("/authenticate", "/country/getAll", "/gender/getAll", "/register", "/token", "/h2-console"))
                 .httpBasic(Customizer.withDefaults())
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
