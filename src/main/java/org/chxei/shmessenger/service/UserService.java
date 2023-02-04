@@ -33,23 +33,23 @@ public class UserService implements UserDetailsService, UserDetailsManager, User
         try {
             userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
-            if (e.getMostSpecificCause() instanceof PSQLException pe) {
-                if ("23505".equals(pe.getSQLState())) {
-                    ServerErrorMessage postgresError = pe.getServerErrorMessage();
-                    if (postgresError != null) {
-                        String constraint = postgresError.getConstraint();
-                        if (constraint != null) {
-                            switch (constraint.toUpperCase()) {
-                                case "CONSTRAINT_UNIQUE_USERS_USERNAME":
-                                    return new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_USERNAME_VIOLATION);
-                                case "CONSTRAINT_UNIQUE_USERS_EMAIL":
-                                    return new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_EMAIL_VIOLATION);
-                                case "CONSTRAINT_UNIQUE_USERS_PHONE":
-                                    return new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_PHONE_VIOLATION);
-                            }
-                        }
-                        return new CustomResponseEntity(ResponseCode.USER_UNIQUE_CONSTRAINT_VIOLATION, postgresError.getDetail());
+            if (e.getMostSpecificCause() instanceof PSQLException pe && "23505".equals(pe.getSQLState())) {
+                ServerErrorMessage postgresError = pe.getServerErrorMessage();
+                if (postgresError != null) {
+                    String constraint = postgresError.getConstraint();
+                    if (constraint != null) {
+                        return switch (constraint.toUpperCase()) {
+                            case "CONSTRAINT_UNIQUE_USERS_USERNAME" ->
+                                    new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_USERNAME_VIOLATION);
+                            case "CONSTRAINT_UNIQUE_USERS_EMAIL" ->
+                                    new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_EMAIL_VIOLATION);
+                            case "CONSTRAINT_UNIQUE_USERS_PHONE" ->
+                                    new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_PHONE_VIOLATION);
+                            default ->
+                                    new CustomResponseEntity(ResponseType.PIZDEC, ResponseCode.USER_UNKNOWN_CONSTRAINT_ERROR, "User creation failed: " + constraint);
+                        };
                     }
+                    return new CustomResponseEntity(ResponseCode.USER_UNIQUE_CONSTRAINT_VIOLATION, postgresError.getDetail());
                 }
             }
 
