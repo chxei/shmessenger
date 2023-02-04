@@ -14,17 +14,13 @@ import java.util.Objects;
 @Setter
 @ToString
 public final class File {
+    boolean isStoredLocally;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-
     @Lob
     private byte[] file;
-
-    boolean isStoredLocally;
-
     @Lob
     private byte[] fileCompressed;
 
