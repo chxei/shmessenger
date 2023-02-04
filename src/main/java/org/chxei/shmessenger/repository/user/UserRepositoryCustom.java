@@ -34,7 +34,7 @@ public class UserRepositoryCustom implements CrudRepository<User, Long> {
     public <S extends User> S save(@NotNull S entity) {
         Session session = this.sessionFactory.getCurrentSession();
         session.beginTransaction();
-        session.save(entity);
+        session.persist(entity);
         session.close();
         return entity;
     }
@@ -45,7 +45,7 @@ public class UserRepositoryCustom implements CrudRepository<User, Long> {
         Session session = this.sessionFactory.getCurrentSession();
         session.beginTransaction();
         for (S entity : entities) {
-            session.save(entity);
+            session.persist(entity);
         }
         session.close();
         return entities;
@@ -69,7 +69,7 @@ public class UserRepositoryCustom implements CrudRepository<User, Long> {
     public Optional<User> findbyusername(@NotNull String username) {
         Session session = this.sessionFactory.getCurrentSession();
         session.beginTransaction();
-        Optional<User> user = session.createQuery("select s from users s where s.username = :username").setParameter("username", username).getResultList().stream().findFirst();
+        Optional<User> user = session.createNativeQuery("select s from users s where s.username = :username", User.class).setParameter("username", username).getResultList().stream().findFirst();
         session.close();
         return user;
     }
@@ -92,7 +92,7 @@ public class UserRepositoryCustom implements CrudRepository<User, Long> {
     public Iterable<User> findAll() {
         Session session = this.sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List<User> users = (List<User>) session.createQuery("select s from users s").list();
+        List<User> users = session.createNativeQuery("select s from users s", User.class).list();
         session.close();
         return users;
     }
@@ -103,7 +103,7 @@ public class UserRepositoryCustom implements CrudRepository<User, Long> {
         Session session = this.sessionFactory.getCurrentSession();
         session.beginTransaction();
 
-        List<User> users = (List<User>) session.createQuery("select s from users s where s.id in :id").setParameterList("id", Lists.newArrayList(longs)).list();
+        List<User> users = session.createNativeQuery("select s from users s where s.id in :id", User.class).setParameterList("id", Lists.newArrayList(longs)).list();
         session.close();
         return users;
     }
@@ -112,14 +112,14 @@ public class UserRepositoryCustom implements CrudRepository<User, Long> {
     public void updateUser(User user) {
         Session session = this.sessionFactory.getCurrentSession();
         session.beginTransaction();
-        session.update(user);
+        session.merge(user);
     }
 
     @Override
     public long count() {
         Session session = this.sessionFactory.getCurrentSession();
         session.beginTransaction();
-        Query query = session.createQuery("select count(*) from users s");
+        Query query = session.createNativeQuery("select count(*) from users s", User.class);
         long count = query.getFirstResult();
         session.close();
         return count;
@@ -129,7 +129,7 @@ public class UserRepositoryCustom implements CrudRepository<User, Long> {
     public void deleteById(@NotNull Long aLong) {
         Session session = this.sessionFactory.getCurrentSession();
         session.beginTransaction();
-        session.delete(session.get(User.class, aLong));
+        session.remove(session.get(User.class, aLong));
         session.close();
     }
 
@@ -137,7 +137,7 @@ public class UserRepositoryCustom implements CrudRepository<User, Long> {
     public void delete(@NotNull User entity) {
         Session session = this.sessionFactory.getCurrentSession();
         session.beginTransaction();
-        session.delete(entity);
+        session.remove(entity);
         session.close();
     }
 
@@ -151,7 +151,7 @@ public class UserRepositoryCustom implements CrudRepository<User, Long> {
         Session session = this.sessionFactory.getCurrentSession();
         session.beginTransaction();
         for (User entity : entities) {
-            session.delete(entity);
+            session.remove(entity);
         }
         session.close();
     }
@@ -160,7 +160,7 @@ public class UserRepositoryCustom implements CrudRepository<User, Long> {
     public void deleteAll() {
         Session session = this.sessionFactory.getCurrentSession();
         session.beginTransaction();
-        session.createQuery("delete from users").executeUpdate();
+        session.createMutationQuery("delete from users").executeUpdate();
         session.close();
     }
 }
