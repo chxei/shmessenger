@@ -2,10 +2,16 @@ package org.chxei.shmessenger.entity.user;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 
-@Data
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
 @Entity(name = "genders")
 @Table(name = "genders")
 public final class Gender {

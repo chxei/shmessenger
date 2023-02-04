@@ -21,7 +21,7 @@ java {
     }
 }
 configurations {
-    all {
+    configureEach {
         resolutionStrategy {
             cacheDynamicVersionsFor 24, 'hours'
             cacheChangingModulesFor 24, 'hours'

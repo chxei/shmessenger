@@ -142,7 +142,7 @@ public class UserRepositoryCustom implements CrudRepository<User, Long> {
     }
 
     @Override
-    public void deleteAllById(Iterable<? extends Long> longs) {
+    public void deleteAllById(@NotNull Iterable<? extends Long> longs) {
         //TODO
     }
 

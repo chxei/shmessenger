@@ -10,7 +10,6 @@ import org.chxei.shmessenger.repository.user.GenderRepository;
 import org.chxei.shmessenger.repository.user.UserRepository;
 import org.chxei.shmessenger.repository.user.UserRepositoryCustom;
 import org.chxei.shmessenger.service.UserService;
-import org.chxei.shmessenger.utils.JwtUtils;
 import org.chxei.shmessenger.utils.Response.CustomResponseEntity;
 import org.chxei.shmessenger.utils.Response.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,25 +29,21 @@ import java.util.stream.Collectors;
 
 @RestController
 public class UserController {
-    //    private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final GenderRepository genderRepository;
     private final CountryRepository countryRepository;
     private final UserService userService;
     private final UserRepositoryCustom userRepositoryCustom;
-    private final JwtUtils jwtUtils;
 
     private final JwtEncoder encoder;
 
     @Autowired
-    public UserController(/*AuthenticationManager authenticationManager, */UserRepository userRepository, GenderRepository genderRepository, CountryRepository countryRepository, UserService userService, UserRepositoryCustom userRepositoryCustom, JwtUtils jwtUtils, JwtEncoder encoder) {
-//        this.authenticationManager = authenticationManager;
+    public UserController(UserRepository userRepository, GenderRepository genderRepository, CountryRepository countryRepository, UserService userService, UserRepositoryCustom userRepositoryCustom, JwtEncoder encoder) {
         this.userRepository = userRepository;
         this.genderRepository = genderRepository;
         this.countryRepository = countryRepository;
         this.userService = userService;
         this.userRepositoryCustom = userRepositoryCustom;
-        this.jwtUtils = jwtUtils;
         this.encoder = encoder;
     }
 
