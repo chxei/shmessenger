@@ -110,33 +110,12 @@ public final class User implements UserDetails, CredentialsContainer {
                 .collect(Collectors.toList());
     }
 
+    public User() {
+    }
+
     @Override
     public void eraseCredentials() {
         this.password = null;
-    }
-
-    @JsonComponent
-    public static class UserSerializable extends JsonSerializer<User> {
-        @Override
-        public void serialize(User user, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-
-            jsonGenerator.writeStartObject();
-            jsonGenerator.writeNumberField("id", user.getId());
-            jsonGenerator.writeObjectField("username", user.getUsername());
-            jsonGenerator.writeObjectField("name", user.getName());
-            jsonGenerator.writeObjectField("email", user.getEmail());
-            jsonGenerator.writeObjectField("country", user.getCountry() != null ? user.getCountry().getName() : null);
-            jsonGenerator.writeObjectField("phone", user.getPhone());
-            jsonGenerator.writeObjectField("pathToProfilePicture", user.getPathToProfilePicture());
-            jsonGenerator.writeObjectField("pathToBackgroundPicture", user.getPathToBackgroundPicture());
-            jsonGenerator.writeObjectField("birthDate", user.getBirthDate().toLocalDateTime());
-            jsonGenerator.writeObjectField("active", user.isActive());
-            jsonGenerator.writeObjectField("gender", user.getGender() != null ? user.getGender().getName() : null);
-            jsonGenerator.writeEndObject();
-        }
-    }
-
-    public User() {
     }
 
     @Override
@@ -174,6 +153,12 @@ public final class User implements UserDetails, CredentialsContainer {
         return active;
     }
 
+    //do not change order, add new values last
+    public enum Role {
+        USER,
+        ADMIN
+    }
+
 //    @PrePersist
 //    public void setCreationDateTime() {
 //        this.creationTimeStamp = LocalDateTime.now();
@@ -184,9 +169,24 @@ public final class User implements UserDetails, CredentialsContainer {
 //        this.modifiedTimestamp = LocalDateTime.now();
 //    }
 
-    //do not change order, add new values last
-    public enum Role {
-        USER,
-        ADMIN
+    @JsonComponent
+    public static class UserSerializable extends JsonSerializer<User> {
+        @Override
+        public void serialize(User user, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+
+            jsonGenerator.writeStartObject();
+            jsonGenerator.writeNumberField("id", user.getId());
+            jsonGenerator.writeObjectField("username", user.getUsername());
+            jsonGenerator.writeObjectField("name", user.getName());
+            jsonGenerator.writeObjectField("email", user.getEmail());
+            jsonGenerator.writeObjectField("country", user.getCountry() != null ? user.getCountry().getName() : null);
+            jsonGenerator.writeObjectField("phone", user.getPhone());
+            jsonGenerator.writeObjectField("pathToProfilePicture", user.getPathToProfilePicture());
+            jsonGenerator.writeObjectField("pathToBackgroundPicture", user.getPathToBackgroundPicture());
+            jsonGenerator.writeObjectField("birthDate", user.getBirthDate().toLocalDateTime());
+            jsonGenerator.writeObjectField("active", user.isActive());
+            jsonGenerator.writeObjectField("gender", user.getGender() != null ? user.getGender().getName() : null);
+            jsonGenerator.writeEndObject();
+        }
     }
 }
