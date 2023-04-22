@@ -11,7 +11,6 @@ version = '0.0.1'
 
 java {
     compileJava {
-        options.compilerArgs = List.of('-Xlint:none', '-nowarn', '-parameters')
         options.fork = true
         options.incremental = true
     }
@@ -30,6 +29,7 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    implementation.exclude module: "spring-boot-starter-tomcat"
 }
 
 repositories {
@@ -43,12 +43,14 @@ repositories {
 
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+//    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa' //todo dont use both jpa and jdbc
 //	implementation 'org.springframework.boot:spring-boot-starter-data-redis' //todo not implemented
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-undertow'
+    implementation 'org.springframework:spring-context-indexer:+'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 
@@ -68,14 +70,13 @@ dependencies {
     /*implementation 'joda-time:joda-time-hibernate:+'*/ //todo not implemented
     /*implementation 'joda-time:joda-time:+'*/ //todo not implemented
     compileOnly 'org.projectlombok:lombok'
-    compileOnly 'io.jsonwebtoken:jjwt-api:+'
+//    compileOnly 'io.jsonwebtoken:jjwt-api:+'
     developmentOnly 'org.springframework.boot:spring-boot-devtools' //not compatible with native
-    runtimeOnly 'io.jsonwebtoken:jjwt-impl:+'
-    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:+'
+//    runtimeOnly 'io.jsonwebtoken:jjwt-impl:+'
+//    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:+'
     annotationProcessor 'org.projectlombok:lombok:+'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-
 }
 
 test {
