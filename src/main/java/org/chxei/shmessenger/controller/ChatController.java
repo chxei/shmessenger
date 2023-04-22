@@ -2,7 +2,7 @@ package org.chxei.shmessenger.controller;
 
 import org.chxei.shmessenger.repository.chat.MessageTypeRepository;
 import org.chxei.shmessenger.service.ChatService;
-import org.chxei.shmessenger.utils.Response.CustomResponseException;
+import org.chxei.shmessenger.utils.response.CustomResponseException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;

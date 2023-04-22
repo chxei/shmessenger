@@ -33,21 +33,13 @@ import java.security.interfaces.RSAPublicKey;
 @Configuration
 public class SecurityConfiguration {
 
-    RSAPublicKey rsaPublicKey;
-    RSAPrivateKey rsaPrivateKey;
-    KeyPairGenerator kpg;
-    KeyPair kp;
+    final KeyPair kp = KeyPairGenerator.getInstance("RSA").generateKeyPair();
+    final RSAPublicKey rsaPublicKey = (RSAPublicKey) kp.getPublic();
+    final RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) kp.getPrivate();
 
-    {
-        try {
-            kpg = KeyPairGenerator.getInstance("RSA");
-            kpg.initialize(2048);
-            kp = kpg.generateKeyPair();
-            rsaPublicKey = (RSAPublicKey) kp.getPublic();
-            rsaPrivateKey = (RSAPrivateKey) kp.getPrivate();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
+
+    public SecurityConfiguration() throws NoSuchAlgorithmException {
+        // KeyPairGenerator might throw NoSuchAlgorithmException, though it's unlikely to happen, so don't try catch
     }
 
 

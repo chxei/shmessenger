@@ -10,8 +10,8 @@ import org.chxei.shmessenger.repository.user.GenderRepository;
 import org.chxei.shmessenger.repository.user.UserRepository;
 import org.chxei.shmessenger.repository.user.UserRepositoryCustom;
 import org.chxei.shmessenger.service.UserService;
-import org.chxei.shmessenger.utils.Response.CustomResponseEntity;
-import org.chxei.shmessenger.utils.Response.ResponseCode;
+import org.chxei.shmessenger.utils.response.CustomResponseEntity;
+import org.chxei.shmessenger.utils.response.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -48,7 +48,7 @@ public class UserController {
     }
 
 
-    @PostMapping(value = "/authenticate", produces = "application/json")
+    @PostMapping(value = "/login", produces = "application/json")
     public ResponseEntity<?> token(Authentication authentication) {
         Instant now = Instant.now();
         long expiry = 36000L;
@@ -70,18 +70,6 @@ public class UserController {
     public ResponseEntity<?> getAllUsers() {
         return ResponseEntity.ok(userRepository.findAll());
     }
-
-//    @PostMapping(value = "/authenticate")
-//    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) {
-//        try {
-//            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
-//        } catch (BadCredentialsException e) {
-//            return ResponseEntity.ok(new CustomResponseEntity(ResponseCode.WRONG_USERNAME_PASSWORD));
-//        }
-//        final User userDetails = userService.loadUserByUsername(authenticationRequest.getUsername());
-//        final String jwt = jwtUtils.generateToken(userDetails);
-//        return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getId()));
-//    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json", value = "/register")
     public ResponseEntity<?> registerUser(@RequestBody @Valid User user) {

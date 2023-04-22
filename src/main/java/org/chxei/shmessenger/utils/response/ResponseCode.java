@@ -1,4 +1,4 @@
-package org.chxei.shmessenger.utils.Response;
+package org.chxei.shmessenger.utils.response;
 
 public enum ResponseCode {
     WRONG_USERNAME_PASSWORD("User with provided username/password combination not found", ResponseType.WARNING),

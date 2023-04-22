@@ -19,7 +19,9 @@ public class ShmessengerApplication {
     }
 
     public static void main(String[] args) {
-        Misc.logger.info(Runtime.version().toString());
+        String version = Runtime.version().toString();
+        Misc.logger.info(version);
+
         SpringApplication.run(ShmessengerApplication.class, args);
     }
 

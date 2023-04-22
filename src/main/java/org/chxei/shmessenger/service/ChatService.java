@@ -10,9 +10,9 @@ import org.chxei.shmessenger.repository.chat.MessageRepository;
 import org.chxei.shmessenger.repository.chat.MessageTypeRepository;
 import org.chxei.shmessenger.repository.chat.ParticipantRepository;
 import org.chxei.shmessenger.repository.user.UserRepository;
-import org.chxei.shmessenger.utils.Response.CustomResponseEntity;
-import org.chxei.shmessenger.utils.Response.CustomResponseException;
-import org.chxei.shmessenger.utils.Response.ResponseCode;
+import org.chxei.shmessenger.utils.response.CustomResponseEntity;
+import org.chxei.shmessenger.utils.response.CustomResponseException;
+import org.chxei.shmessenger.utils.response.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

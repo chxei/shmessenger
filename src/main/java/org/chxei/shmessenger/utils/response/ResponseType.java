@@ -1,4 +1,4 @@
-package org.chxei.shmessenger.utils.Response;
+package org.chxei.shmessenger.utils.response;
 
 public enum ResponseType {
     OK,

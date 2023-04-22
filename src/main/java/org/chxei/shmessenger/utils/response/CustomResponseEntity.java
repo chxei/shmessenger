@@ -1,5 +1,8 @@
-package org.chxei.shmessenger.utils.Response;
+package org.chxei.shmessenger.utils.response;
 
+import lombok.Getter;
+
+@Getter
 public class CustomResponseEntity {
     private final ResponseType responseType;
     private final String message;
@@ -34,17 +37,4 @@ public class CustomResponseEntity {
         this.responseType = responseCode.getResponseType();
         this.message = responseCode.getMessage();
     }
-
-    public ResponseType getResponseType() {
-        return responseType;
-    }
-
-    public ResponseCode getResponseCode() {
-        return responseCode;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 }
-

@@ -91,6 +91,12 @@ public final class User implements UserDetails, CredentialsContainer {
     @Transient
     private List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("app");
 
+    public User(UserDetails userDetails) {
+        this.username = userDetails.getUsername();
+        this.password = userDetails.getPassword();
+        this.authorities = AuthorityUtils.createAuthorityList("app");
+    }
+
     public User(String username, String name, String email, Timestamp birthDate, String password, Gender gender) {
         this.username = username;
         this.name = name;
@@ -158,16 +164,6 @@ public final class User implements UserDetails, CredentialsContainer {
         USER,
         ADMIN
     }
-
-//    @PrePersist
-//    public void setCreationDateTime() {
-//        this.creationTimeStamp = LocalDateTime.now();
-//    }
-//
-//    @PreUpdate
-//    public void setChangeDateTime() {
-//        this.modifiedTimestamp = LocalDateTime.now();
-//    }
 
     @JsonComponent
     public static class UserSerializable extends JsonSerializer<User> {
