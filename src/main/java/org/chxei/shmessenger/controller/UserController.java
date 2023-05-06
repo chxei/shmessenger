@@ -1,5 +1,10 @@
 package org.chxei.shmessenger.controller;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.chxei.shmessenger.entity.user.AuthenticationResponse;
 import org.chxei.shmessenger.entity.user.Country;
@@ -28,6 +33,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@SecurityRequirement(name = "bearerAuth")
+@Tag(name = "User", description = "The User API. Contains all the operations for login and registering user.")
 public class UserController {
     private final UserRepository userRepository;
     private final GenderRepository genderRepository;
@@ -49,7 +56,12 @@ public class UserController {
 
 
     @PostMapping(value = "/login", produces = "application/json")
-    public ResponseEntity<?> token(Authentication authentication) {
+    @Parameter(in = ParameterIn.HEADER,
+            name = "Authorization",
+            description = "to get jwt for swagger use: curl -XPOST https://localhost:8080/login --user \"user:password\" -k",
+            schema = @Schema(type = "string", defaultValue = "Basic <Base64 encoded user:password>")
+    )
+    public ResponseEntity<AuthenticationResponse> token(Authentication authentication) {
         Instant now = Instant.now();
         long expiry = 36000L;
         String scope = authentication.getAuthorities().stream()

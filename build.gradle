@@ -51,8 +51,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-undertow' //remove to use tomcat instead of undertow
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-
-
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:latest.release'
+    implementation 'org.springdoc:springdoc-openapi-starter-common:latest.release'
     implementation 'org.apache.httpcomponents:httpcore:+'
     implementation 'org.apache.httpcomponents:httpclient:+'
     implementation 'io.github.cdimascio:dotenv-kotlin:+'
