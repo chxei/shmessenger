@@ -1,7 +1,6 @@
 plugins {
     id 'org.springframework.boot' version '3.0.6'
     id 'io.spring.dependency-management' version '1.1.0'
-//    id "org.hibernate.orm" version "latest.release"
     id 'application'
     id 'java'
 }
@@ -49,8 +48,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-undertow'
-    implementation 'org.springframework:spring-context-indexer:+'
+    implementation 'org.springframework.boot:spring-boot-starter-undertow' //remove to use tomcat instead of undertow
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 
