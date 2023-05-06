@@ -67,12 +67,12 @@ public class UserController {
     }
 
     @GetMapping(value = "/user/getAll")
-    public ResponseEntity<?> getAllUsers() {
+    public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userRepository.findAll());
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json", value = "/register")
-    public ResponseEntity<?> registerUser(@RequestBody @Valid User user) {
+    public ResponseEntity<CustomResponseEntity> registerUser(@RequestBody @Valid User user) {
         return ResponseEntity.ok(userService.registerUser(user));
     }
 
