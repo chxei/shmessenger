@@ -28,7 +28,7 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-    implementation.exclude module: "spring-boot-starter-tomcat"
+    implementation.exclude module: "spring-boot-starter-tomcat" //remove to use tomcat instead of undertow
 }
 
 repositories {
