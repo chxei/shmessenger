@@ -13,7 +13,6 @@ import org.chxei.shmessenger.entity.user.User;
 import org.chxei.shmessenger.repository.user.CountryRepository;
 import org.chxei.shmessenger.repository.user.GenderRepository;
 import org.chxei.shmessenger.repository.user.UserRepository;
-import org.chxei.shmessenger.repository.user.UserRepositoryCustom;
 import org.chxei.shmessenger.service.UserService;
 import org.chxei.shmessenger.utils.response.CustomResponseEntity;
 import org.chxei.shmessenger.utils.response.ResponseCode;
@@ -40,17 +39,15 @@ public class UserController {
     private final GenderRepository genderRepository;
     private final CountryRepository countryRepository;
     private final UserService userService;
-    private final UserRepositoryCustom userRepositoryCustom;
 
     private final JwtEncoder encoder;
 
     @Autowired
-    public UserController(UserRepository userRepository, GenderRepository genderRepository, CountryRepository countryRepository, UserService userService, UserRepositoryCustom userRepositoryCustom, JwtEncoder encoder) {
+    public UserController(UserRepository userRepository, GenderRepository genderRepository, CountryRepository countryRepository, UserService userService, JwtEncoder encoder) {
         this.userRepository = userRepository;
         this.genderRepository = genderRepository;
         this.countryRepository = countryRepository;
         this.userService = userService;
-        this.userRepositoryCustom = userRepositoryCustom;
         this.encoder = encoder;
     }
 
@@ -93,10 +90,9 @@ public class UserController {
         return userRepository.getReferenceById(id);
     }
 
-    //todo handle exceptions, not found
     @GetMapping(value = "/user/getUserByUsername/{userName}")
-    public ResponseEntity<?> getUser(@PathVariable String userName) {
-        User user = userRepositoryCustom.findbyusername(userName).orElse(null);
+    public ResponseEntity<Object> getUser(@PathVariable String userName) {
+        User user = userRepository.findByUsername(userName).orElse(null);
         if (user != null) {
             return new ResponseEntity<>(user, HttpStatus.OK);
         } else {
