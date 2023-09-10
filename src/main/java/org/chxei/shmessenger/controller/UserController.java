@@ -75,7 +75,7 @@ public class UserController {
         return ResponseEntity.ok(authenticationResponse);
     }
 
-    @GetMapping(value = "/user/getAll")
+    @GetMapping(value = "/user")
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userRepository.findAll());
     }
@@ -100,12 +100,12 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/country/getAll")
+    @GetMapping(value = "/country")
     public List<Country> getCountries() {
         return countryRepository.findAll();
     }
 
-    @GetMapping(value = "/gender/getAll")
+    @GetMapping(value = "/gender")
     public List<Gender> getGenders() {
         return genderRepository.findByStatus(true);
     }
