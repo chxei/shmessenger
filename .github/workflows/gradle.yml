@@ -36,7 +36,7 @@ jobs:
       - name: release
         run: |
           ls -la .github
-          #         uses: ncipollo/release-action@v1.12.0
+          #         uses: ncipollo/release-action@v1.14.0
           #         with:
           #           artifacts: "build/libs/shmessenger-0.0.1-SNAPSHOT-plain.jar"
           #           bodyFile: "build/libs/shmessenger-0.0.1-SNAPSHOT-plain.jar"
