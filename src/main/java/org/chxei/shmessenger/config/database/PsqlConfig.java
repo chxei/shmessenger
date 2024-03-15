@@ -39,7 +39,7 @@ public class PsqlConfig {
         Properties hibernateProperties = new Properties();
 //        hibernateProperties.put("hibernate.dialect", "org.hibernate.dialect.OracleDialect");
         hibernateProperties.put("hibernate.show_sql", "true");
-        hibernateProperties.put("hibernate.hbm2ddl.auto", "create"); //update,create-drop, create, validate, none
+        hibernateProperties.put("hibernate.hbm2ddl.auto", "update"); //update,create-drop, create, validate, none
         hibernateProperties.put("hibernate.current_session_context_class", "thread");
 
         sessionFactory.setHibernateProperties(hibernateProperties);
