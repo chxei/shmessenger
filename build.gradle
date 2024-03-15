@@ -13,10 +13,10 @@ java {
         options.fork = true
         options.incremental = true
     }
-    sourceCompatibility = '20'
+    sourceCompatibility = '21'
     toolchain {
-        languageVersion = JavaLanguageVersion.of(20)
-//        vendor = JvmVendorSpec.GRAAL_VM
+        languageVersion = JavaLanguageVersion.of(21)
+        //vendor = JvmVendorSpec.GRAAL_VM
     }
 }
 configurations {
