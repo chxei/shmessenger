@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.Hibernate;
-
-import java.util.Objects;
 
 @Table(name = "files")
 @Entity
@@ -20,16 +17,8 @@ public final class File {
     private Long id;
     private String name;
     @Lob
-    private byte[] file;
+    private byte[] fileObject;
     @Lob
     private byte[] fileCompressed;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        File file = (File) o;
-
-        return Objects.equals(id, file.id);
-    }
 }

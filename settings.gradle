@@ -1,12 +1,2 @@
-pluginManagement {
-    repositories {
-        mavenLocal()
-        maven { url 'https://repo.spring.io/release' }
-        maven { url 'https://repo.spring.io/milestone' }
-        maven { url 'https://repo.spring.io/snapshot' }
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
 rootProject.name = 'shmessenger'
 enableFeaturePreview "STABLE_CONFIGURATION_CACHE"

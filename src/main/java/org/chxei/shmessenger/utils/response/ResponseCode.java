@@ -11,19 +11,11 @@ public enum ResponseCode {
     CONSTRAINT_UNIQUE_USERS_EMAIL_VIOLATION("User with this email is already registered", ResponseType.WARNING),
     CONSTRAINT_UNIQUE_USERS_PHONE_VIOLATION("User with this phone is already registered", ResponseType.WARNING);
 
-    private String message;
-    private ResponseType responseType;
+    private final String message;
+    private final ResponseType responseType;
 
     ResponseCode(String message, ResponseType responseType) {
         this.message = message;
-        this.responseType = responseType;
-    }
-
-    ResponseCode(String message) {
-        this.message = message;
-    }
-
-    ResponseCode(ResponseType responseType) {
         this.responseType = responseType;
     }
 

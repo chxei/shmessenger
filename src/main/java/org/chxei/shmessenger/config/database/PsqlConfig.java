@@ -23,11 +23,11 @@ public class PsqlConfig {
     public static final Dotenv dotenv = Misc.dotenv;
 
     public static final String DB_JDBC_URL = Stream.of(dotenv.get("DB_JDBC_URL"))
-            .map(str -> str.replace("<DB_HOST>", dotenv.get("DB_HOST"))
-                    .replace("<DB_PORT>", dotenv.get("DB_PORT"))
-                    .replace("<DB_DATABASE>", dotenv.get("DB_DATABASE"))
-                    .replace("<DB_USER>", dotenv.get("DB_USER"))
-                    .replace("<DB_PASSWORD>", dotenv.get("DB_PASSWORD")))
+//            .map(str -> str.replace("<DB_HOST>", dotenv.get("DB_HOST"))
+//                    .replace("<DB_PORT>", dotenv.get("DB_PORT"))
+//                    .replace("<DB_DATABASE>", dotenv.get("DB_DATABASE"))
+//                    .replace("<DB_USER>", dotenv.get("DB_USER"))
+//                    .replace("<DB_PASSWORD>", dotenv.get("DB_PASSWORD")))
             .collect(Collectors.joining());
 
 
@@ -37,7 +37,7 @@ public class PsqlConfig {
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan("org.chxei.shmessenger");
         Properties hibernateProperties = new Properties();
-        hibernateProperties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+//        hibernateProperties.put("hibernate.dialect", "org.hibernate.dialect.OracleDialect");
         hibernateProperties.put("hibernate.show_sql", "true");
         hibernateProperties.put("hibernate.hbm2ddl.auto", "update"); //update,create-drop, create, validate, none
         hibernateProperties.put("hibernate.current_session_context_class", "thread");
@@ -50,7 +50,8 @@ public class PsqlConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
+        //dataSource.setDriverClassName("oracle.jdbc.datasource.OracleDataSource");
+
         dataSource.setUrl(DB_JDBC_URL);
         dataSource.setUsername(dotenv.get("DB_USER"));
         dataSource.setPassword(dotenv.get("DB_PASSWORD"));

@@ -1,11 +1,9 @@
 package org.chxei.shmessenger.controller;
 
-import org.chxei.shmessenger.repository.chat.MessageTypeRepository;
 import org.chxei.shmessenger.service.ChatService;
 import org.chxei.shmessenger.utils.response.CustomResponseException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,16 +14,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin
 public class ChatController {
     private final ChatService chatService;
 
-    public ChatController(ChatService chatService, MessageTypeRepository messageTypeRepository) {
+    public ChatController(ChatService chatService) {
         this.chatService = chatService;
     }
 
-    @PostMapping(value = "/chat/createConversation", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createConversation(@RequestBody Map<String, String> request) {
+    @PostMapping(value = "/conversation", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Long>> createConversation(@RequestBody Map<String, String> request) {
         int creationUserId = Integer.parseInt(request.get("creationUserId"));
         String conversationName = request.get("conversationName");
         List<Integer> participantIds = Arrays.stream(request.get("participantIds").split(",")).map(Integer::parseInt).collect(Collectors.toList());
@@ -33,8 +30,8 @@ public class ChatController {
         return ResponseEntity.ok(Map.of("conversationId", conversationId));
     }
 
-    @PostMapping(value = "/chat/sendMessage", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> sendMessage(@RequestBody Map<String, String> request) {
+    @PostMapping(value = "/message", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> sendMessage(@RequestBody Map<String, String> request) {
         //TODO use path variables
         try {
             int senderId = Integer.parseInt(request.get("senderId"));

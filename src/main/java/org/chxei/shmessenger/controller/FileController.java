@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+
 @RestController
-@CrossOrigin
 @RequestMapping(value = "/file")
 public class FileController {
     private final FileRepository fileRepository;
@@ -26,12 +27,12 @@ public class FileController {
         this.fileRepository = fileRepository;
     }
 
-    @PostMapping(value = "/upload")
-    Long uploadImage(@RequestParam MultipartFile multipartFile) throws Exception {
+    @PostMapping
+    Long uploadImage(@RequestParam MultipartFile multipartFile) throws IOException {
         File file = new File();
 
         file.setName(multipartFile.getOriginalFilename());
-        file.setFile(multipartFile.getBytes());
+        file.setFileObject(multipartFile.getBytes());
 
         java.io.File dest = new java.io.File(fileDirectory + file.getName());
         multipartFile.getInputStream().close();
@@ -47,8 +48,8 @@ public class FileController {
         return fileRepository.save(file).getId();
     }
 
-    @GetMapping(value = "/download/{fileId}", produces = MediaType.IMAGE_JPEG_VALUE)
-    Resource downloadImage(@PathVariable Long fileId) {
+    @GetMapping(produces = MediaType.IMAGE_JPEG_VALUE)
+    Resource downloadImage(@RequestParam Long fileId) {
         byte[] file = fileRepository.findById(fileId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND))
                 .getFileCompressed();

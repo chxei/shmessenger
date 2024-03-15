@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -34,7 +35,7 @@ public class DatabaseFiller {
     public void init() {
         List<Gender> genders = populateGenders();
         List<Country> countries = populateCountries();
-        List<MessageType> messageTypes = populateMessageType();
+        populateMessageType();
 
         User user = new User("chxei", "chxei", "chxei@chxei.org", Timestamp.valueOf("2000-01-01 00:00:00"), "chxei", genders.get(0));
         user.setCountry(countries.get(0));
@@ -63,14 +64,9 @@ public class DatabaseFiller {
 
     public List<MessageType> populateMessageType() {
         List<MessageType> messageTypes = new ArrayList<>();
-        messageTypes.add(new MessageType("EMOJI"));
-        messageTypes.add(new MessageType("COMPOSED"));
-        messageTypes.add(new MessageType("GIF"));
-        messageTypes.add(new MessageType("MEDIA_GIF"));
-        messageTypes.add(new MessageType("MEDIA_VIDEO"));
-        messageTypes.add(new MessageType("MEDIA_PHOTO"));
-        messageTypes.add(new MessageType("MEDIA_VOICE"));
-        messageTypes.add(new MessageType("MEDIA_FILE"));
+        for (String s : Arrays.asList("EMOJI", "COMPOSED", "GIF", "MEDIA_GIF", "MEDIA_VIDEO", "MEDIA_PHOTO", "MEDIA_VOICE", "MEDIA_FILE")) {
+            messageTypes.add(new MessageType(s));
+        }
         messageTypeRepository.saveAll(messageTypes);
         return messageTypes;
     }
