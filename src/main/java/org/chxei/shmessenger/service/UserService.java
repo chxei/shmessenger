@@ -6,8 +6,6 @@ import org.chxei.shmessenger.utils.Misc;
 import org.chxei.shmessenger.utils.response.CustomResponseEntity;
 import org.chxei.shmessenger.utils.response.ResponseCode;
 import org.chxei.shmessenger.utils.response.ResponseType;
-import org.postgresql.util.PSQLException;
-import org.postgresql.util.ServerErrorMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.Optional;
 
 @Service
@@ -33,27 +32,23 @@ public class UserService implements UserDetailsService, UserDetailsManager, User
         try {
             userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
-            if (e.getMostSpecificCause() instanceof PSQLException pe && "23505".equals(pe.getSQLState())) {
-                ServerErrorMessage postgresError = pe.getServerErrorMessage();
-                if (postgresError != null) {
-                    String constraint = postgresError.getConstraint();
-                    if (constraint != null) {
-                        return switch (constraint.toUpperCase()) {
-                            case "CONSTRAINT_UNIQUE_USERS_USERNAME" ->
-                                    new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_USERNAME_VIOLATION);
-                            case "CONSTRAINT_UNIQUE_USERS_EMAIL" ->
-                                    new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_EMAIL_VIOLATION);
-                            case "CONSTRAINT_UNIQUE_USERS_PHONE" ->
-                                    new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_PHONE_VIOLATION);
-                            default ->
-                                    new CustomResponseEntity(ResponseType.PIZDEC, ResponseCode.USER_UNKNOWN_CONSTRAINT_ERROR, "User creation failed: " + constraint);
-                        };
+            if (e.getMostSpecificCause() instanceof SQLException sqlException) {
+                if (sqlException.getErrorCode() == 19 || sqlException.getErrorCode() == 2067) {
+                    String message = sqlException.getMessage();
+                    // You'll need to parse the error message to determine which constraint was violated
+                    // as SQLite doesn't provide as detailed error information as PostgreSQL
+                    if (message.contains("username")) {
+                        return new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_USERNAME_VIOLATION);
+                    } else if (message.contains("email")) {
+                        return new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_EMAIL_VIOLATION);
+                    } else if (message.contains("phone")) {
+                        return new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_PHONE_VIOLATION);
                     }
-                    return new CustomResponseEntity(ResponseCode.USER_UNIQUE_CONSTRAINT_VIOLATION, postgresError.getDetail());
+                    return new CustomResponseEntity(ResponseCode.USER_UNIQUE_CONSTRAINT_VIOLATION, message);
                 }
             }
-
         }
+
         return new CustomResponseEntity(ResponseType.OK, "You registered successfully");
     }
 
