@@ -9,6 +9,8 @@ import org.chxei.shmessenger.repository.user.CountryRepository;
 import org.chxei.shmessenger.repository.user.GenderRepository;
 import org.chxei.shmessenger.repository.user.UserRepository;
 import org.chxei.shmessenger.utils.Misc;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
@@ -31,14 +33,15 @@ public class DatabaseFiller {
     }
 
 
-    //@EventListener(ApplicationReadyEvent.class)
+    @EventListener(ApplicationReadyEvent.class)
     public void init() {
         List<Gender> genders = populateGenders();
         List<Country> countries = populateCountries();
         populateMessageType();
 
-        User user = new User("chxei", "chxei", "chxei@chxei.org", Timestamp.valueOf("2000-01-01 00:00:00"), "chxei", genders.get(0));
-        user.setCountry(countries.get(0));
+        final String DEF_USER = "chxei";
+        User user = new User(DEF_USER, DEF_USER, DEF_USER + "@" + DEF_USER + ".org", Timestamp.valueOf("2000-01-01 00:00:00"), DEF_USER, genders.getFirst());
+        user.setCountry(countries.getFirst());
         user.setPassword(Misc.getPasswordEncoder().encode(user.getPassword()));
         userRepository.save(user);
     }
