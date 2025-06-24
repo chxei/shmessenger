@@ -39,7 +39,7 @@ public class ChatService {
 
     public String generateConversationName(List<User> users) {
         if (users.size() == 1) {
-            return users.get(0).getName();
+            return users.getFirst().getName();
         } else if (users.size() == 2) {
             return users.get(0).getName() + ", " + users.get(1).getName();
         } else {

@@ -65,12 +65,11 @@ public class DatabaseFiller {
         return countries;
     }
 
-    public List<MessageType> populateMessageType() {
+    public void populateMessageType() {
         List<MessageType> messageTypes = new ArrayList<>();
         for (String s : Arrays.asList("EMOJI", "COMPOSED", "GIF", "MEDIA_GIF", "MEDIA_VIDEO", "MEDIA_PHOTO", "MEDIA_VOICE", "MEDIA_FILE")) {
             messageTypes.add(new MessageType(s));
         }
         messageTypeRepository.saveAll(messageTypes);
-        return messageTypes;
     }
 }

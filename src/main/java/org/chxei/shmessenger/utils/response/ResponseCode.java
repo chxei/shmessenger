@@ -1,5 +1,8 @@
 package org.chxei.shmessenger.utils.response;
 
+import lombok.Getter;
+
+@Getter
 public enum ResponseCode {
     WRONG_USERNAME_PASSWORD("User with provided username/password combination not found", ResponseType.WARNING),
     WRONG_JWT("Your session has expired, log in again", ResponseType.ACTION),
@@ -19,11 +22,4 @@ public enum ResponseCode {
         this.responseType = responseType;
     }
 
-    public String getMessage() {
-        return this.message;
-    }
-
-    public ResponseType getResponseType() {
-        return this.responseType;
-    }
 }
