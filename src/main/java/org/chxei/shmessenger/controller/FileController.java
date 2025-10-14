@@ -20,7 +20,7 @@ import java.io.IOException;
 @RequestMapping(value = "/file")
 public class FileController {
     private final FileRepository fileRepository;
-    private final String fileDirectory = System.getProperty("user.dir") + "/src/main/resources/static/uploads/images/original/";
+    private final String fileDirectory = System.getProperty("user.dir") + Misc.dotenv.get("UPLOAD_DIRECTORY");
 
     @Autowired
     public FileController(FileRepository fileRepository) {
