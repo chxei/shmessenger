@@ -13,14 +13,12 @@ class ShmessengerApplicationTests {
 
     @LocalServerPort
     private int port;
-
+    @Autowired
+    private TestRestTemplate restTemplate;
 
     @Test
     void contextLoads() {
     }
-
-    @Autowired
-    private TestRestTemplate restTemplate;
 
     @Test
     void greetingShouldReturnDefaultMessage() throws Exception {
