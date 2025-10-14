@@ -59,6 +59,8 @@ dependencies {
     implementation 'com.tinify:tinify:latest.release'
     implementation 'org.xerial:sqlite-jdbc:+'
     implementation 'org.hibernate.orm:hibernate-community-dialects:+'
+    implementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.security:spring-security-test'
 
     /*implementation 'joda-time:joda-time-hibernate:+'*/ //todo not implemented
     /*implementation 'joda-time:joda-time:+'*/ //todo not implemented
