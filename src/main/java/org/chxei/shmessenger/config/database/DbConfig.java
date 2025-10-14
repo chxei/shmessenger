@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 
 @Configuration
 @EnableTransactionManagement
-public class PsqlConfig {
+public class DbConfig {
     public static final Dotenv dotenv = Misc.dotenv;
 
     public static final String DB_JDBC_URL = Stream.of(dotenv.get("DB_JDBC_URL"))
