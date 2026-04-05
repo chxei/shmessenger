@@ -1,0 +1,19 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+      - "443:443"
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
+      - DB_HOST=0.0.0.0
+      - DB_DATABASE=shmessenger
+      - DB_USER=shmessenger
+      - DB_PORT=5432
+      - DB_PASSWORD=shmessenger
+      - DB_JDBC_URL=jdbc:sqlite:shmessenger.db
+      - TINIFY_API_KEY=your_tinify_api_key_here
+      - UPLOAD_DIRECTORY=/app/uploads
+    volumes:
+      - ./data:/app/data
+      - ./uploads:/app/uploads

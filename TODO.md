@@ -1,5 +1,4 @@
 # bugs
-
     authorities table
     use isActive field for login
     deactivate/reactivate api

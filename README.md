@@ -6,3 +6,20 @@
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/chxei/shmessenger)
 ![GitHub last commit](https://img.shields.io/github/last-commit/chxei/shmessenger)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/chxei/shmessenger)
+
+# running application:
+
+- ./gradlew bootRun
+
+or
+
+- docker build -t shmessenger .
+- docker run -p 8080:8080 shmessenger
+
+or
+
+- docker compose up --build
+
+# swagger
+
+https://localhost:8080/swagger-ui/index.html

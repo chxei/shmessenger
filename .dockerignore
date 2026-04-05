@@ -1,0 +1,12 @@
+build/
+.gradle/
+bin/
+out/
+#.env
+*.db
+.git
+.gitignore
+README.md
+HELP.md
+GEMINI.md
+TODO.md
