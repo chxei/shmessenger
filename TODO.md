@@ -10,3 +10,6 @@
     use yaml format for properties
     override hascode, tostring and equals for entities
     requestmapping on controller class  
+    use vault for passwords.
+    find better way to handle enviroment variables for docker
+    come up with one line run command for docker
