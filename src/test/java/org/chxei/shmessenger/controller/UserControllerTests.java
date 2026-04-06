@@ -26,7 +26,7 @@ public class UserControllerTests {
 
     @Test
     public void testWithBasicAuth_success() throws Exception {
-        MvcResult result = mockMvc.perform(post("/login")
+        MvcResult result = mockMvc.perform(post("/auth/login")
                         .with(httpBasic(USERNAME, PASSWORD))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -43,7 +43,7 @@ public class UserControllerTests {
 
     @Test
     public void testLoginWithoutAuth_Unauthorized() throws Exception {
-        mockMvc.perform(post("/login")
+        mockMvc.perform(post("/auth/login")
                         .contentType("application/json"))
                 .andExpect(status().isUnauthorized());
     }
@@ -51,7 +51,7 @@ public class UserControllerTests {
     @Test
     @WithMockUser(username = USERNAME, password = PASSWORD, roles = "USER")
     public void testLoginWithMockUser() throws Exception {
-        mockMvc.perform(post("/login")
+        mockMvc.perform(post("/auth/login")
                         .contentType("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/chats")
 public class ChatController {
     private final ChatService chatService;
 
@@ -21,7 +23,7 @@ public class ChatController {
         this.chatService = chatService;
     }
 
-    @PostMapping(value = "/conversation", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/conversations", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, Long>> createConversation(@RequestBody Map<String, String> request) {
         int creationUserId = Integer.parseInt(request.get("creationUserId"));
         String conversationName = request.get("conversationName");
@@ -30,7 +32,7 @@ public class ChatController {
         return ResponseEntity.ok(Map.of("conversationId", conversationId));
     }
 
-    @PostMapping(value = "/message", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/messages", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> sendMessage(@RequestBody Map<String, String> request) {
         //TODO use path variables
         try {

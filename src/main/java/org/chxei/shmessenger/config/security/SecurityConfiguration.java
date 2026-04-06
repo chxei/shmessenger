@@ -48,9 +48,9 @@ public class SecurityConfiguration {
 
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
                         .requestMatchers(
-                                "/country/getAll",
-                                "/gender/getAll",
-                                "/register",
+                                "/countries",
+                                "/genders",
+                                "/auth/register",
                                 "/token",
                                 "/actuator",
                                 "/h2-console",

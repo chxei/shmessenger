@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping(value = "/file")
+@RequestMapping(value = "/files")
 public class FileController {
     private final FileService fileService;
 
@@ -24,8 +24,8 @@ public class FileController {
         return fileService.saveFile(multipartFile);
     }
 
-    @GetMapping(produces = MediaType.IMAGE_JPEG_VALUE)
-    Resource downloadImage(@RequestParam Long fileId) {
+    @GetMapping(value = "/{fileId}", produces = MediaType.IMAGE_JPEG_VALUE)
+    Resource downloadImage(@PathVariable Long fileId) {
         return fileService.downloadImage(fileId);
     }
 }
