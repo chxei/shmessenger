@@ -7,19 +7,40 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/chxei/shmessenger)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/chxei/shmessenger)
 
-# running application:
+## 🚀 Getting Started
 
-- ./gradlew bootRun
+You can run the application directly via Gradle, or optionally containerize it with Docker.
 
-or
+### Local Execution (Gradle)
+```bash
+./gradlew bootRun
+```
 
-- docker build -t shmessenger .
-- docker run -p 8080:8080 shmessenger
+### Docker (Direct Build)
+```bash
+docker build -t shmessenger .
+docker run -p 8080:8080 shmessenger
+```
 
-or
+### Docker Compose
+```bash
+docker compose up --build
+```
 
-- docker compose up --build
+## 📖 API Documentation
 
-# swagger
+The backend utilizes OpenAPI (Swagger) to document all endpoints automatically. 
+Once the application is running, you can interact with the API interface at:
+👉 **[Swagger UI](https://localhost:8080/swagger-ui/index.html)**
 
-https://localhost:8080/swagger-ui/index.html
+# Known Build Warnings
+
+When running tests or the application, you may see the following harmless JVM warnings in your console:
+
+1. **`WARNING: A restricted method in java.lang.System has been called`**
+   - **Why it happens:** The SQLite JDBC driver uses native C libraries via `System.load()`. Java 22+ logs a warning whenever native libraries are loaded without explicit permission flags.
+   - **Why it's normal:** Standard SQLite behavior. It's completely harmless and does not affect the app.
+
+2. **`Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes...`**
+   - **Why it happens:** Spring Boot uses dynamic library modification (like ByteBuddy for Mockito checks) which disables the JVM's "Class Data Sharing" (CDS) optimization for application classes.
+   - **Why it's normal:** Standard behavior for Spring implementations with mock testing setups.
