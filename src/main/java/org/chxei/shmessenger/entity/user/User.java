@@ -1,9 +1,6 @@
 package org.chxei.shmessenger.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -13,7 +10,6 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -81,7 +77,6 @@ public final class User implements UserDetails, CredentialsContainer {
 
     private boolean active = true;
 
-    @JsonIgnore
     private boolean isVerified = false;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
@@ -163,26 +158,5 @@ public final class User implements UserDetails, CredentialsContainer {
     public enum Role {
         USER,
         ADMIN
-    }
-
-    @JsonComponent
-    public static class UserSerializable extends JsonSerializer<User> {
-        @Override
-        public void serialize(User user, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-
-            jsonGenerator.writeStartObject();
-            jsonGenerator.writeNumberField("id", user.getId());
-            jsonGenerator.writeObjectField("username", user.getUsername());
-            jsonGenerator.writeObjectField("name", user.getName());
-            jsonGenerator.writeObjectField("email", user.getEmail());
-            jsonGenerator.writeObjectField("country", user.getCountry() != null ? user.getCountry().getName() : null);
-            jsonGenerator.writeObjectField("phone", user.getPhone());
-            jsonGenerator.writeObjectField("pathToProfilePicture", user.getPathToProfilePicture());
-            jsonGenerator.writeObjectField("pathToBackgroundPicture", user.getPathToBackgroundPicture());
-            jsonGenerator.writeObjectField("birthDate", user.getBirthDate().toLocalDateTime());
-            jsonGenerator.writeObjectField("active", user.isActive());
-            jsonGenerator.writeObjectField("gender", user.getGender() != null ? user.getGender().getName() : null);
-            jsonGenerator.writeEndObject();
-        }
     }
 }

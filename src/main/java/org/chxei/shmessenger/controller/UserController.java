@@ -3,6 +3,7 @@ package org.chxei.shmessenger.controller;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.chxei.shmessenger.entity.user.User;
+import org.chxei.shmessenger.dto.response.UserResponse;
 import org.chxei.shmessenger.repository.user.UserRepository;
 import org.chxei.shmessenger.service.UserService;
 import org.chxei.shmessenger.utils.response.CustomResponseEntity;
@@ -30,20 +31,20 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(userRepository.findAll());
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        return ResponseEntity.ok(userRepository.findAll().stream().map(UserResponse::fromEntity).toList());
     }
 
     @GetMapping(value = "/{id}")
-    public User getUser(@PathVariable int id) {
-        return userRepository.getReferenceById(id);
+    public UserResponse getUser(@PathVariable int id) {
+        return UserResponse.fromEntity(userRepository.getReferenceById(id));
     }
 
     @GetMapping(value = "/username/{userName}")
     public ResponseEntity<Object> getUser(@PathVariable String userName) {
         User user = userRepository.findByUsername(userName).orElse(null);
         if (user != null) {
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            return new ResponseEntity<>(UserResponse.fromEntity(user), HttpStatus.OK);
         } else {
             return ResponseEntity.ok(new CustomResponseEntity(ResponseCode.USER_WITH_USERNAME_NOT_FOUND));
         }

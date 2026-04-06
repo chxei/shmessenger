@@ -47,8 +47,8 @@ public class ChatService {
         }
     }
 
-    public long createConversation(int creationUserId, String conversationName, List<Integer> participantIds) {
-        User creationUser = userRepository.findById(creationUserId).stream().findFirst().orElse(null);
+    public long createConversation(String creatorUsername, String conversationName, List<Integer> participantIds) {
+        User creationUser = userRepository.findByUsername(creatorUsername).orElse(null);
         Conversation conversation = new Conversation();
         List<Participant> participants = new ArrayList<>();
         List<User> participantUsers = new ArrayList<>();
@@ -68,8 +68,8 @@ public class ChatService {
         return conversation.getId();
     }
 
-    public long sendMessage(int senderId, String messageTypeName, long conversationId, String content) throws CustomResponseException {
-        User creationUser = userRepository.findById(senderId).stream().findFirst().orElse(null);
+    public long sendMessage(String senderUsername, String messageTypeName, long conversationId, String content) throws CustomResponseException {
+        User creationUser = userRepository.findByUsername(senderUsername).orElse(null);
         Conversation conversation = conversationRepository.findById(conversationId).stream().findFirst().orElse(null);
         MessageType messageType = messageTypeRepository.findByName(messageTypeName).stream().findFirst().orElse(null);
         if (messageType == null) {

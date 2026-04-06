@@ -7,6 +7,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.chxei.shmessenger.entity.user.AuthenticationResponse;
 import org.chxei.shmessenger.entity.user.User;
+import org.chxei.shmessenger.entity.user.Country;
+import org.chxei.shmessenger.entity.user.Gender;
+import org.chxei.shmessenger.dto.request.RegisterUserRequest;
 import org.chxei.shmessenger.service.UserService;
 import org.chxei.shmessenger.utils.response.CustomResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +66,27 @@ public class AuthController {
     }
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomResponseEntity> registerUser(@RequestBody @Valid User user) {
+    public ResponseEntity<CustomResponseEntity> registerUser(@RequestBody @Valid RegisterUserRequest request) {
+        User user = new User();
+        user.setUsername(request.username());
+        user.setName(request.name());
+        user.setEmail(request.email());
+        user.setPhone(request.phone());
+        user.setPassword(request.password());
+        user.setBirthDate(request.birthDate());
+        
+        if (request.countryCode() != null) {
+            Country country = new Country();
+            country.setCode(request.countryCode());
+            user.setCountry(country);
+        }
+        
+        if (request.genderId() != null) {
+            Gender gender = new Gender();
+            gender.setId(request.genderId());
+            user.setGender(gender);
+        }
+        
         return ResponseEntity.ok(userService.registerUser(user));
     }
 }
