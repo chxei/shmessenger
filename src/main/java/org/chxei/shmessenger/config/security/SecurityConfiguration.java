@@ -8,6 +8,7 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -32,15 +33,14 @@ import java.security.interfaces.RSAPublicKey;
 @Configuration
 public class SecurityConfiguration {
 
-    final KeyPair kp = KeyPairGenerator.getInstance("RSA").generateKeyPair();
-    final RSAPublicKey rsaPublicKey = (RSAPublicKey) kp.getPublic();
-    final RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) kp.getPrivate();
+    @Value("${jwt.public.key}")
+    RSAPublicKey rsaPublicKey;
 
+    @Value("${jwt.private.key}")
+    RSAPrivateKey rsaPrivateKey;
 
-    public SecurityConfiguration() throws NoSuchAlgorithmException {
-        // KeyPairGenerator might throw NoSuchAlgorithmException, though it's unlikely to happen, so don't try catch
+    public SecurityConfiguration() {
     }
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

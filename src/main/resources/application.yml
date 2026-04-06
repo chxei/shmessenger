@@ -1,0 +1,43 @@
+spring:
+  profiles:
+    active: local
+  data:
+    jdbc:
+      repositories:
+        enabled: false
+  jpa:
+    open-in-view: false
+  main:
+    lazy-initialization: true
+  jmx:
+    enabled: false
+  devtools:
+    livereload:
+      enabled: false
+
+server:
+  compression:
+    enabled: true
+  undertow:
+    accesslog:
+      enabled: false
+
+springdoc:
+  show-actuator: true
+  show-login-endpoint: true
+  api-docs:
+    path: /api-docs
+    enabled: true
+  packages-to-scan: org.chxei.shmessenger.controller
+  swagger-ui:
+    oauth2-redirect-url: /login
+    csrf:
+      enabled: false
+    enabled: true
+    path: /swagger-ui
+
+jwt:
+  private:
+    key: classpath:certs/private.pem
+  public:
+    key: classpath:certs/public.pem
