@@ -19,7 +19,7 @@ You can run the application directly via Gradle, or optionally containerize it w
 ### Docker (Direct Build)
 ```bash
 docker build -t shmessenger .
-docker run -p 8080:8080 shmessenger
+docker run --env-file .env -p 8080:8080 shmessenger
 ```
 
 ### Docker Compose

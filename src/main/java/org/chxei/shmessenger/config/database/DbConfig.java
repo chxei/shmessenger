@@ -22,14 +22,7 @@ import java.util.stream.Stream;
 public class DbConfig {
     public static final Dotenv dotenv = Misc.dotenv;
 
-    public static final String DB_JDBC_URL = Stream.of(dotenv.get("DB_JDBC_URL"))
-            .map(str -> str.replace("<DB_HOST>", dotenv.get("DB_HOST"))
-                    .replace("<DB_PORT>", dotenv.get("DB_PORT"))
-                    .replace("<DB_DATABASE>", dotenv.get("DB_DATABASE"))
-                    .replace("<DB_USER>", dotenv.get("DB_USER"))
-                    .replace("<DB_PASSWORD>", dotenv.get("DB_PASSWORD")))
-            .collect(Collectors.joining());
-
+    public static final String DB_JDBC_URL = dotenv.get("DB_JDBC_URL");
 
     @Bean(name = "entityManagerFactory")
     public LocalSessionFactoryBean sessionFactory() {

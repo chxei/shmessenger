@@ -27,7 +27,6 @@ WORKDIR /app
 
 # Copy the jar from build stage
 COPY --from=build /app/build/libs/*.jar app.jar
-COPY .env .env
 
 # Expose port (default for Spring Boot is 8080, but app-server.properties mentions 443)
 EXPOSE 8080 443
