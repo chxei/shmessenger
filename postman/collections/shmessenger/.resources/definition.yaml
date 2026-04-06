@@ -1,0 +1,21 @@
+$kind: collection
+scripts:
+  - type: http:beforeRequest
+    code: |-
+      if (pm.globals.get('environment')=='local'){
+          pm.globals.set('url',pm.globals.get('url-local'))
+      } else if (pm.globals.get('environment')=='prod'){
+          pm.globals.set('url',pm.globals.get('url-prod'))
+      }
+      pm.request.headers.add({key: 'X-CSRF-TOKEN', value: '{{xsrf-token}}' });
+    language: text/javascript
+  - type: http:afterResponse
+    code: // pm.globals.set("xsrf-token",
+      decodeURIComponent(pm.cookies.get("csrfToken")))//decodeURIComponent(response.csrfToken.token));
+    language: text/javascript
+auth:
+  - id: 52cdc78a-7186-47d0-8d61-ab1b49d90fa9
+    type: bearer
+    name: bearer auth
+    credentials:
+      token: "{{jwt}}"

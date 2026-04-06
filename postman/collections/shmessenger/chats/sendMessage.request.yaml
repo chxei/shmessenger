@@ -1,0 +1,15 @@
+$kind: http-request
+url: '{{url}}/chats/messages'
+method: POST
+headers:
+  X-CSRF-TOKEN: "{{xsrf-token}}"
+body:
+  type: json
+  content: |-
+    {
+        "senderId": 1,
+        "conversationId": 1,
+        "messageTypeName" : "COMPOSED",
+        "content":"sample text"
+    }
+order: 2000

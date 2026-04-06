@@ -1,0 +1,14 @@
+$kind: http-request
+url: '{{url}}/chats/conversations'
+method: POST
+headers:
+  X-CSRF-TOKEN: "{{xsrf-token}}"
+body:
+  type: json
+  content: |-
+    {
+        "creationUserId": 1,
+        "conversationName": null,
+        "participantIds" : "1,2,2"
+    }
+order: 1000

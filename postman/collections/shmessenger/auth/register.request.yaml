@@ -1,0 +1,22 @@
+$kind: http-request
+description: |
+  register
+url: '{{url}}/auth/register'
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "username": "irakla2",
+        "name": "irakla2",
+        "countryCode": "GE",
+        "email": "irakla2@gmail.coma",
+        "phone": "551551553",
+        "birthDate": "2000-01-01T00:00:00",
+        "password": "irakla"
+    }
+auth:
+  type: noauth
+settings:
+  disabledSystemHeaders: []
+order: 2000

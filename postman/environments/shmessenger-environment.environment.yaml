@@ -1,0 +1,5 @@
+name: shmessenger-environment
+values:
+  - key: url
+    value: ''
+    enabled: true

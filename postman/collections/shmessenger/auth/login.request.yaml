@@ -1,0 +1,19 @@
+$kind: http-request
+url: '{{url}}/auth/login'
+method: POST
+body:
+  type: json
+  content: ""
+auth:
+  type: basic
+  credentials:
+    password: chxei
+    username: chxei
+scripts:
+  - type: afterResponse
+    code: |-
+      const response = pm.response.json();
+
+      pm.globals.set("jwt", response.jwt);
+    language: text/javascript
+order: 1000

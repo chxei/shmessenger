@@ -1,0 +1,9 @@
+$kind: http-request
+url: '{{url}}/users'
+method: GET
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{jwt}}'
+order: 1000

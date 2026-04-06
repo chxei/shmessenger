@@ -1,0 +1,19 @@
+$kind: http-request
+name: upload
+url: "{{url}}/files"
+method: POST
+headers:
+  X-CSRF-TOKEN: "{{xsrf-token}}"
+queryParams:
+  - key: multipartFile
+    value: ""
+    disabled: true
+body:
+  type: formdata
+  content:
+    - type: file
+      key: multipartFile
+      src:
+        - /home/chxei/Downloads/expressionless-face_1f611.png
+      disabled: false
+order: 4000
