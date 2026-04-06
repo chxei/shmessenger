@@ -159,4 +159,17 @@ public final class User implements UserDetails, CredentialsContainer {
         USER,
         ADMIN
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return username != null && username.equals(user.getUsername());
+    }
+
+    @Override
+    public int hashCode() {
+        return username != null ? username.hashCode() : getClass().hashCode();
+    }
 }

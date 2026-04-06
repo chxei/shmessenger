@@ -46,14 +46,14 @@ public final class Conversation {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (!(o instanceof Conversation)) return false;
         Conversation that = (Conversation) o;
 
-        return Objects.equals(id, that.id);
+        return id != null && id.equals(that.getId());
     }
 
     @Override
     public int hashCode() {
-        return 1062926945;
+        return getClass().hashCode();
     }
 }

@@ -21,4 +21,16 @@ public final class File {
     @Lob
     private byte[] fileCompressed;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof File)) return false;
+        File file = (File) o;
+        return id != null && id.equals(file.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

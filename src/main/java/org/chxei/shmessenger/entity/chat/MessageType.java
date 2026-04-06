@@ -22,4 +22,17 @@ public final class MessageType {
 
     public MessageType() {
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MessageType)) return false;
+        MessageType that = (MessageType) o;
+        return name != null && name.equals(that.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : getClass().hashCode();
+    }
 }

@@ -26,4 +26,17 @@ public final class Country {
         this.code = code;
         this.name = name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Country)) return false;
+        Country country = (Country) o;
+        return code != null && code.equals(country.getCode());
+    }
+
+    @Override
+    public int hashCode() {
+        return code != null ? code.hashCode() : getClass().hashCode();
+    }
 }
