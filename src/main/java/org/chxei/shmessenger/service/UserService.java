@@ -29,24 +29,7 @@ public class UserService implements UserDetailsService, UserDetailsManager, User
 
     public CustomResponseEntity registerUser(User user) {
         user.setPassword(Misc.getPasswordEncoder().encode(user.getPassword()));
-        try {
-            userRepository.save(user);
-        } catch (DataIntegrityViolationException e) {
-            if (e.getMostSpecificCause() instanceof SQLException sqlException) {
-                if (sqlException.getErrorCode() == 19 || sqlException.getErrorCode() == 2067) {
-                    String message = sqlException.getMessage();
-                    if (message.contains("username")) {
-                        return new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_USERNAME_VIOLATION);
-                    } else if (message.contains("email")) {
-                        return new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_EMAIL_VIOLATION);
-                    } else if (message.contains("phone")) {
-                        return new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_PHONE_VIOLATION);
-                    }
-                    return new CustomResponseEntity(ResponseCode.USER_UNIQUE_CONSTRAINT_VIOLATION, message);
-                }
-            }
-        }
-
+        userRepository.save(user);
         return new CustomResponseEntity(ResponseType.OK, "You registered successfully");
     }
 
