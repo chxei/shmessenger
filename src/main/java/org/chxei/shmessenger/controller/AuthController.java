@@ -21,9 +21,13 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import org.chxei.shmessenger.dto.request.ChangePasswordRequest;
+import org.chxei.shmessenger.utils.response.ResponseType;
 
 import java.time.Instant;
 import java.util.stream.Collectors;
@@ -88,5 +92,11 @@ public class AuthController {
         }
         
         return ResponseEntity.ok(userService.registerUser(user));
+    }
+
+    @PutMapping(value = "/password", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CustomResponseEntity> changePassword(@RequestBody @Valid ChangePasswordRequest request) {
+        userService.changePassword(request.oldPassword(), request.newPassword());
+        return ResponseEntity.ok(new CustomResponseEntity(ResponseType.OK, "Password changed successfully"));
     }
 }

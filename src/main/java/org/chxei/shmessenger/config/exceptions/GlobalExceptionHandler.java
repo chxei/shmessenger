@@ -34,4 +34,14 @@ public class GlobalExceptionHandler {
         // Fallback for general data integrity violations
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new CustomResponseEntity(ResponseCode.USER_UNKNOWN_CONSTRAINT_ERROR));
     }
+
+    @ExceptionHandler(org.springframework.security.authentication.BadCredentialsException.class)
+    public ResponseEntity<CustomResponseEntity> handleBadCredentialsException(org.springframework.security.authentication.BadCredentialsException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new CustomResponseEntity(ResponseCode.WRONG_USERNAME_PASSWORD));
+    }
+
+    @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
+    public ResponseEntity<CustomResponseEntity> handleAccessDeniedException(org.springframework.security.access.AccessDeniedException e) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new CustomResponseEntity(ResponseCode.WRONG_JWT, e.getMessage()));
+    }
 }

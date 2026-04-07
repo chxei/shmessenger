@@ -8,6 +8,10 @@ import org.chxei.shmessenger.utils.response.ResponseCode;
 import org.chxei.shmessenger.utils.response.ResponseType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsPasswordService;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -80,7 +84,24 @@ public class UserService implements UserDetailsService, UserDetailsManager, User
 
     @Override
     public void changePassword(String oldPassword, String newPassword) {
-        // I have no idea how this method should work
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        if (currentUser == null) {
+            throw new AccessDeniedException("No authenticated user found in context layer.");
+        }
+        
+        Optional<User> userOpt = userRepository.findByUsername(currentUser.getName());
+        if (userOpt.isEmpty()) {
+            throw new UsernameNotFoundException("Current user not found in database: " + currentUser.getName());
+        }
+        
+        User user = userOpt.get();
+
+        if (!Misc.getPasswordEncoder().matches(oldPassword, user.getPassword())) {
+            throw new BadCredentialsException("Incorrect current password.");
+        }
+
+        user.setPassword(Misc.getPasswordEncoder().encode(newPassword));
+        userRepository.save(user);
     }
 
     @Override
