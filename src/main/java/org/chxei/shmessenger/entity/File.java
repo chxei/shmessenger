@@ -24,8 +24,7 @@ public final class File {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof File)) return false;
-        File file = (File) o;
+        if (!(o instanceof File file)) return false;
         return id != null && id.equals(file.getId());
     }
 

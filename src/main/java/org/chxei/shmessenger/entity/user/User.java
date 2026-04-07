@@ -156,8 +156,7 @@ public final class User implements UserDetails, CredentialsContainer {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
+        if (!(o instanceof User user)) return false;
         return username != null && username.equals(user.getUsername());
     }
 

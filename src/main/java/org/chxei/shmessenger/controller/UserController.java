@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.chxei.shmessenger.dto.response.UserResponse;
 import org.chxei.shmessenger.entity.user.User;
 import org.chxei.shmessenger.repository.user.UserRepository;
-import org.chxei.shmessenger.service.UserService;
 import org.chxei.shmessenger.utils.response.CustomResponseEntity;
 import org.chxei.shmessenger.utils.response.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +24,10 @@ import java.util.List;
 @Tag(name = "User", description = "The User API. Contains operations for user management.")
 public class UserController {
     private final UserRepository userRepository;
-    private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository, UserService userService) {
+    public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.userService = userService;
     }
 
     @GetMapping

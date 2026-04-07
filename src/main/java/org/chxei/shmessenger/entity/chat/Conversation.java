@@ -44,8 +44,7 @@ public final class Conversation {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Conversation)) return false;
-        Conversation that = (Conversation) o;
+        if (!(o instanceof Conversation that)) return false;
 
         return id != null && id.equals(that.getId());
     }

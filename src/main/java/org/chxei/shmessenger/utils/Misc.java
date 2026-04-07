@@ -33,7 +33,7 @@ public class Misc {
             }
             return sb.toString();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            logger.error("Error while hashing password");
             return null;
         }
     }

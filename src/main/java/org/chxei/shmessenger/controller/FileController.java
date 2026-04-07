@@ -7,8 +7,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-
 @RestController
 @RequestMapping(value = "/files")
 public class FileController {
@@ -20,7 +18,7 @@ public class FileController {
     }
 
     @PostMapping
-    Long uploadImage(@RequestParam MultipartFile multipartFile) throws IOException {
+    Long uploadImage(@RequestParam MultipartFile multipartFile) {
         return fileService.saveFile(multipartFile);
     }
 

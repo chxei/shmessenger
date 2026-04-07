@@ -26,8 +26,7 @@ public final class MessageType {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof MessageType)) return false;
-        MessageType that = (MessageType) o;
+        if (!(o instanceof MessageType that)) return false;
         return name != null && name.equals(that.getName());
     }
 
