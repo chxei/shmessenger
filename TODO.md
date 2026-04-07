@@ -4,6 +4,7 @@
 - [ ] Implement `isActive` field validation natively during the login flow.
 
 ## 🔐 Security & Operations
+- [ ] **One-Line Container Execution**: Publish Docker image to a registry to allow consumers to run the container directly from the cloud with one command, without needing to pull the repository.
 - [ ] Create missing **Authorities table** for definitive Role-Based Access Control (RBAC).
 - [ ] Migrate `private.pem` JWT signing key to a secure Vault/Secret manager for production deployments.
 
@@ -17,4 +18,3 @@
 - [x] **Secure Password Management**: Hooked `UserService.changePassword()` via `@PutMapping("/password")` and handled HTTP 401 interceptors.
 - [x] **Global Exception Handlers**: Implemented `@ControllerAdvice` to gracefully manage SQLite conflicts.
 - [x] **Docker Environments Refactor**: Pruned hardcoded mappings inside `docker-compose.yml` to rely structurally on `env_file`.
-- [x] **One-Line Container Execution**: Verified the `--env-file` parameter requirement.
