@@ -16,7 +16,6 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
@@ -154,12 +153,6 @@ public final class User implements UserDetails, CredentialsContainer {
         return active;
     }
 
-    //do not change order, add new values last
-    public enum Role {
-        USER,
-        ADMIN
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -171,5 +164,11 @@ public final class User implements UserDetails, CredentialsContainer {
     @Override
     public int hashCode() {
         return username != null ? username.hashCode() : getClass().hashCode();
+    }
+
+    //do not change order, add new values last
+    public enum Role {
+        USER,
+        ADMIN
     }
 }

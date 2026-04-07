@@ -4,10 +4,8 @@ import org.chxei.shmessenger.entity.user.User;
 import org.chxei.shmessenger.repository.user.UserRepository;
 import org.chxei.shmessenger.utils.Misc;
 import org.chxei.shmessenger.utils.response.CustomResponseEntity;
-import org.chxei.shmessenger.utils.response.ResponseCode;
 import org.chxei.shmessenger.utils.response.ResponseType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -19,7 +17,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.Optional;
 
 @Service
@@ -88,12 +85,12 @@ public class UserService implements UserDetailsService, UserDetailsManager, User
         if (currentUser == null) {
             throw new AccessDeniedException("No authenticated user found in context layer.");
         }
-        
+
         Optional<User> userOpt = userRepository.findByUsername(currentUser.getName());
         if (userOpt.isEmpty()) {
             throw new UsernameNotFoundException("Current user not found in database: " + currentUser.getName());
         }
-        
+
         User user = userOpt.get();
 
         if (!Misc.getPasswordEncoder().matches(oldPassword, user.getPassword())) {

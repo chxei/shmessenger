@@ -18,5 +18,5 @@ body:
 auth:
   type: noauth
 settings:
-  disabledSystemHeaders: []
+  disabledSystemHeaders: [ ]
 order: 2000

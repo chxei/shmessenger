@@ -60,8 +60,10 @@ dependencies {
     implementation 'org.hibernate.orm:hibernate-community-dialects:7.0.10.Final' //not latest version
     implementation 'org.springframework.security:spring-security-test'
     compileOnly 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools' //not compatible with native
     annotationProcessor 'org.projectlombok:lombok:1.18.42'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.42'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

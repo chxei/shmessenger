@@ -2,8 +2,8 @@ package org.chxei.shmessenger.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.chxei.shmessenger.entity.user.User;
 import org.chxei.shmessenger.dto.response.UserResponse;
+import org.chxei.shmessenger.entity.user.User;
 import org.chxei.shmessenger.repository.user.UserRepository;
 import org.chxei.shmessenger.service.UserService;
 import org.chxei.shmessenger.utils.response.CustomResponseEntity;
@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 

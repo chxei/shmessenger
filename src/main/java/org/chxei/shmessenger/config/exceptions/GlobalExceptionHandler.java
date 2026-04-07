@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body(new CustomResponseEntity(ResponseCode.USER_UNIQUE_CONSTRAINT_VIOLATION, message != null ? message : "Constraint violation"));
             }
         }
-        
+
         // Fallback for general data integrity violations
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new CustomResponseEntity(ResponseCode.USER_UNKNOWN_CONSTRAINT_ERROR));
     }

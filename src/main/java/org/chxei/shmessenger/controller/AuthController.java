@@ -5,13 +5,15 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.chxei.shmessenger.dto.request.ChangePasswordRequest;
+import org.chxei.shmessenger.dto.request.RegisterUserRequest;
 import org.chxei.shmessenger.entity.user.AuthenticationResponse;
-import org.chxei.shmessenger.entity.user.User;
 import org.chxei.shmessenger.entity.user.Country;
 import org.chxei.shmessenger.entity.user.Gender;
-import org.chxei.shmessenger.dto.request.RegisterUserRequest;
+import org.chxei.shmessenger.entity.user.User;
 import org.chxei.shmessenger.service.UserService;
 import org.chxei.shmessenger.utils.response.CustomResponseEntity;
+import org.chxei.shmessenger.utils.response.ResponseType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +22,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import org.chxei.shmessenger.dto.request.ChangePasswordRequest;
-import org.chxei.shmessenger.utils.response.ResponseType;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.stream.Collectors;
@@ -78,19 +73,19 @@ public class AuthController {
         user.setPhone(request.phone());
         user.setPassword(request.password());
         user.setBirthDate(request.birthDate());
-        
+
         if (request.countryCode() != null) {
             Country country = new Country();
             country.setCode(request.countryCode());
             user.setCountry(country);
         }
-        
+
         if (request.genderId() != null) {
             Gender gender = new Gender();
             gender.setId(request.genderId());
             user.setGender(gender);
         }
-        
+
         return ResponseEntity.ok(userService.registerUser(user));
     }
 
