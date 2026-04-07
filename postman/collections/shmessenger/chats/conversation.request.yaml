@@ -1,8 +1,10 @@
 $kind: http-request
+name: conversation
 url: '{{url}}/chats/conversations'
 method: POST
 headers:
-  X-CSRF-TOKEN: "{{xsrf-token}}"
+  - key: X-CSRF-TOKEN
+    value: '{{xsrf-token}}'
 body:
   type: json
   content: |-

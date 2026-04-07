@@ -1,9 +1,10 @@
 $kind: http-request
-name: upload
-url: "{{url}}/files"
+name: 'upload file'
+url: '{{url}}/files'
 method: POST
 headers:
-  X-CSRF-TOKEN: "{{xsrf-token}}"
+  - key: X-CSRF-TOKEN
+    value: '{{xsrf-token}}'
 queryParams:
   - key: multipartFile
     value: ""

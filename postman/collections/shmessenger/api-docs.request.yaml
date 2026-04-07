@@ -1,6 +1,10 @@
 $kind: http-request
-url: "{{url}}/v3/api-docs"
-method: POST
-headers:
-  X-API-KEY: bearer {{jwt}}
+name: 'api docs'
+url: '{{url}}/v3/api-docs'
+method: GET
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{jwt}}'
 order: 6000

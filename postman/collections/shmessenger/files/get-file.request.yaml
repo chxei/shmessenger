@@ -1,0 +1,11 @@
+$kind: http-request
+name: 'get file'
+url: '{{url}}/files/{{fileId}}'
+method: GET
+headers:
+  - key: X-CSRF-TOKEN
+    value: '{{xsrf-token}}'
+body:
+  type: json
+  content: ""
+order: 5000

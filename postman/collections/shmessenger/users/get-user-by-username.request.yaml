@@ -1,9 +1,10 @@
 $kind: http-request
-url: '{{url}}/users'
+name: 'get user by username'
+url: '{{url}}/users/{{userName}}'
 method: GET
 auth:
   type: bearer
   credentials:
     - key: token
       value: '{{jwt}}'
-order: 1000
+order: 3000
