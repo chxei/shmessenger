@@ -48,7 +48,6 @@ public class SecurityConfiguration {
                                 "/countries",
                                 "/genders",
                                 "/auth/register",
-                                "/token",
                                 "/actuator",
                                 "/h2-console",
                                 "/api-docs/**",

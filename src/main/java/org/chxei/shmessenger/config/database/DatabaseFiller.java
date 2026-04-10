@@ -8,9 +8,9 @@ import org.chxei.shmessenger.repository.chat.MessageTypeRepository;
 import org.chxei.shmessenger.repository.user.CountryRepository;
 import org.chxei.shmessenger.repository.user.GenderRepository;
 import org.chxei.shmessenger.repository.user.UserRepository;
-import org.chxei.shmessenger.utils.Misc;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
@@ -24,12 +24,14 @@ public class DatabaseFiller {
     private final GenderRepository genderRepository;
     private final CountryRepository countryRepository;
     private final MessageTypeRepository messageTypeRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public DatabaseFiller(UserRepository userRepository, GenderRepository genderRepository, CountryRepository countryRepository, MessageTypeRepository messageTypeRepository) {
+    public DatabaseFiller(UserRepository userRepository, GenderRepository genderRepository, CountryRepository countryRepository, MessageTypeRepository messageTypeRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.genderRepository = genderRepository;
         this.countryRepository = countryRepository;
         this.messageTypeRepository = messageTypeRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -42,7 +44,7 @@ public class DatabaseFiller {
         final String DEF_USER = "chxei";
         User user = new User(DEF_USER, DEF_USER, DEF_USER + "@" + DEF_USER + ".org", Timestamp.valueOf("2000-01-01 00:00:00"), DEF_USER, genders.getFirst());
         user.setCountry(countries.getFirst());
-        user.setPassword(Misc.getPasswordEncoder().encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 

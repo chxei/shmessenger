@@ -25,14 +25,24 @@ public class FileService {
     public Long saveFile(MultipartFile multipartFile) {
         File file = new File();
 
-        file.setName(multipartFile.getOriginalFilename());
+        String originalFilename = multipartFile.getOriginalFilename();
+        if (originalFilename == null || originalFilename.isBlank()) {
+            originalFilename = "unnamed_" + System.currentTimeMillis();
+        }
+        // Sanitize filename to prevent path traversal
+        String sanitizedFilename = new java.io.File(originalFilename).getName();
+        file.setName(sanitizedFilename);
+
         try {
             file.setFileObject(multipartFile.getBytes());
-            java.io.File dest = new java.io.File(fileDirectory + file.getName());
-            multipartFile.getInputStream().close();
+            java.io.File directory = new java.io.File(fileDirectory);
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+            java.io.File dest = new java.io.File(directory, sanitizedFilename);
             multipartFile.transferTo(dest);
         } catch (Exception e) {
-            Misc.logger.info("cant save file");
+            Misc.logger.error("Could not save file to filesystem: {}", e.getMessage());
         }
 
         try {

@@ -12,7 +12,10 @@ public enum ResponseCode {
     USER_UNIQUE_CONSTRAINT_VIOLATION("User with these fields is already registered", ResponseType.WARNING),
     CONSTRAINT_UNIQUE_USERS_USERNAME_VIOLATION("User with this username is already registered", ResponseType.WARNING),
     CONSTRAINT_UNIQUE_USERS_EMAIL_VIOLATION("User with this email is already registered", ResponseType.WARNING),
-    CONSTRAINT_UNIQUE_USERS_PHONE_VIOLATION("User with this phone is already registered", ResponseType.WARNING);
+    CONSTRAINT_UNIQUE_USERS_PHONE_VIOLATION("User with this phone is already registered", ResponseType.WARNING),
+    WRONG_CHAT_FOR_USER("You are not a participant of this conversation", ResponseType.WARNING),
+    CONVERSATION_NOT_FOUND("Conversation not found", ResponseType.WARNING),
+    WRONG_PARTICIPANTS("No valid participants found", ResponseType.WARNING);
 
     private final String message;
     private final ResponseType responseType;

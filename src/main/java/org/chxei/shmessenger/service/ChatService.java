@@ -47,16 +47,21 @@ public class ChatService {
         }
     }
 
-    public long createConversation(String creatorUsername, String conversationName, List<Integer> participantIds) {
+    public long createConversation(String creatorUsername, String conversationName, List<Integer> participantIds) throws CustomResponseException {
         User creationUser = userRepository.findByUsername(creatorUsername).orElse(null);
         Conversation conversation = new Conversation();
         List<Participant> participants = new ArrayList<>();
         List<User> participantUsers = new ArrayList<>();
 
         for (int participantId : participantIds) {
-            User curUser = userRepository.findById(participantId).stream().findFirst().orElse(null);
-            participantUsers.add(curUser);
-            participants.add(new Participant(curUser, conversation));
+            User curUser = userRepository.findById(participantId).orElse(null);
+            if (curUser != null) {
+                participantUsers.add(curUser);
+                participants.add(new Participant(curUser, conversation));
+            }
+        }
+        if (participantUsers.isEmpty()) {
+            throw new CustomResponseException(new CustomResponseEntity(ResponseCode.WRONG_PARTICIPANTS));
         }
         if (conversationName == null || conversationName.isBlank()) {
             conversationName = generateConversationName(participantUsers);
@@ -69,8 +74,14 @@ public class ChatService {
     }
 
     public long sendMessage(String senderUsername, String messageTypeName, long conversationId, String content) throws CustomResponseException {
-        User creationUser = userRepository.findByUsername(senderUsername).orElse(null);
-        Conversation conversation = conversationRepository.findById(conversationId).stream().findFirst().orElse(null);
+        User creationUser = userRepository.findByUsername(senderUsername).orElseThrow(() -> new CustomResponseException(new CustomResponseEntity(ResponseCode.USER_WITH_USERNAME_NOT_FOUND)));
+        Conversation conversation = conversationRepository.findById(conversationId).orElseThrow(() -> new CustomResponseException(new CustomResponseEntity(ResponseCode.CONVERSATION_NOT_FOUND)));
+
+        // Authorization check: Is the sender a participant of this conversation?
+        if (participantRepository.findByConversationAndUser(conversation, creationUser).isEmpty()) {
+            throw new CustomResponseException(new CustomResponseEntity(ResponseCode.WRONG_CHAT_FOR_USER));
+        }
+
         MessageType messageType = messageTypeRepository.findByName(messageTypeName).stream().findFirst().orElse(null);
         if (messageType == null) {
             throw new CustomResponseException(new CustomResponseEntity(ResponseCode.WRONG_MESSAGE_TYPE));

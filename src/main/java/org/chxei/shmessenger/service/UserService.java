@@ -2,10 +2,11 @@ package org.chxei.shmessenger.service;
 
 import org.chxei.shmessenger.entity.user.User;
 import org.chxei.shmessenger.repository.user.UserRepository;
-import org.chxei.shmessenger.utils.Misc;
 import org.chxei.shmessenger.utils.response.CustomResponseEntity;
+import org.chxei.shmessenger.utils.response.ResponseCode;
 import org.chxei.shmessenger.utils.response.ResponseType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -22,14 +23,26 @@ import java.util.Optional;
 @Service
 public class UserService implements UserDetailsService, UserDetailsManager, UserDetailsPasswordService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public CustomResponseEntity registerUser(User user) {
-        user.setPassword(Misc.getPasswordEncoder().encode(user.getPassword()));
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+            return new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_USERNAME_VIOLATION);
+        }
+        if (userRepository.existsByEmail(user.getEmail())) {
+            return new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_EMAIL_VIOLATION);
+        }
+        if (userRepository.existsByPhone(user.getPhone())) {
+            return new CustomResponseEntity(ResponseCode.CONSTRAINT_UNIQUE_USERS_PHONE_VIOLATION);
+        }
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return new CustomResponseEntity(ResponseType.OK, "You registered successfully");
     }
@@ -52,7 +65,7 @@ public class UserService implements UserDetailsService, UserDetailsManager, User
         if (tempUser.isEmpty()) {
             throw new UsernameNotFoundException("Not found: " + user.getUsername());
         } else {
-            tempUser.get().setPassword(Misc.getPasswordEncoder().encode(newPassword));
+            tempUser.get().setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(tempUser.get());
         }
         return tempUser.get();
@@ -93,11 +106,11 @@ public class UserService implements UserDetailsService, UserDetailsManager, User
 
         User user = userOpt.get();
 
-        if (!Misc.getPasswordEncoder().matches(oldPassword, user.getPassword())) {
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
             throw new BadCredentialsException("Incorrect current password.");
         }
 
-        user.setPassword(Misc.getPasswordEncoder().encode(newPassword));
+        user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
     }
 

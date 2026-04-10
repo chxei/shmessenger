@@ -24,9 +24,13 @@ public class ChatController {
     }
 
     @PostMapping(value = "/conversations", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, Long>> createConversation(Authentication authentication, @RequestBody CreateConversationRequest request) {
-        long conversationId = chatService.createConversation(authentication.getName(), request.conversationName(), request.participantIds());
-        return ResponseEntity.ok(Map.of("conversationId", conversationId));
+    public ResponseEntity<Object> createConversation(Authentication authentication, @RequestBody CreateConversationRequest request) {
+        try {
+            long conversationId = chatService.createConversation(authentication.getName(), request.conversationName(), request.participantIds());
+            return ResponseEntity.ok(Map.of("conversationId", conversationId));
+        } catch (CustomResponseException e) {
+            return ResponseEntity.ok(e.getEntity());
+        }
     }
 
     @PostMapping(value = "/messages", consumes = MediaType.APPLICATION_JSON_VALUE)

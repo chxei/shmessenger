@@ -38,10 +38,6 @@ public class Misc {
         }
     }
 
-    public static PasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     public static String convertObjectToJson(Object object) throws JsonProcessingException {
         if (object == null) {
             return null;
