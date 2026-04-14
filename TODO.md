@@ -3,7 +3,6 @@
 ## 🐛 Bugs & Critical Integrations
 
 - [ ] Implement `isActive` field validation natively during the login flow.
-- [ ] find out whats wrong with swagger and why its showing non existant endpoints.
 - [ ] proper ssl certificate.
 
 ## 🔐 Security & Operations
@@ -32,11 +31,3 @@
 
 ## 🤖 AI Features
 - [ ] check out what instructions developers have for similar project and general. 
-
-## ✅ Completed Tasks
-
-- [x] **Secure Password Management**: Hooked `UserService.changePassword()` via `@PutMapping("/password")` and handled
-  HTTP 401 interceptors.
-- [x] **Global Exception Handlers**: Implemented `@ControllerAdvice` to gracefully manage SQLite conflicts.
-- [x] **Docker Environments Refactor**: Pruned hardcoded mappings inside `docker-compose.yml` to rely structurally on
-  `env_file`.
