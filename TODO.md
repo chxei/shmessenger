@@ -9,18 +9,20 @@
 
 - [ ] **One-Line Container Execution**: Publish Docker image to a registry to allow consumers to run the container
   directly from the cloud with one command, without needing to pull the repository.
-- [ ] Create missing **Authorities table** for definitive Role-Based Access Control (RBAC).
+- [ ] Create a missing **Authorities table** for definitive Role-Based Access Control (RBAC).
 - [ ] Migrate `private.pem` JWT signing key to a secure Vault/Secret manager for production deployments.
-- [ ] analyze code base and make sure everything is standardized.
-- [ ] analyze code base and make sure everythink redundant is removed.
-- [ ] analyze code base and make sure every endpoint is neccessary and no redundant endpoints exist.
+- [ ] analyze the code base and make sure everything is standardized.
+- [ ] analyze the code base and make sure everything redundant is removed.
+- [ ] analyze the code base and make sure every endpoint is necessary and no redundant endpoints exist.
 - [ ] create unit tests for all endpoints and services.
 - [ ] create integration tests for all endpoints and services.
 - [ ] create end-to-end tests for all endpoints and services.
 - [ ] create performance tests for all endpoints and services.
 - [ ] create security tests for all endpoints and services.
-- [ ] create workflow test wich follows the user journey and performes all available features.
-- [ ] create similar workflow for postman or similar tools.
+- [ ] create a workflow test which follows the user journey and performs all available features.
+- [ ] create a similar workflow for postman or similar tools.
+- [ ] create a CI/CD pipeline for automated testing and deployment.
+- [ ] integrate OpenRewrite when it supports spring boot 4.
 
 ## 👤 User Management Features
 
