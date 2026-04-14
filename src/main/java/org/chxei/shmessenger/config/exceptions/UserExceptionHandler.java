@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.sql.SQLException;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class UserExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<CustomResponseEntity> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
@@ -33,20 +33,5 @@ public class GlobalExceptionHandler {
 
         // Fallback for general data integrity violations
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new CustomResponseEntity(ResponseCode.USER_UNKNOWN_CONSTRAINT_ERROR));
-    }
-
-    @ExceptionHandler(org.springframework.security.authentication.BadCredentialsException.class)
-    public ResponseEntity<CustomResponseEntity> handleBadCredentialsException(org.springframework.security.authentication.BadCredentialsException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new CustomResponseEntity(ResponseCode.WRONG_USERNAME_PASSWORD));
-    }
-
-    @ExceptionHandler(org.springframework.security.authentication.DisabledException.class)
-    public ResponseEntity<CustomResponseEntity> handleDisabledException(org.springframework.security.authentication.DisabledException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new CustomResponseEntity(ResponseCode.USER_INACTIVE));
-    }
-
-    @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
-    public ResponseEntity<CustomResponseEntity> handleAccessDeniedException(org.springframework.security.access.AccessDeniedException e) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new CustomResponseEntity(ResponseCode.WRONG_JWT, e.getMessage()));
     }
 }
