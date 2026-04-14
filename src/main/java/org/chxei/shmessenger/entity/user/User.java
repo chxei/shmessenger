@@ -74,7 +74,7 @@ public final class User implements UserDetails, CredentialsContainer {
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
 
-    private boolean active = true;
+    private boolean enabled = true;
 
     private boolean isVerified = false;
 
@@ -101,10 +101,10 @@ public final class User implements UserDetails, CredentialsContainer {
         this.authorities = AuthorityUtils.createAuthorityList("app");
     }
 
-    public User(String username, boolean active, String password) {
+    public User(String username, boolean enabled, String password) {
         this.username = username;
         this.password = password;
-        this.active = active;
+        this.enabled = enabled;
         this.authorities = Stream.of(this.getRole().name())
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
@@ -150,7 +150,7 @@ public final class User implements UserDetails, CredentialsContainer {
 
     @Override
     public boolean isEnabled() {
-        return active;
+        return enabled;
     }
 
     @Override

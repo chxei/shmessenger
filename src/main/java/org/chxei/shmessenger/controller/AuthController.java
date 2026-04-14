@@ -13,6 +13,7 @@ import org.chxei.shmessenger.entity.user.Gender;
 import org.chxei.shmessenger.entity.user.User;
 import org.chxei.shmessenger.service.UserService;
 import org.chxei.shmessenger.utils.response.CustomResponseEntity;
+import org.chxei.shmessenger.utils.response.ResponseCode;
 import org.chxei.shmessenger.utils.response.ResponseType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -42,12 +43,10 @@ public class AuthController {
     }
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Parameter(in = ParameterIn.HEADER,
-            name = "Authorization",
-            description = "to get jwt for swagger use: curl -XPOST https://localhost:8080/auth/login --user \"user:password\" -k",
-            schema = @Schema(type = "string", defaultValue = "Basic <Base64 encoded user:password>")
-    )
-    public ResponseEntity<AuthenticationResponse> token(Authentication authentication) {
+    @Parameter(in = ParameterIn.HEADER, name = "Authorization", description = "to get jwt for swagger use: curl -XPOST https://localhost:8080/auth/login --user \"user:password\" -k", schema = @Schema(type = "string", defaultValue = "Basic <Base64 encoded user:password>"))
+    public ResponseEntity<?> token(Authentication authentication) {
+        User user = userService.loadUserByUsername(authentication.getName());
+
         Instant now = Instant.now();
         long expiry = 36000L;
         String scope = authentication.getAuthorities().stream()
@@ -60,7 +59,8 @@ public class AuthController {
                 .subject(authentication.getName())
                 .claim("scope", scope)
                 .build();
-        AuthenticationResponse authenticationResponse = new AuthenticationResponse(this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue(), 0);
+        AuthenticationResponse authenticationResponse = new AuthenticationResponse(
+                this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue(), user.getId());
         return ResponseEntity.ok(authenticationResponse);
     }
 

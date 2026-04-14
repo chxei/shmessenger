@@ -2,7 +2,6 @@
 
 ## 🐛 Bugs & Critical Integrations
 
-- [ ] Implement `isActive` field validation natively during the login flow.
 - [ ] proper ssl certificate.
 
 ## 🔐 Security & Operations

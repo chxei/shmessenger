@@ -14,7 +14,7 @@ public record UserResponse(
         String pathToProfilePicture,
         String pathToBackgroundPicture,
         LocalDateTime birthDate,
-        boolean active,
+        boolean enabled,
         String gender
 ) {
     public static UserResponse fromEntity(User user) {
@@ -28,7 +28,7 @@ public record UserResponse(
                 user.getPathToProfilePicture(),
                 user.getPathToBackgroundPicture(),
                 user.getBirthDate() != null ? user.getBirthDate().toLocalDateTime() : null,
-                user.isActive(),
+                user.isEnabled(),
                 user.getGender() != null ? user.getGender().getName() : null
         );
     }

@@ -1,5 +1,5 @@
 ---
-name: Coding Guidelines
+trigger: always_on
 description: CRITICAL: Apply to ALL tasks. Enforces global rules and Spring Controller conventions.
 ---
 
@@ -20,7 +20,7 @@ Strictly follow these rules for all code:
 
 3. **Documentation**:
     - Check `TODO.md` and `README.md` for related tasks.
-    - Update `TODO.md` checkboxes (`[x]`) upon completion.
+    - Update `TODO.md` remove upon completion.
     - Update `README.md` for feature changes.
 
 4. **Testing**:

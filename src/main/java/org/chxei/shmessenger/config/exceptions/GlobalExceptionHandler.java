@@ -40,6 +40,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new CustomResponseEntity(ResponseCode.WRONG_USERNAME_PASSWORD));
     }
 
+    @ExceptionHandler(org.springframework.security.authentication.DisabledException.class)
+    public ResponseEntity<CustomResponseEntity> handleDisabledException(org.springframework.security.authentication.DisabledException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new CustomResponseEntity(ResponseCode.USER_INACTIVE));
+    }
+
     @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
     public ResponseEntity<CustomResponseEntity> handleAccessDeniedException(org.springframework.security.access.AccessDeniedException e) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new CustomResponseEntity(ResponseCode.WRONG_JWT, e.getMessage()));
