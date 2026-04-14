@@ -4,6 +4,7 @@
 
 - [ ] Implement `isActive` field validation natively during the login flow.
 - [ ] find out whats wrong with swagger and why its showing non existant endpoints.
+- [ ] proper ssl certificate.
 
 ## 🔐 Security & Operations
 
@@ -28,6 +29,9 @@
 - [ ] **Forgot Password API**: Build email verification token system for resetting passwords.
 - [ ] **Settings Infrastructure**: Create table for user profile settings (e.g., privacy toggles).
 - [ ] **Media Management**: Implement upload endpoints for Profile Picture and Cover Photo files.
+
+## 🤖 AI Features
+- [ ] check out what instructions developers have for similar project and general. 
 
 ## ✅ Completed Tasks
 
