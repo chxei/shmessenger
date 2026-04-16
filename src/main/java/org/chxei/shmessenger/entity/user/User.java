@@ -27,12 +27,11 @@ import java.util.stream.Stream;
 @ToString
 @Entity(name = "users")
 @DynamicInsert
-@Table(name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "CONSTRAINT_UNIQUE_USERS_USERNAME", columnNames = "username"),
-                @UniqueConstraint(name = "CONSTRAINT_UNIQUE_USERS_EMAIL", columnNames = "email"),
-                @UniqueConstraint(name = "CONSTRAINT_UNIQUE_USERS_PHONE", columnNames = "phone"),
-        }
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(name = "CONSTRAINT_UNIQUE_USERS_USERNAME", columnNames = "username"),
+        @UniqueConstraint(name = "CONSTRAINT_UNIQUE_USERS_EMAIL", columnNames = "email"),
+        @UniqueConstraint(name = "CONSTRAINT_UNIQUE_USERS_PHONE", columnNames = "phone"),
+}
 
 )
 public final class User implements UserDetails, CredentialsContainer {
@@ -41,7 +40,7 @@ public final class User implements UserDetails, CredentialsContainer {
     private int id;
 
     @NotEmpty
-    //@Column(unique = true)
+    // @Column(unique = true)
     private String username;
 
     @NotEmpty
@@ -59,10 +58,10 @@ public final class User implements UserDetails, CredentialsContainer {
     private Country country;
 
     @Email
-    //@Column//(unique = true)
+    // @Column//(unique = true)
     private String email;
 
-    //@Column(unique = true)
+    // @Column(unique = true)
     private String phone;
 
     private Timestamp birthDate;
@@ -78,10 +77,10 @@ public final class User implements UserDetails, CredentialsContainer {
 
     private boolean isVerified = false;
 
-    @ManyToOne(cascade = {CascadeType.MERGE})
+    @ManyToOne(cascade = { CascadeType.MERGE })
     private Gender gender;
 
-    //todo make separate table for authorities
+    // todo make separate table for authorities
     @Transient
     private List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("app");
 
@@ -155,8 +154,10 @@ public final class User implements UserDetails, CredentialsContainer {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User user)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof User user))
+            return false;
         return username != null && username.equals(user.getUsername());
     }
 
@@ -165,7 +166,7 @@ public final class User implements UserDetails, CredentialsContainer {
         return username != null ? username.hashCode() : getClass().hashCode();
     }
 
-    //do not change order, add new values last
+    // do not change order, add new values last
     public enum Role {
         USER,
         ADMIN

@@ -35,8 +35,10 @@ public final class Participant {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Participant that)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof Participant that))
+            return false;
         return id != null && id.equals(that.getId());
     }
 

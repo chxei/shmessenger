@@ -13,7 +13,6 @@ public final class MessageType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     private String name;
 
     public MessageType(String name) {
@@ -25,8 +24,10 @@ public final class MessageType {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof MessageType that)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof MessageType that))
+            return false;
         return name != null && name.equals(that.getName());
     }
 

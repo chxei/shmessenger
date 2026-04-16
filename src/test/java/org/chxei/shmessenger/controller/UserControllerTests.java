@@ -29,16 +29,16 @@ public class UserControllerTests {
     @Test
     public void testWithBasicAuth_success() throws Exception {
         MvcResult result = mockMvc.perform(post("/auth/login")
-                        .with(httpBasic(USERNAME, PASSWORD))
-                        .contentType(MediaType.APPLICATION_JSON))
+                .with(httpBasic(USERNAME, PASSWORD))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.jwt", notNullValue()))
-                .andExpect(jsonPath("$.jwt", matchesPattern("^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_.+/=]*$")))
+                .andExpect(
+                        jsonPath("$.jwt", matchesPattern("^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_.+/=]*$")))
                 .andReturn();
 
         String response = result.getResponse().getContentAsString();
-
 
         log.info("JWT Response: {}", response);
     }
@@ -46,7 +46,7 @@ public class UserControllerTests {
     @Test
     public void testLoginWithoutAuth_Unauthorized() throws Exception {
         mockMvc.perform(post("/auth/login")
-                        .contentType("application/json"))
+                .contentType("application/json"))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -54,7 +54,7 @@ public class UserControllerTests {
     @WithMockUser(username = USERNAME, password = PASSWORD, roles = "USER")
     public void testLoginWithMockUser() throws Exception {
         mockMvc.perform(post("/auth/login")
-                        .contentType("application/json"))
+                .contentType("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.jwt", notNullValue()));

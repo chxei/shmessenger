@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-
 @AllArgsConstructor
 @Getter
 @Setter
@@ -33,8 +32,10 @@ public final class Gender {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Gender gender)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof Gender gender))
+            return false;
         return name != null && name.equals(gender.getName());
     }
 
