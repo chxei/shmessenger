@@ -42,8 +42,9 @@ rewrite {
 //    activeRecipe("org.openrewrite.staticanalysis.CommonStaticAnalysis")
 //    activeRecipe("org.openrewrite.staticanalysis.CodeCleanup")
 //    activeRecipe("org.openrewrite.java.migrate.UpgradeToJava25")
-//    setExportDatatables(true)
-    activeRecipe("org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_5")
+//    activeRecipe("org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_5")
+    activeRecipe("org.openrewrite.java.migrate.JavaBestPractices")
+    setExportDatatables(true)
 }
 
 

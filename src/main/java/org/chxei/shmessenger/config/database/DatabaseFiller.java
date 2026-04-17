@@ -41,15 +41,15 @@ public class DatabaseFiller {
         List<Country> countries = populateCountries();
         populateMessageType();
 
-        final String DEF_USER = "chxei";
-        User user = new User(DEF_USER, DEF_USER, DEF_USER + "@" + DEF_USER + ".org", Timestamp.valueOf("2000-01-01 00:00:00"), DEF_USER, genders.getFirst());
+        final var DEF_USER = "chxei";
+        var user = new User(DEF_USER, DEF_USER, DEF_USER + "@" + DEF_USER + ".org", Timestamp.valueOf("2000-01-01 00:00:00"), DEF_USER, genders.getFirst());
         user.setCountry(countries.getFirst());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
     public List<Gender> populateGenders() {
-        List<Gender> genders = new ArrayList<>();
+        var genders = new ArrayList<Gender>();
         genders.add(new Gender("OTHER"));
         genders.add(new Gender("MALE"));
         genders.add(new Gender("FEMALE"));
@@ -59,7 +59,7 @@ public class DatabaseFiller {
     }
 
     public List<Country> populateCountries() {
-        List<Country> countries = new ArrayList<>();
+        var countries = new ArrayList<Country>();
         countries.add(new Country("GE", "Georgia"));
         countries.add(new Country("US", "United States"));
         countries.add(new Country("RU", "Russian federation"));
@@ -68,7 +68,7 @@ public class DatabaseFiller {
     }
 
     public void populateMessageType() {
-        List<MessageType> messageTypes = new ArrayList<>();
+        var messageTypes = new ArrayList<MessageType>();
         for (String s : Arrays.asList("EMOJI", "COMPOSED", "GIF", "MEDIA_GIF", "MEDIA_VIDEO", "MEDIA_PHOTO", "MEDIA_VOICE", "MEDIA_FILE")) {
             messageTypes.add(new MessageType(s));
         }

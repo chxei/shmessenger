@@ -13,6 +13,7 @@ import org.chxei.shmessenger.repository.user.UserRepository;
 import org.chxei.shmessenger.utils.response.CustomResponseEntity;
 import org.chxei.shmessenger.utils.response.CustomResponseException;
 import org.chxei.shmessenger.utils.response.ResponseCode;
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -45,11 +46,11 @@ public class ChatService {
         }
     }
 
-    public long createConversation(String creatorUsername, String conversationName, List<Integer> participantIds) throws CustomResponseException {
+    public long createConversation(String creatorUsername, @Nullable String conversationName, List<Integer> participantIds) throws CustomResponseException {
         User creationUser = userRepository.findByUsername(creatorUsername).orElse(null);
-        Conversation conversation = new Conversation();
-        List<Participant> participants = new ArrayList<>();
-        List<User> participantUsers = new ArrayList<>();
+        var conversation = new Conversation();
+        var participants = new ArrayList<Participant>();
+        var participantUsers = new ArrayList<User>();
 
         for (int participantId : participantIds) {
             User curUser = userRepository.findById(participantId).orElse(null);
@@ -84,7 +85,7 @@ public class ChatService {
         if (messageType == null) {
             throw new CustomResponseException(new CustomResponseEntity(ResponseCode.WRONG_MESSAGE_TYPE));
         }
-        Message message = new Message(creationUser, conversation, messageType, content);
+        var message = new Message(creationUser, conversation, messageType, content);
         return messageRepository.save(message).getId();
     }
 }

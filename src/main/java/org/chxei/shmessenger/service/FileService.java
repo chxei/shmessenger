@@ -23,7 +23,7 @@ public class FileService {
 
     //todo: handle case when file save succeeds on filesystem but fails on database
     public Long saveFile(MultipartFile multipartFile) {
-        File file = new File();
+        var file = new File();
 
         String originalFilename = multipartFile.getOriginalFilename();
         if (originalFilename == null || originalFilename.isBlank()) {
@@ -35,11 +35,11 @@ public class FileService {
 
         try {
             file.setFileObject(multipartFile.getBytes());
-            java.io.File directory = new java.io.File(fileDirectory);
+            var directory = new java.io.File(fileDirectory);
             if (!directory.exists()) {
                 directory.mkdirs();
             }
-            java.io.File dest = new java.io.File(directory, sanitizedFilename);
+            var dest = new java.io.File(directory, sanitizedFilename);
             multipartFile.transferTo(dest);
         } catch (Exception e) {
             Misc.logger.error("Could not save file to filesystem: {}", e.getMessage());

@@ -3,6 +3,7 @@ package org.chxei.shmessenger.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,13 +20,13 @@ public final class Misc {
     private Misc() {
     }
 
-    public static String stringToMd5(String source) {
+    public static @Nullable String stringToMd5(String source) {
 
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(source.getBytes());
             byte[] bytes = md.digest();
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             for (byte aByte : bytes) {
                 sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
             }
@@ -36,16 +37,16 @@ public final class Misc {
         }
     }
 
-    public static String convertObjectToJson(Object object) throws JsonProcessingException {
+    public static @Nullable String convertObjectToJson(@Nullable Object object) throws JsonProcessingException {
         if (object == null) {
             return null;
         }
-        ObjectMapper mapper = new ObjectMapper();
+        var mapper = new ObjectMapper();
         return mapper.writeValueAsString(object);
     }
 
     @SafeVarargs
-    public static <T> T coalesce(T... params) {
+    public static <T> @Nullable T coalesce(T... params) {
         for (T param : params) {
             if (param != null) {
                 return param;

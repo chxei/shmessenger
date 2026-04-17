@@ -45,7 +45,7 @@ public class AuthController {
         User user = userService.loadUserByUsername(authentication.getName());
 
         Instant now = Instant.now();
-        long expiry = 36000L;
+        var expiry = 36000L;
         String scope = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
@@ -56,14 +56,14 @@ public class AuthController {
                 .subject(authentication.getName())
                 .claim("scope", scope)
                 .build();
-        AuthenticationResponse authenticationResponse = new AuthenticationResponse(
+        var authenticationResponse = new AuthenticationResponse(
                 this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue(), user.getId());
         return ResponseEntity.ok(authenticationResponse);
     }
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomResponseEntity> registerUser(@RequestBody @Valid RegisterUserRequest request) {
-        User user = new User();
+        var user = new User();
         user.setUsername(request.username());
         user.setName(request.name());
         user.setEmail(request.email());
@@ -72,13 +72,13 @@ public class AuthController {
         user.setBirthDate(request.birthDate());
 
         if (request.countryCode() != null) {
-            Country country = new Country();
+            var country = new Country();
             country.setCode(request.countryCode());
             user.setCountry(country);
         }
 
         if (request.genderId() != null) {
-            Gender gender = new Gender();
+            var gender = new Gender();
             gender.setId(request.genderId());
             user.setGender(gender);
         }

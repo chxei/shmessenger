@@ -26,7 +26,7 @@ public class ChatController {
     @PostMapping(value = "/conversations", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createConversation(Authentication authentication, @RequestBody CreateConversationRequest request) {
         try {
-            long conversationId = chatService.createConversation(authentication.getName(), request.conversationName(), request.participantIds());
+            var conversationId = chatService.createConversation(authentication.getName(), request.conversationName(), request.participantIds());
             return ResponseEntity.ok(Map.of("conversationId", conversationId));
         } catch (CustomResponseException e) {
             return ResponseEntity.ok(e.getEntity());
@@ -36,7 +36,7 @@ public class ChatController {
     @PostMapping(value = "/messages", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> sendMessage(Authentication authentication, @RequestBody SendMessageRequest request) {
         try {
-            long messageId = chatService.sendMessage(authentication.getName(), request.messageTypeName(), request.conversationId(), request.content());
+            var messageId = chatService.sendMessage(authentication.getName(), request.messageTypeName(), request.conversationId(), request.content());
             return ResponseEntity.ok(Map.of("messageId", messageId));
         } catch (CustomResponseException e) {
             return ResponseEntity.ok(e.getEntity());

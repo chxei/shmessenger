@@ -17,8 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class UserService implements UserDetailsService, UserDetailsManager, UserDetailsPasswordService {
     private final UserRepository userRepository;
@@ -47,7 +45,7 @@ public class UserService implements UserDetailsService, UserDetailsManager, User
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsername(username);
+        var user = userRepository.findByUsername(username);
 
         if (user.isEmpty()) {
             throw new UsernameNotFoundException("Not found: " + username);
@@ -59,7 +57,7 @@ public class UserService implements UserDetailsService, UserDetailsManager, User
 
     @Override
     public UserDetails updatePassword(UserDetails user, String newPassword) {
-        Optional<User> tempUser = userRepository.findByUsername(user.getUsername());
+        var tempUser = userRepository.findByUsername(user.getUsername());
         if (tempUser.isEmpty()) {
             throw new UsernameNotFoundException("Not found: " + user.getUsername());
         } else {
@@ -81,7 +79,7 @@ public class UserService implements UserDetailsService, UserDetailsManager, User
 
     @Override
     public void deleteUser(String username) {
-        Optional<User> user = userRepository.findByUsername(username);
+        var user = userRepository.findByUsername(username);
 
         if (user.isEmpty()) {
             throw new UsernameNotFoundException("Not found: " + username);
@@ -97,7 +95,7 @@ public class UserService implements UserDetailsService, UserDetailsManager, User
             throw new AccessDeniedException("No authenticated user found in context layer.");
         }
 
-        Optional<User> userOpt = userRepository.findByUsername(currentUser.getName());
+        var userOpt = userRepository.findByUsername(currentUser.getName());
         if (userOpt.isEmpty()) {
             throw new UsernameNotFoundException("Current user not found in database: " + currentUser.getName());
         }
@@ -114,7 +112,7 @@ public class UserService implements UserDetailsService, UserDetailsManager, User
 
     @Override
     public boolean userExists(String username) {
-        Optional<User> user = userRepository.findByUsername(username);
+        var user = userRepository.findByUsername(username);
         return user.isPresent();
     }
 }

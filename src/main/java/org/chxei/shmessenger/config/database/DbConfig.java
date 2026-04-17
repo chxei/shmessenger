@@ -26,10 +26,10 @@ public class DbConfig {
     @Bean(name = "entityManagerFactory")
     @DependsOnDatabaseInitialization
     public LocalSessionFactoryBean sessionFactory() {
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+        var sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan("org.chxei.shmessenger");
-        Properties hibernateProperties = new Properties();
+        var hibernateProperties = new Properties();
         hibernateProperties.put("hibernate.dialect", "org.hibernate.community.dialect.SQLiteDialect");
         hibernateProperties.put("hibernate.show_sql", "true");
         hibernateProperties.put("hibernate.hbm2ddl.auto", "create-drop"); //update, create-drop, create, validate, none
@@ -42,7 +42,7 @@ public class DbConfig {
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        var dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.sqlite.JDBC");
         dataSource.setUrl(DB_JDBC_URL);
         dataSource.setUsername(dotenv.get("DB_USER"));
@@ -52,7 +52,7 @@ public class DbConfig {
 
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        var transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(emf);
         return transactionManager;
     }
