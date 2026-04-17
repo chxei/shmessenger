@@ -40,12 +40,15 @@ repositories {
 
 rewrite {
 //    activeRecipe("org.openrewrite.staticanalysis.CommonStaticAnalysis")
-    activeRecipe("org.openrewrite.staticanalysis.CodeCleanup")
+//    activeRecipe("org.openrewrite.staticanalysis.CodeCleanup")
+    activeRecipe("org.openrewrite.java.migrate.UpgradeToJava21")
+    setExportDatatables(true)
 }
 
 
 dependencies {
     rewrite 'org.openrewrite.recipe:rewrite-static-analysis:latest.release'
+    rewrite 'org.openrewrite.recipe:rewrite-migrate-java:latest.release'
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
@@ -69,8 +72,8 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools' //not compatible with native
-    annotationProcessor 'org.projectlombok:lombok:1.18.42'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.42'
+    annotationProcessor 'org.projectlombok:lombok:1.18.44'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.44'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

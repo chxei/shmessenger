@@ -41,9 +41,9 @@ public class ChatService {
         if (users.size() == 1) {
             return users.getFirst().getName();
         } else if (users.size() == 2) {
-            return users.get(0).getName() + ", " + users.get(1).getName();
+            return users.getFirst().getName() + ", " + users.get(1).getName();
         } else {
-            return users.get(0).getName() + ", " + users.get(1).getName() + " and " + (users.size() - 2) + " other";
+            return users.getFirst().getName() + ", " + users.get(1).getName() + " and " + (users.size() - 2) + " other";
         }
     }
 
