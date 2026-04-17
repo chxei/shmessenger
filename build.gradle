@@ -39,12 +39,13 @@ repositories {
 }
 
 rewrite {
-    activeRecipe("org.openrewrite.staticanalysis.CommonStaticAnalysis")
+//    activeRecipe("org.openrewrite.staticanalysis.CommonStaticAnalysis")
+    activeRecipe("org.openrewrite.staticanalysis.CodeCleanup")
 }
 
 
 dependencies {
-    rewrite("org.openrewrite.recipe:rewrite-static-analysis:latest.release")
+    rewrite 'org.openrewrite.recipe:rewrite-static-analysis:latest.release'
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'

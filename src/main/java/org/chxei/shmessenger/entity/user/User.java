@@ -77,7 +77,7 @@ public final class User implements UserDetails, CredentialsContainer {
 
     private boolean isVerified;
 
-    @ManyToOne(cascade = { CascadeType.MERGE })
+    @ManyToOne(cascade = {CascadeType.MERGE})
     private Gender gender;
 
     // todo make separate table for authorities

@@ -35,12 +35,12 @@ public class UserController {
         return ResponseEntity.ok(userRepository.findAll().stream().map(UserResponse::fromEntity).toList());
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping("/{id}")
     public UserResponse getUser(@PathVariable int id) {
         return UserResponse.fromEntity(userRepository.getReferenceById(id));
     }
 
-    @GetMapping(value = "/username/{userName}")
+    @GetMapping("/username/{userName}")
     public ResponseEntity<Object> getUser(@PathVariable String userName) {
         User user = userRepository.findByUsername(userName).orElse(null);
         if (user != null) {

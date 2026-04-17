@@ -14,5 +14,4 @@ public class ShmessengerApplication {
 
         SpringApplication.run(ShmessengerApplication.class, args);
     }
-
 }
