@@ -48,7 +48,7 @@ public class FileService {
         try {
             Source source = Tinify.fromBuffer(multipartFile.getBytes());
             file.setFileCompressed(source.toBuffer());
-        } catch (Exception e) {
+        } catch (Exception _) {
             Misc.logger.info("cant compress image");
         }
         file.setStoredLocally(false);

@@ -30,7 +30,7 @@ public final class Misc {
                 sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
             }
             return sb.toString();
-        } catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException _) {
             logger.error("Error while hashing password");
             return null;
         }

@@ -10,7 +10,7 @@ public class TinifyConfigurator {
         System.setProperty("user.timezone", "GMT");
         try {
             Tinify.setKey(Misc.dotenv.get("TINIFY_API_KEY"));
-        } catch (Exception e) {
+        } catch (Exception _) {
             Misc.logger.info("No tinify api key found");
         }
     }

@@ -41,7 +41,7 @@ repositories {
 rewrite {
 //    activeRecipe("org.openrewrite.staticanalysis.CommonStaticAnalysis")
 //    activeRecipe("org.openrewrite.staticanalysis.CodeCleanup")
-    activeRecipe("org.openrewrite.java.migrate.UpgradeToJava21")
+    activeRecipe("org.openrewrite.java.migrate.UpgradeToJava25")
     setExportDatatables(true)
 }
 
