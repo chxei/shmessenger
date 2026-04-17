@@ -5,7 +5,6 @@ import org.chxei.shmessenger.repository.user.UserRepository;
 import org.chxei.shmessenger.utils.response.CustomResponseEntity;
 import org.chxei.shmessenger.utils.response.ResponseCode;
 import org.chxei.shmessenger.utils.response.ResponseType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -25,7 +24,6 @@ public class UserService implements UserDetailsService, UserDetailsManager, User
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;

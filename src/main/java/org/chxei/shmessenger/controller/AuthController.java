@@ -13,9 +13,7 @@ import org.chxei.shmessenger.entity.user.Gender;
 import org.chxei.shmessenger.entity.user.User;
 import org.chxei.shmessenger.service.UserService;
 import org.chxei.shmessenger.utils.response.CustomResponseEntity;
-import org.chxei.shmessenger.utils.response.ResponseCode;
 import org.chxei.shmessenger.utils.response.ResponseType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -36,7 +34,6 @@ public class AuthController {
     private final UserService userService;
     private final JwtEncoder encoder;
 
-    @Autowired
     public AuthController(UserService userService, JwtEncoder encoder) {
         this.userService = userService;
         this.encoder = encoder;

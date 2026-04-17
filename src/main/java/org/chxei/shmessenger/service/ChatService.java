@@ -13,7 +13,6 @@ import org.chxei.shmessenger.repository.user.UserRepository;
 import org.chxei.shmessenger.utils.response.CustomResponseEntity;
 import org.chxei.shmessenger.utils.response.CustomResponseException;
 import org.chxei.shmessenger.utils.response.ResponseCode;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,7 +27,6 @@ public class ChatService {
     private final MessageTypeRepository messageTypeRepository;
     private final MessageRepository messageRepository;
 
-    @Autowired
     public ChatService(UserRepository userRepository, ParticipantRepository participantRepository, ConversationRepository conversationRepository, MessageTypeRepository messageTypeRepository, MessageRepository messageRepository) {
         this.userRepository = userRepository;
         this.participantRepository = participantRepository;

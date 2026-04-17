@@ -4,6 +4,7 @@ package org.chxei.shmessenger.config.database;
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.persistence.EntityManagerFactory;
 import org.chxei.shmessenger.utils.Misc;
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -23,6 +24,7 @@ public class DbConfig {
     public static final String DB_JDBC_URL = dotenv.get("DB_JDBC_URL");
 
     @Bean(name = "entityManagerFactory")
+    @DependsOnDatabaseInitialization
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());

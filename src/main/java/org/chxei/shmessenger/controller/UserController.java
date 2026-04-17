@@ -7,7 +7,6 @@ import org.chxei.shmessenger.entity.user.User;
 import org.chxei.shmessenger.repository.user.UserRepository;
 import org.chxei.shmessenger.utils.response.CustomResponseEntity;
 import org.chxei.shmessenger.utils.response.ResponseCode;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -25,7 +24,6 @@ import java.util.List;
 public class UserController {
     private final UserRepository userRepository;
 
-    @Autowired
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
