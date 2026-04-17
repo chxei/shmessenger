@@ -75,7 +75,7 @@ public final class User implements UserDetails, CredentialsContainer {
 
     private boolean enabled = true;
 
-    private boolean isVerified = false;
+    private boolean isVerified;
 
     @ManyToOne(cascade = { CascadeType.MERGE })
     private Gender gender;
@@ -154,10 +154,12 @@ public final class User implements UserDetails, CredentialsContainer {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
+        if (this == o) {
             return true;
-        if (!(o instanceof User user))
+        }
+        if (!(o instanceof User user)) {
             return false;
+        }
         return username != null && username.equals(user.getUsername());
     }
 

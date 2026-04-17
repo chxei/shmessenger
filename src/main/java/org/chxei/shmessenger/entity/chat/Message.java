@@ -42,7 +42,7 @@ public final class Message {
     @UpdateTimestamp
     private Timestamp updateTimestamp;
 
-    private boolean isDeleted = false;
+    private boolean isDeleted;
 
     public Message(User user, Conversation conversation, MessageType messageType, String content) {
         this.user = user;
@@ -57,10 +57,12 @@ public final class Message {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
+        if (this == o) {
             return true;
-        if (!(o instanceof Message message))
+        }
+        if (!(o instanceof Message message)) {
             return false;
+        }
         return id != null && id.equals(message.getId());
     }
 

@@ -29,8 +29,12 @@ public final class Country {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Country country)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Country country)) {
+            return false;
+        }
         return code != null && code.equals(country.getCode());
     }
 

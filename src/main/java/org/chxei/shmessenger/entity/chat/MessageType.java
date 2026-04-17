@@ -24,10 +24,12 @@ public final class MessageType {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
+        if (this == o) {
             return true;
-        if (!(o instanceof MessageType that))
+        }
+        if (!(o instanceof MessageType that)) {
             return false;
+        }
         return name != null && name.equals(that.getName());
     }
 

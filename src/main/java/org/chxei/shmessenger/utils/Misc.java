@@ -5,13 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Misc {
+public final class Misc {
     public static final Logger logger = LoggerFactory.getLogger(Misc.class);
     public static final Dotenv dotenv = Dotenv.configure()
             .ignoreIfMissing()
@@ -48,9 +46,11 @@ public class Misc {
 
     @SafeVarargs
     public static <T> T coalesce(T... params) {
-        for (T param : params)
-            if (param != null)
+        for (T param : params) {
+            if (param != null) {
                 return param;
+            }
+        }
         return null;
     }
 }

@@ -39,14 +39,16 @@ public final class Conversation {
     @UpdateTimestamp
     private Timestamp updateTimestamp;
 
-    private boolean isDeleted = false;
+    private boolean isDeleted;
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
+        if (this == o) {
             return true;
-        if (!(o instanceof Conversation that))
+        }
+        if (!(o instanceof Conversation that)) {
             return false;
+        }
 
         return id != null && id.equals(that.getId());
     }

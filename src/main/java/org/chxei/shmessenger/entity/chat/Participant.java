@@ -20,9 +20,9 @@ public final class Participant {
     @ManyToOne
     private Conversation conversation;
 
-    private boolean hasArchived = false;
-    private boolean hasMuted = false;
-    private boolean hasLeft = false;
+    private boolean hasArchived;
+    private boolean hasMuted;
+    private boolean hasLeft;
 
     public Participant(User user, Conversation conversation) {
         this.user = user;
@@ -35,10 +35,12 @@ public final class Participant {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
+        if (this == o) {
             return true;
-        if (!(o instanceof Participant that))
+        }
+        if (!(o instanceof Participant that)) {
             return false;
+        }
         return id != null && id.equals(that.getId());
     }
 
