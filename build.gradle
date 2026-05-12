@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '3.5.13'
+    id 'org.springframework.boot' version '4.0.5'
     id 'io.spring.dependency-management' version '1.1.7'
     id 'application'
     id 'java'
@@ -43,7 +43,8 @@ rewrite {
 //    activeRecipe("org.openrewrite.staticanalysis.CodeCleanup")
 //    activeRecipe("org.openrewrite.java.migrate.UpgradeToJava25")
 //    activeRecipe("org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_5")
-    activeRecipe("org.openrewrite.java.migrate.JavaBestPractices")
+    activeRecipe("org.openrewrite.java.spring.boot4.UpgradeSpringBoot_4_0")
+//    activeRecipe("org.openrewrite.java.migrate.JavaBestPractices")
     setExportDatatables(true)
 }
 
@@ -55,14 +56,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13'
-    implementation 'org.springdoc:springdoc-openapi-starter-common:2.8.13'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3'
     implementation 'org.apache.httpcomponents:httpcore:4.4.16'
     implementation 'org.apache.httpcomponents:httpclient:4.5.14' exclude group: 'commons-logging', module: 'commons-logging'
     implementation 'io.github.cdimascio:dotenv-kotlin:6.5.1'
@@ -70,14 +69,14 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.19.0'
     implementation 'com.tinify:tinify:latest.release'
     implementation 'org.xerial:sqlite-jdbc:3.50.3.0'
-    implementation 'org.hibernate.orm:hibernate-community-dialects:7.0.10.Final' //not latest version
-    implementation 'org.springframework.security:spring-security-test'
+    implementation 'org.hibernate.orm:hibernate-community-dialects:7.3.3.Final'
     compileOnly 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools' //not compatible with native
     annotationProcessor 'org.projectlombok:lombok:1.18.44'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.44'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-webmvc-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }

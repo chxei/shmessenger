@@ -36,11 +36,10 @@ import java.util.stream.Stream;
 )
 public final class User implements UserDetails, CredentialsContainer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     @NotEmpty
-    // @Column(unique = true)
     private String username;
 
     @NotEmpty
@@ -58,10 +57,8 @@ public final class User implements UserDetails, CredentialsContainer {
     private Country country;
 
     @Email
-    // @Column//(unique = true)
     private String email;
 
-    // @Column(unique = true)
     private String phone;
 
     private Timestamp birthDate;
