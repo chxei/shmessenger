@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class SecurityExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<CustomResponseEntity> handleBadCredentialsException(BadCredentialsException e) {
+    public ResponseEntity<CustomResponseEntity> handleBadCredentialsException() {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new CustomResponseEntity(ResponseCode.WRONG_USERNAME_PASSWORD));
     }
 
     @ExceptionHandler(DisabledException.class)
-    public ResponseEntity<CustomResponseEntity> handleDisabledException(DisabledException e) {
+    public ResponseEntity<CustomResponseEntity> handleDisabledException() {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new CustomResponseEntity(ResponseCode.USER_INACTIVE));
     }
 
