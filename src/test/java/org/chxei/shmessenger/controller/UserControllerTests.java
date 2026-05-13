@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -15,7 +16,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -28,18 +29,20 @@ public class UserControllerTests {
     private static final String PASSWORD = "chxei";
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @MockitoBean
     private UserService userService;
 
     @Test
     public void testWithBasicAuth_success() throws Exception {
-        var user = new User(USERNAME, true, PASSWORD);
+        var user = new User(USERNAME, true, passwordEncoder.encode(PASSWORD));
         user.setId(1);
         when(userService.loadUserByUsername(USERNAME)).thenReturn(user);
 
         MvcResult result = mockMvc.perform(post("/auth/login")
-                        .with(user(USERNAME).roles("USER"))
+                        .with(httpBasic(USERNAME, PASSWORD))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -60,17 +63,4 @@ public class UserControllerTests {
                 .andExpect(status().isUnauthorized());
     }
 
-    @Test
-    public void testLoginWithMockUser() throws Exception {
-        var user = new User(USERNAME, true, PASSWORD);
-        user.setId(1);
-        when(userService.loadUserByUsername(USERNAME)).thenReturn(user);
-
-        mockMvc.perform(post("/auth/login")
-                        .with(user(USERNAME).roles("USER"))
-                .contentType("application/json"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$.jwt", notNullValue()));
-    }
 }
