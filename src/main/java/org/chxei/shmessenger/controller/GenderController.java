@@ -22,6 +22,6 @@ public class GenderController {
 
     @GetMapping
     public List<Gender> getGenders() {
-        return genderRepository.findByStatus(true);
+        return genderRepository.findAllByActive(true);
     }
 }

@@ -48,7 +48,7 @@ public class DatabaseFiller {
         userRepository.save(user);
     }
 
-    public List<Gender> populateGenders() {
+    private List<Gender> populateGenders() {
         var genders = new ArrayList<Gender>();
         genders.add(new Gender("OTHER"));
         genders.add(new Gender("MALE"));
@@ -58,7 +58,7 @@ public class DatabaseFiller {
         return genders;
     }
 
-    public List<Country> populateCountries() {
+    private List<Country> populateCountries() {
         var countries = new ArrayList<Country>();
         countries.add(new Country("GE", "Georgia"));
         countries.add(new Country("US", "United States"));
@@ -67,7 +67,7 @@ public class DatabaseFiller {
         return countries;
     }
 
-    public void populateMessageType() {
+    private void populateMessageType() {
         var messageTypes = new ArrayList<MessageType>();
         for (String s : Arrays.asList("EMOJI", "COMPOSED", "GIF", "MEDIA_GIF", "MEDIA_VIDEO", "MEDIA_PHOTO", "MEDIA_VOICE", "MEDIA_FILE")) {
             messageTypes.add(new MessageType(s));

@@ -24,8 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class UserControllerTests {
 
-    private static final String USERNAME = "chxei1";
-    private static final String PASSWORD = "chxei1";
+    private static final String USERNAME = "chxei";
+    private static final String PASSWORD = "chxei";
     @Autowired
     private MockMvc mockMvc;
 

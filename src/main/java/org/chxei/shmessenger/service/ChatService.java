@@ -81,7 +81,7 @@ public class ChatService {
             throw new CustomResponseException(new CustomResponseEntity(ResponseCode.WRONG_CHAT_FOR_USER));
         }
 
-        MessageType messageType = messageTypeRepository.findByName(messageTypeName).stream().findFirst().orElse(null);
+        MessageType messageType = messageTypeRepository.findByName(messageTypeName).orElse(null);
         if (messageType == null) {
             throw new CustomResponseException(new CustomResponseEntity(ResponseCode.WRONG_MESSAGE_TYPE));
         }

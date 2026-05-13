@@ -14,18 +14,6 @@ public class CustomResponseEntity {
         this.responseCode = null;
     }
 
-    public CustomResponseEntity(ResponseType responseType, ResponseCode responseCode, String message) {
-        this.responseType = responseType;
-        this.responseCode = responseCode;
-        this.message = message;
-    }
-
-    public CustomResponseEntity(ResponseType messageType, ResponseCode responseCode) {
-        this.responseCode = responseCode;
-        this.message = responseCode.toString();
-        this.responseType = messageType;
-    }
-
     public CustomResponseEntity(ResponseCode responseCode, String message) {
         this.message = message;
         this.responseCode = responseCode;
