@@ -42,13 +42,20 @@ public class DatabaseFiller {
         populateMessageType();
 
         final var DEF_USER = "chxei";
-        var user = new User(DEF_USER, DEF_USER, DEF_USER + "@" + DEF_USER + ".org", Timestamp.valueOf("2000-01-01 00:00:00"), DEF_USER, genders.getFirst());
-        user.setCountry(countries.getFirst());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        if (userRepository.findByUsername(DEF_USER).isEmpty()) {
+            var user = new User(DEF_USER, DEF_USER, DEF_USER + "@" + DEF_USER + ".org", Timestamp.valueOf("2000-01-01 00:00:00"), DEF_USER, genders.getFirst());
+            user.setCountry(countries.getFirst());
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+        }
     }
 
     private List<Gender> populateGenders() {
+        List<Gender> existingGenders = genderRepository.findAll();
+        if (!existingGenders.isEmpty()) {
+            return existingGenders;
+        }
+
         var genders = new ArrayList<Gender>();
         genders.add(new Gender("OTHER"));
         genders.add(new Gender("MALE"));
@@ -59,6 +66,11 @@ public class DatabaseFiller {
     }
 
     private List<Country> populateCountries() {
+        List<Country> existingCountries = countryRepository.findAll();
+        if (!existingCountries.isEmpty()) {
+            return existingCountries;
+        }
+
         var countries = new ArrayList<Country>();
         countries.add(new Country("GE", "Georgia"));
         countries.add(new Country("US", "United States"));
@@ -70,7 +82,9 @@ public class DatabaseFiller {
     private void populateMessageType() {
         var messageTypes = new ArrayList<MessageType>();
         for (String s : Arrays.asList("EMOJI", "COMPOSED", "GIF", "MEDIA_GIF", "MEDIA_VIDEO", "MEDIA_PHOTO", "MEDIA_VOICE", "MEDIA_FILE")) {
-            messageTypes.add(new MessageType(s));
+            if (messageTypeRepository.findByName(s).isEmpty()) {
+                messageTypes.add(new MessageType(s));
+            }
         }
         messageTypeRepository.saveAll(messageTypes);
     }
