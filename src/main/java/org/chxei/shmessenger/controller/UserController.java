@@ -34,8 +34,10 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserResponse getUser(@PathVariable int id) {
-        return UserResponse.fromEntity(userRepository.getReferenceById(id));
+    public ResponseEntity<Object> getUser(@PathVariable int id) {
+        return userRepository.findById(id)
+                .<ResponseEntity<Object>>map(user -> ResponseEntity.ok(UserResponse.fromEntity(user)))
+                .orElseGet(() -> ResponseEntity.ok(new CustomResponseEntity(ResponseCode.USER_WITH_ID_NOT_FOUND)));
     }
 
     @GetMapping("/username/{userName}")

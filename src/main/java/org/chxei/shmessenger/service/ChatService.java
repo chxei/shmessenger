@@ -47,19 +47,30 @@ public class ChatService {
     }
 
     public long createConversation(String creatorUsername, @Nullable String conversationName, List<Integer> participantIds) throws CustomResponseException {
-        User creationUser = userRepository.findByUsername(creatorUsername).orElse(null);
+        User creationUser = userRepository.findByUsername(creatorUsername).orElseThrow(() -> new CustomResponseException(new CustomResponseEntity(ResponseCode.USER_WITH_USERNAME_NOT_FOUND)));
+        if (participantIds == null || participantIds.isEmpty()) {
+            throw new CustomResponseException(new CustomResponseEntity(ResponseCode.WRONG_PARTICIPANTS));
+        }
+
         var conversation = new Conversation();
         var participants = new ArrayList<Participant>();
         var participantUsers = new ArrayList<User>();
+        boolean hasValidRequestedParticipant = false;
+
+        participantUsers.add(creationUser);
+        participants.add(new Participant(creationUser, conversation));
 
         for (int participantId : participantIds) {
             User curUser = userRepository.findById(participantId).orElse(null);
             if (curUser != null) {
-                participantUsers.add(curUser);
-                participants.add(new Participant(curUser, conversation));
+                hasValidRequestedParticipant = true;
+                if (!participantUsers.contains(curUser)) {
+                    participantUsers.add(curUser);
+                    participants.add(new Participant(curUser, conversation));
+                }
             }
         }
-        if (participantUsers.isEmpty()) {
+        if (!hasValidRequestedParticipant) {
             throw new CustomResponseException(new CustomResponseEntity(ResponseCode.WRONG_PARTICIPANTS));
         }
         if (conversationName == null || conversationName.isBlank()) {
