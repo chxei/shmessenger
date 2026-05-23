@@ -1,5 +1,6 @@
 package org.chxei.shmessenger.controller;
 
+import jakarta.validation.Valid;
 import org.chxei.shmessenger.dto.request.CreateConversationRequest;
 import org.chxei.shmessenger.dto.request.SendMessageRequest;
 import org.chxei.shmessenger.service.ChatService;
@@ -24,7 +25,7 @@ public class ChatController {
     }
 
     @PostMapping(value = "/conversations", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> createConversation(Authentication authentication, @RequestBody CreateConversationRequest request) {
+    public ResponseEntity<Object> createConversation(Authentication authentication, @RequestBody @Valid CreateConversationRequest request) {
         try {
             var conversationId = chatService.createConversation(authentication.getName(), request.conversationName(), request.participantIds());
             return ResponseEntity.ok(Map.of("conversationId", conversationId));
@@ -34,7 +35,7 @@ public class ChatController {
     }
 
     @PostMapping(value = "/messages", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> sendMessage(Authentication authentication, @RequestBody SendMessageRequest request) {
+    public ResponseEntity<Object> sendMessage(Authentication authentication, @RequestBody @Valid SendMessageRequest request) {
         try {
             var messageId = chatService.sendMessage(authentication.getName(), request.messageTypeName(), request.conversationId(), request.content());
             return ResponseEntity.ok(Map.of("messageId", messageId));
