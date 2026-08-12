@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 @Table(name = "messages")
 public final class Message {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne

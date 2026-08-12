@@ -69,12 +69,12 @@ public class UserService implements UserDetailsService, UserDetailsManager, User
 
     @Override
     public void createUser(UserDetails user) {
-        userRepository.save(new User(user));
+        userRepository.save(toUser(user));
     }
 
     @Override
     public void updateUser(UserDetails user) {
-        userRepository.save(new User(user));
+        userRepository.save(toUser(user));
     }
 
     @Override
@@ -114,5 +114,12 @@ public class UserService implements UserDetailsService, UserDetailsManager, User
     public boolean userExists(String username) {
         var user = userRepository.findByUsername(username);
         return user.isPresent();
+    }
+
+    private User toUser(UserDetails user) {
+        if (user instanceof User appUser) {
+            return appUser;
+        }
+        return new User(user);
     }
 }

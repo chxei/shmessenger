@@ -53,12 +53,10 @@ public class ChatService {
         }
 
         var conversation = new Conversation();
-        var participants = new ArrayList<Participant>();
         var participantUsers = new ArrayList<User>();
         boolean hasValidRequestedParticipant = false;
 
         participantUsers.add(creationUser);
-        participants.add(new Participant(creationUser, conversation));
 
         for (int participantId : participantIds) {
             User curUser = userRepository.findById(participantId).orElse(null);
@@ -66,7 +64,6 @@ public class ChatService {
                 hasValidRequestedParticipant = true;
                 if (!participantUsers.contains(curUser)) {
                     participantUsers.add(curUser);
-                    participants.add(new Participant(curUser, conversation));
                 }
             }
         }
@@ -78,9 +75,13 @@ public class ChatService {
         }
         conversation.setName(conversationName);
         conversation.setCreator(creationUser);
-        conversationRepository.save(conversation);
+        Conversation savedConversation = conversationRepository.save(conversation);
+        var participants = new ArrayList<Participant>();
+        for (User participantUser : participantUsers) {
+            participants.add(new Participant(participantUser, savedConversation));
+        }
         participantRepository.saveAll(participants);
-        return conversation.getId();
+        return savedConversation.getId();
     }
 
     public long sendMessage(String senderUsername, String messageTypeName, long conversationId, String content) throws CustomResponseException {

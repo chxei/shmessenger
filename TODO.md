@@ -10,9 +10,9 @@
   directly from the cloud with one command, without needing to pull the repository.
 - [ ] Create a missing **Authorities table** for definitive Role-Based Access Control (RBAC).
 - [ ] Migrate `private.pem` JWT signing key to a secure Vault/Secret manager for production deployments.
-- [ ] create unit tests for all endpoints and services.
-- [ ] create integration tests for all endpoints and services.
-- [ ] create end-to-end tests for all endpoints and services.
+- [x] create unit tests for all endpoints and services.
+- [x] create integration tests for all endpoints and services.
+- [x] create end-to-end tests for all endpoints and services.
 - [ ] create performance tests for all endpoints and services.
 - [ ] create security tests for all endpoints and services.
 - [ ] create a workflow test which follows the user journey and performs all available features.

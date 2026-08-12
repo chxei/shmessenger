@@ -23,7 +23,7 @@ import java.sql.Timestamp;
 public final class Conversation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;

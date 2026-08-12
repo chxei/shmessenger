@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Table(name = "files")
 @Entity
@@ -17,8 +19,10 @@ public final class File {
     private Long id;
     private String name;
     @Lob
+    @JdbcTypeCode(SqlTypes.VARBINARY)
     private byte[] fileObject;
     @Lob
+    @JdbcTypeCode(SqlTypes.VARBINARY)
     private byte[] fileCompressed;
 
     @Override

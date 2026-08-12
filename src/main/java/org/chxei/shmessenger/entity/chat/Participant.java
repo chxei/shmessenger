@@ -11,7 +11,7 @@ import org.chxei.shmessenger.entity.user.User;
 @Table(name = "participants")
 public final class Participant {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
